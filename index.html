@@ -3,10 +3,286 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="robots" content="noindex">
-    <title>LMJO 09 | منصة متعاونين على التفوق</title>
+    <title>متعاونين على التفوق | LMJO 09</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f0f4f8 0%, #d9e2ec 100%);
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        /* القائمة الجانبية */
+        .sidebar {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e3c5c 0%, #0f2a3f 100%);
+            color: white;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 3px solid #f9b81b;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.8rem;
+            color: #f9b81b;
+        }
+
+        .sidebar-header p {
+            font-size: 0.85rem;
+            margin-top: 8px;
+            opacity: 0.8;
+        }
+
+        .sidebar-menu {
+            padding: 15px 0 30px;
+        }
+
+        .menu-section {
+            margin-bottom: 25px;
+        }
+
+        .menu-section-title {
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #f9b81b;
+            border-right: 3px solid #f9b81b;
+            margin: 10px 0 5px 0;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 0.95rem;
+            text-align: right;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-right: 3px solid transparent;
+        }
+
+        .menu-btn i {
+            width: 28px;
+            font-size: 1.1rem;
+        }
+
+        .menu-btn:hover {
+            background: rgba(249, 184, 27, 0.2);
+            border-right-color: #f9b81b;
+        }
+
+        .menu-btn.active {
+            background: rgba(249, 184, 27, 0.3);
+            border-right-color: #f9b81b;
+            color: #f9b81b;
+        }
+
+        /* علامة "جديد" */
+        .new-badge {
+            background: #f9b81b;
+            color: #1e3c5c;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-right: 8px;
+            display: inline-block;
+            animation: pulse 1s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.05);
+            }
+        }
+
+        /* نص الإيميل */
+        .email-text {
+            padding: 10px 20px;
+            margin: 5px 15px 10px 15px;
+            background: rgba(249, 184, 27, 0.1);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: #f9b81b;
+            text-align: center;
+            direction: ltr;
+            border: 1px dashed rgba(249, 184, 27, 0.3);
+        }
+
+        .email-text i {
+            margin-left: 8px;
+            color: #f9b81b;
+        }
+
+        /* قسم متعاونين على التفوق المميز */
+        .featured-section {
+            margin: 20px 15px;
+            background: linear-gradient(135deg, rgba(249, 184, 27, 0.2), rgba(249, 184, 27, 0.05));
+            border-radius: 20px;
+            border: 2px solid #f9b81b;
+            overflow: hidden;
+        }
+
+        .featured-header {
+            background: linear-gradient(135deg, #f9b81b, #e5a00d);
+            padding: 12px;
+            text-align: center;
+            color: #1e3c5c;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .featured-header i {
+            margin: 0 5px;
+        }
+
+        .featured-content {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .discord-btn-special {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #5865F2, #4752c4);
+            border: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .discord-btn-special:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3);
+        }
+
+        .featured-text {
+            color: white;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .featured-text i {
+            color: #f9b81b;
+            margin-left: 5px;
+        }
+
+        /* منطقة المحتوى */
+        .content-area {
+            margin-right: 300px;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .iframe-container {
+            background: white;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            height: calc(100vh - 40px);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+
+        /* زر القائمة للجوال */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1e3c5c;
+            color: #f9b81b;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 200;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            font-size: 1.2rem;
+            color: #1e3c5c;
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* للجوال */
+        @media (max-width: 768px) {
+            .sidebar {
+                right: -300px;
+                transition: right 0.3s ease;
+                width: 280px;
+            }
+            .sidebar.open {
+                right: 0;
+            }
+            .content-area {
+                margin-right: 0;
+                padding: 70px 15px 15px;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+    </style>
 </head>
 <body>
     <button class="mobile-menu-btn" onclick="toggleSidebar()">
@@ -26,7 +302,7 @@
         </div>
         
         <div style="padding: 15px; text-align: center; font-size: 0.7rem; opacity:0.6; border-top:1px solid #2a4a6e;">
-            LMJO 09 | متعاونين على التفوق
+            متعاونين على التفوق | LMJO 09
         </div>
     </div>
 
@@ -39,7 +315,281 @@
         </div>
     </div>
 
-    <script src="config.js"></script>
-    <script src="main.js"></script>
+    <script>
+        // ============================================
+        // البيانات والإعدادات
+        // ============================================
+        
+        const SITE_CONFIG = {
+            siteName: "LMJO 09",
+            ownerName: "عبدالرحمن المعايطه",
+            whatsapp: "https://wa.me/962798688787",
+            email: "abdalrhmanmaaith1@gmail.com",
+            discord: "https://discord.gg/78NKW84H",
+            suggestionForm: "https://docs.google.com/forms/d/e/1FAIpQLSeOP7ow84vcJ-q8tm4YlHsKMCuGdoL-E5OCJw6C66PDrbMpWw/viewform",
+            links: {
+                deen_f1: "https://farmbot1238.github.io/DEEN/",
+                arabic_f1: "https://farmbot1238.github.io/Ardic/",
+                history_f1: "https://farmbot1238.github.io/MMMNII/",
+                bank_f1: "https://farmbot1238.github.io/BNK/",
+                deen_f2: "https://farmbot1238.github.io/d1/",
+                arabic_f2: "https://farmbot1238.github.io/a1/",
+                history_f2: "https://farmbot1238.github.io/t1/",
+                english_f2: "https://farmbot1238.github.io/e1/",
+                speed_challenge: "https://farmbot1238.github.io/thd1/",
+                speed_daily: "https://farmbot1238.github.io/thd2/",
+                exams: "https://farmbot1238.github.io/w2/",
+                books: "https://farmbot1238.github.io/Book/"
+            }
+        };
+
+        // مقولات الدكتور خالد دعجه
+        const QUOTES = [
+            `جادل فانك قد خلقت مجادلا\nمن لا يجادل يستوي بالبغل\nحمال أسفار ينوء بحملها\nظهر البعير سخرت للحمل`,
+            `نفس تجن وما بها من جنة\nإن الجنون لبعض وحي العقل`,
+            `من سائل الوردة الحمراء عن عبق\nيجيبك الجذر من روث له طعم`,
+            `إن تأخرت بالسعي نحو مجد\nقد ينال المجد بالسعي سواك`,
+            `أنفضوا النوم وهبوا للعلا\nفالعلا وقف على من لم ينم`,
+            `عجبت لهم قالوا تماديت في المنى\nوفي المثل العليا وفي المرتقى الصعب`,
+            `فقلت لهم مهلا فما اليأس شيمتي\nسأبذر حبي والثمار من الرب`,
+            `أسكنت أحلامي زجاجات الرضا\nأودعتها بحر الدعاء فابحرت\nإن شاء ربي أن تعود لضفتي\nأو ربما خيره أن غادرت`,
+            `العلم صداع الرؤوس بما حوت\nكالأرض تصدع من هطول الوبل`,
+            `الحقيقة المرة خير ألف مرة من الوهم المريح`,
+            `إنك تستطيع أن تصبح عظيماً، إن العظمة ليست محصورة بين قلة من الناس، إنك أحد هؤلاء العظماء متى ما أردت وعملت على ذلك`,
+            `إننا خلقنا لنحيا حياة جميلة وحافلة بالإنجازات والنجاحات، ولم نخلق لنعيش على الهامش. إن لم تزد شيئاً على الحياة كنت أنت - لا سمح الله - الزيادة عليها`,
+            `الكثير منا يعيشون أسرى ضمن حدود منطقتهم الآمنة، ولكن الكيس الفطن من يتجاوز حدود هذه المنطقة`
+        ];
+
+        // هيكل القائمة
+        const MENU_STRUCTURE = [
+            {
+                title: "🏠 الرئيسية",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-home", text: "الصفحة الرئيسية", action: "home", url: "welcome" }
+                ]
+            },
+            {
+                title: "متعاونين على التفوق",
+                type: "featured",
+                items: [
+                    { icon: "fab fa-discord", text: "سيرفر ديسكورد | المساعدة الدراسية وتنفيذ الأفكار", action: "link", url: SITE_CONFIG.discord, special: true }
+                ]
+            },
+            {
+                title: "📖 الفصل الأول",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-mosque", text: "الدين (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.deen_f1 },
+                    { icon: "fas fa-book", text: "العربي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.arabic_f1 },
+                    { icon: "fas fa-landmark", text: "التاريخ (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.history_f1 },
+                    { icon: "fas fa-database", text: "📚 بنوك الفصل الأول", action: "iframe", url: SITE_CONFIG.links.bank_f1 }
+                ]
+            },
+            {
+                title: "📘 الفصل الثاني",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-mosque", text: "الدين (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.deen_f2 },
+                    { icon: "fas fa-book", text: "العربي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.arabic_f2 },
+                    { icon: "fas fa-landmark", text: "التاريخ (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.history_f2 },
+                    { icon: "fas fa-language", text: "الانجليزي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.english_f2 }
+                ]
+            },
+            {
+                title: "⚡ إضافات مفيدة",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-bolt", text: "تحدي السرعة الشامل", action: "iframe", url: SITE_CONFIG.links.speed_challenge },
+                    { icon: "fas fa-star", text: "⚡ تحدي السرعة اليومي ⚡", action: "iframe", url: SITE_CONFIG.links.speed_daily, isNew: true },
+                    { icon: "fas fa-file-alt", text: "امتحانات وزارية سابقة", action: "iframe", url: SITE_CONFIG.links.exams },
+                    { icon: "fas fa-book-open", text: "كتب وزارية", action: "iframe", url: SITE_CONFIG.links.books }
+                ]
+            },
+            {
+                title: "📞 تواصل واقتراحات",
+                type: "normal",
+                items: [
+                    { icon: "fab fa-whatsapp", text: "واتساب (تواصل مباشر)", action: "link", url: SITE_CONFIG.whatsapp },
+                    { icon: "fas fa-pray", text: "دعاء للطالب / اقتراح", action: "link", url: SITE_CONFIG.suggestionForm }
+                ]
+            }
+        ];
+
+        // ============================================
+        // المنطق والحركات
+        // ============================================
+        
+        let lastQuoteIndex = -1;
+
+        function getRandomQuote() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * QUOTES.length);
+            } while (newIndex === lastQuoteIndex && QUOTES.length > 1);
+            lastQuoteIndex = newIndex;
+            return QUOTES[newIndex];
+        }
+
+        function showWelcome() {
+            const container = document.getElementById('iframeContainer');
+            if (!container) return;
+            
+            const quote = getRandomQuote();
+            const quoteLines = quote.split('\n').join('<br>');
+            
+            container.innerHTML = `
+                <div style="display: flex; justify-content: center; align-items: center; height: 100%; background: linear-gradient(145deg, #1e3c5c, #0f2a3f); color: white; text-align: center; padding: 30px; flex-direction:column; overflow-y: auto;">
+                    <i class="fas fa-graduation-cap" style="font-size: 4rem; color:#f9b81b; margin-bottom:20px;"></i>
+                    <h2 style="margin-bottom: 15px;">مرحباً بك في منصة ${SITE_CONFIG.siteName}</h2>
+                    <p style="margin-bottom: 25px; font-size:1.1rem;">${SITE_CONFIG.ownerName} | متعاونين على التفوق</p>
+                    
+                    <div style="max-width: 500px; margin: 20px auto; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 30px; border-right: 4px solid #f9b81b;">
+                        <i class="fas fa-quote-right" style="color: #f9b81b; font-size: 1.5rem; margin-bottom: 15px; display: block;"></i>
+                        <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 15px;">${quoteLines}</p>
+                        <i class="fas fa-quote-left" style="color: #f9b81b; font-size: 1.2rem; display: block; text-align: left;"></i>
+                        <div style="margin-top: 15px; font-size: 0.9rem; opacity: 0.7;">
+                            <i class="fas fa-user-graduate"></i> الدكتور خالد دعجه
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 15px; font-size: 0.85rem; opacity: 0.6;">
+                        <i class="fas fa-sync-alt"></i> تتغير المقولة مع كل قسم جديد
+                    </div>
+                </div>
+            `;
+        }
+
+        function buildMenu() {
+            const menuContainer = document.getElementById('menuContainer');
+            if (!menuContainer) return;
+            
+            menuContainer.innerHTML = '';
+            
+            MENU_STRUCTURE.forEach((section) => {
+                if (section.type === 'featured') {
+                    const featuredDiv = document.createElement('div');
+                    featuredDiv.className = 'featured-section';
+                    featuredDiv.innerHTML = `
+                        <div class="featured-header">
+                            <i class="fas fa-users"></i> ${section.title} <i class="fas fa-star"></i>
+                        </div>
+                        <div class="featured-content">
+                            <div class="featured-text">
+                                <i class="fas fa-lightbulb"></i> تعاون - تنفيذ أفكار - مشاريع
+                            </div>
+                            ${section.items.map(item => `
+                                <button class="discord-btn-special" onclick="handleAction('${item.action}', '${item.url}', this)">
+                                    <i class="${item.icon}"></i>
+                                    <span>${item.text}</span>
+                                </button>
+                            `).join('')}
+                        </div>
+                    `;
+                    menuContainer.appendChild(featuredDiv);
+                } else {
+                    const sectionDiv = document.createElement('div');
+                    sectionDiv.className = 'menu-section';
+                    
+                    let itemsHtml = '';
+                    section.items.forEach(item => {
+                        let newBadge = '';
+                        if (item.isNew) {
+                            newBadge = '<span class="new-badge">جديد</span>';
+                        }
+                        itemsHtml += `
+                            <button class="menu-btn" onclick="handleAction('${item.action}', '${item.url}', this)">
+                                <i class="${item.icon}"></i>
+                                <span>${item.text}${newBadge}</span>
+                            </button>
+                        `;
+                    });
+                    
+                    sectionDiv.innerHTML = `
+                        <div class="menu-section-title">${section.title}</div>
+                        ${itemsHtml}
+                    `;
+                    menuContainer.appendChild(sectionDiv);
+                }
+            });
+            
+            const lastSection = document.querySelector('.menu-section:last-child');
+            if (lastSection) {
+                const emailDiv = document.createElement('div');
+                emailDiv.className = 'email-text';
+                emailDiv.innerHTML = `<i class="fas fa-envelope"></i> ${SITE_CONFIG.email}`;
+                lastSection.appendChild(emailDiv);
+            }
+        }
+
+        function handleAction(action, url, buttonElement) {
+            lastQuoteIndex = -1;
+            
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            if (buttonElement && buttonElement.classList) {
+                buttonElement.classList.add('active');
+            }
+            
+            switch(action) {
+                case 'iframe':
+                    loadIframe(url);
+                    break;
+                case 'link':
+                    window.open(url, '_blank');
+                    break;
+                case 'home':
+                    showWelcome();
+                    break;
+                default:
+                    console.warn('Unknown action:', action);
+            }
+        }
+
+        function loadIframe(url) {
+            const container = document.getElementById('iframeContainer');
+            if (!container) return;
+            
+            container.innerHTML = `
+                <div class="loading" id="loadingIndicator">
+                    <i class="fas fa-spinner"></i> جاري التحميل...
+                </div>
+                <iframe id="contentFrame" src="${url}" style="width:100%; height:100%; display:none;" onload="hideLoading()"></iframe>
+            `;
+        }
+
+        function hideLoading() {
+            const loading = document.getElementById('loadingIndicator');
+            const iframe = document.getElementById('contentFrame');
+            if (loading && iframe) {
+                loading.style.display = 'none';
+                iframe.style.display = 'block';
+            }
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                const btn = e.target.closest('.menu-btn');
+                const sidebar = document.getElementById('sidebar');
+                if (btn && sidebar && sidebar.classList.contains('open')) {
+                    sidebar.classList.remove('open');
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            buildMenu();
+            showWelcome();
+            const ownerElement = document.getElementById('ownerName');
+            if (ownerElement) {
+                ownerElement.textContent = SITE_CONFIG.ownerName;
+            }
+        });
+    </script>
 </body>
 </html>
