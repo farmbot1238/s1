@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>متعاونين على التفوق | LMJO 09</title>
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f9b81b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="LMJO 09">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -285,6 +294,34 @@
             width: 100%;
         }
 
+        /* رسالة تثبيت PWA */
+        .install-banner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #1e3c5c, #0f2a3f);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 20px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            border-right: 4px solid #f9b81b;
+        }
+
+        .install-banner button {
+            background: #f9b81b;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            color: #1e3c5c;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 right: -300px;
@@ -308,6 +345,12 @@
         <i class="fas fa-bars"></i>
     </button>
 
+    <!-- رسالة تثبيت التطبيق -->
+    <div class="install-banner" id="installBanner">
+        <span><i class="fas fa-download"></i> ثبّت التطبيق على جهازك للوصول السريع</span>
+        <button id="installBtn">تثبيت</button>
+    </div>
+
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h1>LMJO 09</h1>
@@ -328,6 +371,36 @@
 
     <script>
         // ============================================
+        // PWA - تثبيت التطبيق
+        // ============================================
+        
+        let deferredPrompt;
+        const installBanner = document.getElementById('installBanner');
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBanner.style.display = 'flex';
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBanner.style.display = 'none';
+                }
+                deferredPrompt = null;
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            installBanner.style.display = 'none';
+            console.log('PWA installed');
+        });
+
+        // ============================================
         // الإعدادات
         // ============================================
         
@@ -338,7 +411,6 @@
             email: "abdalrhmanmaaith1@gmail.com",
             discord: "https://discord.gg/78NKW84H",
             suggestionForm: "https://docs.google.com/forms/d/e/1FAIpQLSeOP7ow84vcJ-q8tm4YlHsKMCuGdoL-E5OCJw6C66PDrbMpWw/viewform",
-            // رابط Google Apps Script الصحيح
             googleScriptURL: "https://script.google.com/macros/s/AKfycbwsdiDJn-GZGNvST-USFGfIYUNxrT9zkkQXdZ0wuB2shti8liSqUhUCvlg2ok5p-Ug/exec",
             links: {
                 deen_f1: "https://farmbot1238.github.io/DEEN/",
@@ -501,10 +573,6 @@
             }
         }
 
-        // ============================================
-        // دالة الاشتراك - تحفظ الإيميل في Google Sheet
-        // ============================================
-        
         function showSubscribeModal() {
             const modalHtml = `
                 <div id="subscribeModal" class="modal-overlay">
@@ -533,7 +601,6 @@
                 return;
             }
             
-            // إرسال الإيميل إلى Google Sheets
             fetch(SITE_CONFIG.googleScriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -591,6 +658,13 @@
             showWelcome();
             document.getElementById('ownerName').textContent = SITE_CONFIG.ownerName;
         });
+
+        // تسجيل Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(() => console.log('Service Worker Registered'))
+                .catch(err => console.log('Service Worker Error:', err));
+        }
     </script>
 </body>
 </html>
