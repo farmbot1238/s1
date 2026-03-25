@@ -1,7 +1,7 @@
-const CACHE_NAME = 'lmjo09-v1';
+const CACHE_NAME = 'lmjo09-s1-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
+  '/s1/',
+  '/s1/index.html',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
 ];
 
