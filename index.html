@@ -310,7 +310,6 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h1>LMJO 09</h1>
-            <p id="ownerName">عبدالرحمن المعايطه</p>
             <p style="font-size:0.8rem;">✨ متعاونين على التفوق ✨</p>
         </div>
         <div class="sidebar-menu" id="menuContainer"></div>
@@ -328,8 +327,6 @@
     <script>
         const SITE_CONFIG = {
             siteName: "LMJO 09",
-            ownerName: "عبدالرحمن المعايطه",
-            whatsapp: "https://wa.me/962798688787",
             email: "abdalrhmanmaaith1@gmail.com",
             discord: "https://discord.gg/78NKW84H",
             suggestionForm: "https://docs.google.com/forms/d/e/1FAIpQLSeOP7ow84vcJ-q8tm4YlHsKMCuGdoL-E5OCJw6C66PDrbMpWw/viewform",
@@ -416,8 +413,7 @@
                 title: "📞 تواصل واقتراحات",
                 type: "normal",
                 items: [
-                    { icon: "fab fa-whatsapp", text: "واتساب (تواصل مباشر)", action: "link", url: SITE_CONFIG.whatsapp },
-                    { icon: "fas fa-bell", text: "📧 اشترك في تحديثات الموقع", action: "subscribe", url: "" },
+                    { icon: "fas fa-envelope", text: "📧 البريد الإلكتروني", action: "email", url: SITE_CONFIG.email },
                     { icon: "fas fa-pray", text: "دعاء للطالب / اقتراح", action: "link", url: SITE_CONFIG.suggestionForm }
                 ]
             }
@@ -440,22 +436,19 @@
             const quote = getRandomQuote();
             const quoteLines = quote.split('\n').join('<br>');
             
-            // ✅ الصفحة كاملة بدون ارتفاع ثابت - التمرير موجود
             container.innerHTML = `
                 <div style="background: linear-gradient(145deg, #1e3c5c, #0f2a3f); color: white; padding: 40px 30px; min-height: 100%;">
                     <div style="text-align: center; max-width: 700px; margin: 0 auto;">
                         <i class="fas fa-graduation-cap" style="font-size: 4rem; color:#f9b81b; margin-bottom:20px;"></i>
                         <h2 style="margin-bottom: 15px;">مرحباً بك في منصة ${SITE_CONFIG.siteName}</h2>
-                        <p style="margin-bottom: 30px; font-size: 1.1rem;">${SITE_CONFIG.ownerName} | متعاونين على التفوق</p>
+                        <p style="margin-bottom: 30px; font-size: 1.1rem;">✨ متعاونين على التفوق ✨</p>
                         
-                        <!-- مقولة الدكتور خالد دعجه -->
                         <div style="margin: 30px auto; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 30px; border-right: 4px solid #f9b81b;">
                             <i class="fas fa-quote-right" style="color: #f9b81b; font-size: 1.5rem;"></i>
                             <p style="margin: 20px 0; line-height: 1.8; font-size: 1.1rem;">${quoteLines}</p>
                             <div style="margin-top: 10px;">الدكتور خالد دعجه</div>
                         </div>
 
-                        <!-- 🤖 قسم المساعد الذكي -->
                         <div style="margin: 30px auto; padding: 25px; background: rgba(0,0,0,0.35); border-radius: 30px; text-align: center; backdrop-filter: blur(5px);">
                             <i class="fas fa-robot" style="font-size: 2.5rem; color: #f9b81b; margin-bottom: 10px; display: block;"></i>
                             <h3 style="color: #f9b81b; margin-bottom: 15px; font-size: 1.3rem;">🤖 المساعد الذكي للدراسة</h3>
@@ -568,6 +561,7 @@
             else if (action === 'link') window.open(url, '_blank');
             else if (action === 'home') showWelcome();
             else if (action === 'subscribe') showSubscribeModal();
+            else if (action === 'email') window.location.href = `mailto:${url}`;
         }
 
         function loadIframe(url) {
@@ -597,7 +591,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             buildMenu();
             showWelcome();
-            document.getElementById('ownerName').textContent = SITE_CONFIG.ownerName;
         });
 
         if ('serviceWorker' in navigator) {
