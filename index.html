@@ -184,7 +184,7 @@
         .iframe-container {
             background: white;
             border-radius: 30px;
-            overflow: hidden;
+            overflow: auto;
             box-shadow: 0 15px 30px rgba(0,0,0,0.1);
             height: calc(100vh - 40px);
         }
@@ -439,35 +439,40 @@
             if (!container) return;
             const quote = getRandomQuote();
             const quoteLines = quote.split('\n').join('<br>');
+            
+            // ✅ الصفحة كاملة بدون ارتفاع ثابت - التمرير موجود
             container.innerHTML = `
-                <div style="display: flex; justify-content: center; align-items: center; height: 100%; background: linear-gradient(145deg, #1e3c5c, #0f2a3f); color: white; text-align: center; padding: 30px; flex-direction:column; overflow-y: auto;">
-                    <i class="fas fa-graduation-cap" style="font-size: 4rem; color:#f9b81b; margin-bottom:20px;"></i>
-                    <h2>مرحباً بك في منصة ${SITE_CONFIG.siteName}</h2>
-                    <p style="margin:15px 0;">${SITE_CONFIG.ownerName} | متعاونين على التفوق</p>
-                    
-                    <div style="max-width: 500px; margin: 20px auto; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 30px; border-right: 4px solid #f9b81b;">
-                        <i class="fas fa-quote-right" style="color: #f9b81b; font-size: 1.5rem;"></i>
-                        <p style="margin:15px 0; line-height: 1.8;">${quoteLines}</p>
-                        <div style="margin-top: 15px;">الدكتور خالد دعجه</div>
-                    </div>
+                <div style="background: linear-gradient(145deg, #1e3c5c, #0f2a3f); color: white; padding: 40px 30px; min-height: 100%;">
+                    <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+                        <i class="fas fa-graduation-cap" style="font-size: 4rem; color:#f9b81b; margin-bottom:20px;"></i>
+                        <h2 style="margin-bottom: 15px;">مرحباً بك في منصة ${SITE_CONFIG.siteName}</h2>
+                        <p style="margin-bottom: 30px; font-size: 1.1rem;">${SITE_CONFIG.ownerName} | متعاونين على التفوق</p>
+                        
+                        <!-- مقولة الدكتور خالد دعجه -->
+                        <div style="margin: 30px auto; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 30px; border-right: 4px solid #f9b81b;">
+                            <i class="fas fa-quote-right" style="color: #f9b81b; font-size: 1.5rem;"></i>
+                            <p style="margin: 20px 0; line-height: 1.8; font-size: 1.1rem;">${quoteLines}</p>
+                            <div style="margin-top: 10px;">الدكتور خالد دعجه</div>
+                        </div>
 
-                    <!-- 🤖 قسم المساعد الذكي - يفتح داخل iframe -->
-                    <div style="max-width: 500px; margin: 20px auto; padding: 20px; background: rgba(0,0,0,0.35); border-radius: 30px; text-align: center; backdrop-filter: blur(5px); width: 100%;">
-                        <i class="fas fa-robot" style="font-size: 2.5rem; color: #f9b81b; margin-bottom: 10px; display: block;"></i>
-                        <h3 style="color: #f9b81b; margin-bottom: 10px; font-size: 1.3rem;">🤖 المساعد الذكي للدراسة</h3>
-                        <p style="font-size: 0.9rem; margin-bottom: 15px; opacity: 0.95; line-height: 1.8;">
-                            📌 <strong>للدقة في الإجابات أو الاستفسار عن المواد:</strong><br>
-                            • يرجى ذكر <strong style="color: #f9b81b;">اسم الكتاب</strong><br>
-                            • يرجى ذكر <strong style="color: #f9b81b;">اسم الوحدة</strong> (إن وجدت)<br>
-                            • يرجى ذكر <strong style="color: #f9b81b;">اسم الدرس</strong> (إن وجد)<br>
-                            سيقوم المساعد بالرد على سؤالك فوراً.
-                        </p>
-                        <button onclick="loadIframe('${SITE_CONFIG.aiAssistant}')" style="display: inline-block; background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; padding: 12px 35px; border-radius: 40px; text-decoration: none; font-weight: bold; margin-top: 10px; transition: all 0.3s ease; border: none; cursor: pointer;">
-                            <i class="fas fa-comment-dots"></i> ابدأ المحادثة مع المساعد
-                        </button>
-                        <p style="font-size: 0.75rem; margin-top: 12px; opacity: 0.7;">
-                            <i class="fas fa-lightbulb"></i> تجربة ممتعة مع الذكاء الاصطناعي
-                        </p>
+                        <!-- 🤖 قسم المساعد الذكي -->
+                        <div style="margin: 30px auto; padding: 25px; background: rgba(0,0,0,0.35); border-radius: 30px; text-align: center; backdrop-filter: blur(5px);">
+                            <i class="fas fa-robot" style="font-size: 2.5rem; color: #f9b81b; margin-bottom: 10px; display: block;"></i>
+                            <h3 style="color: #f9b81b; margin-bottom: 15px; font-size: 1.3rem;">🤖 المساعد الذكي للدراسة</h3>
+                            <p style="font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8;">
+                                📌 <strong>للدقة في الإجابات أو الاستفسار عن المواد:</strong><br>
+                                • يرجى ذكر <strong style="color: #f9b81b;">اسم الكتاب</strong><br>
+                                • يرجى ذكر <strong style="color: #f9b81b;">اسم الوحدة</strong> (إن وجدت)<br>
+                                • يرجى ذكر <strong style="color: #f9b81b;">اسم الدرس</strong> (إن وجد)<br>
+                                سيقوم المساعد بالرد على سؤالك فوراً.
+                            </p>
+                            <button onclick="loadIframe('${SITE_CONFIG.aiAssistant}')" style="background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; padding: 12px 35px; border-radius: 40px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px;">
+                                <i class="fas fa-comment-dots"></i> ابدأ المحادثة مع المساعد
+                            </button>
+                            <p style="font-size: 0.75rem; margin-top: 15px; opacity: 0.7;">
+                                <i class="fas fa-lightbulb"></i> تجربة ممتعة مع الذكاء الاصطناعي
+                            </p>
+                        </div>
                     </div>
                 </div>
             `;
