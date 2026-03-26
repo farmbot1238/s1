@@ -231,7 +231,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* مودال الاشتراك */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -327,10 +326,6 @@
     </div>
 
     <script>
-        // ============================================
-        // الإعدادات
-        // ============================================
-        
         const SITE_CONFIG = {
             siteName: "LMJO 09",
             ownerName: "عبدالرحمن المعايطه",
@@ -338,8 +333,8 @@
             email: "abdalrhmanmaaith1@gmail.com",
             discord: "https://discord.gg/78NKW84H",
             suggestionForm: "https://docs.google.com/forms/d/e/1FAIpQLSeOP7ow84vcJ-q8tm4YlHsKMCuGdoL-E5OCJw6C66PDrbMpWw/viewform",
-            // رابط Google Apps Script الصحيح
             googleScriptURL: "https://script.google.com/macros/s/AKfycbwsdiDJn-GZGNvST-USFGfIYUNxrT9zkkQXdZ0wuB2shti8liSqUhUCvlg2ok5p-Ug/exec",
+            aiAssistant: "https://lmjo-jordanian-buddy.lovable.app/",
             links: {
                 deen_f1: "https://farmbot1238.github.io/DEEN/",
                 arabic_f1: "https://farmbot1238.github.io/Ardic/",
@@ -428,10 +423,6 @@
             }
         ];
 
-        // ============================================
-        // الوظائف
-        // ============================================
-        
         let lastQuoteIndex = -1;
 
         function getRandomQuote() {
@@ -449,14 +440,34 @@
             const quote = getRandomQuote();
             const quoteLines = quote.split('\n').join('<br>');
             container.innerHTML = `
-                <div style="display: flex; justify-content: center; align-items: center; height: 100%; background: linear-gradient(145deg, #1e3c5c, #0f2a3f); color: white; text-align: center; padding: 30px; flex-direction:column;">
+                <div style="display: flex; justify-content: center; align-items: center; height: 100%; background: linear-gradient(145deg, #1e3c5c, #0f2a3f); color: white; text-align: center; padding: 30px; flex-direction:column; overflow-y: auto;">
                     <i class="fas fa-graduation-cap" style="font-size: 4rem; color:#f9b81b; margin-bottom:20px;"></i>
                     <h2>مرحباً بك في منصة ${SITE_CONFIG.siteName}</h2>
                     <p style="margin:15px 0;">${SITE_CONFIG.ownerName} | متعاونين على التفوق</p>
+                    
                     <div style="max-width: 500px; margin: 20px auto; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 30px; border-right: 4px solid #f9b81b;">
                         <i class="fas fa-quote-right" style="color: #f9b81b; font-size: 1.5rem;"></i>
                         <p style="margin:15px 0; line-height: 1.8;">${quoteLines}</p>
                         <div style="margin-top: 15px;">الدكتور خالد دعجه</div>
+                    </div>
+
+                    <!-- 🤖 قسم المساعد الذكي - يفتح داخل iframe -->
+                    <div style="max-width: 500px; margin: 20px auto; padding: 20px; background: rgba(0,0,0,0.35); border-radius: 30px; text-align: center; backdrop-filter: blur(5px); width: 100%;">
+                        <i class="fas fa-robot" style="font-size: 2.5rem; color: #f9b81b; margin-bottom: 10px; display: block;"></i>
+                        <h3 style="color: #f9b81b; margin-bottom: 10px; font-size: 1.3rem;">🤖 المساعد الذكي للدراسة</h3>
+                        <p style="font-size: 0.9rem; margin-bottom: 15px; opacity: 0.95; line-height: 1.8;">
+                            📌 <strong>للدقة في الإجابات أو الاستفسار عن المواد:</strong><br>
+                            • يرجى ذكر <strong style="color: #f9b81b;">اسم الكتاب</strong><br>
+                            • يرجى ذكر <strong style="color: #f9b81b;">اسم الوحدة</strong> (إن وجدت)<br>
+                            • يرجى ذكر <strong style="color: #f9b81b;">اسم الدرس</strong> (إن وجد)<br>
+                            سيقوم المساعد بالرد على سؤالك فوراً.
+                        </p>
+                        <button onclick="loadIframe('${SITE_CONFIG.aiAssistant}')" style="display: inline-block; background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; padding: 12px 35px; border-radius: 40px; text-decoration: none; font-weight: bold; margin-top: 10px; transition: all 0.3s ease; border: none; cursor: pointer;">
+                            <i class="fas fa-comment-dots"></i> ابدأ المحادثة مع المساعد
+                        </button>
+                        <p style="font-size: 0.75rem; margin-top: 12px; opacity: 0.7;">
+                            <i class="fas fa-lightbulb"></i> تجربة ممتعة مع الذكاء الاصطناعي
+                        </p>
                     </div>
                 </div>
             `;
@@ -501,10 +512,6 @@
             }
         }
 
-        // ============================================
-        // دالة الاشتراك - تحفظ الإيميل في Google Sheet
-        // ============================================
-        
         function showSubscribeModal() {
             const modalHtml = `
                 <div id="subscribeModal" class="modal-overlay">
@@ -533,15 +540,11 @@
                 return;
             }
             
-            // إرسال الإيميل إلى Google Sheets
             fetch(SITE_CONFIG.googleScriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    email: email, 
-                    date: new Date().toISOString() 
-                })
+                body: JSON.stringify({ email: email, date: new Date().toISOString() })
             }).then(() => {
                 alert('✅ تم الاشتراك بنجاح! ستصل إليك التحديثات قريباً.');
                 closeSubscribeModal();
@@ -591,6 +594,12 @@
             showWelcome();
             document.getElementById('ownerName').textContent = SITE_CONFIG.ownerName;
         });
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(() => console.log('Service Worker Registered'))
+                .catch(err => console.log('Service Worker Error:', err));
+        }
     </script>
 </body>
 </html>
