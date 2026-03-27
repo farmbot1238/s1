@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>متعاونين على التفوق | LMJO 09</title>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JLP93VX7X"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-1JLP93VX7X');
+    </script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * {
@@ -98,23 +108,6 @@
             background: rgba(249, 184, 27, 0.3);
             border-right-color: #f9b81b;
             color: #f9b81b;
-        }
-
-        .new-badge {
-            background: #f9b81b;
-            color: #1e3c5c;
-            font-size: 0.7rem;
-            font-weight: bold;
-            padding: 2px 8px;
-            border-radius: 20px;
-            margin-right: 8px;
-            display: inline-block;
-            animation: pulse 1s ease infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.05); }
         }
 
         .email-text {
@@ -231,6 +224,7 @@
             to { transform: rotate(360deg); }
         }
 
+        /* مودال الاشتراك */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -409,6 +403,7 @@
             suggestionForm: "https://docs.google.com/forms/d/e/1FAIpQLSeOP7ow84vcJ-q8tm4YlHsKMCuGdoL-E5OCJw6C66PDrbMpWw/viewform",
             googleScriptURL: "https://script.google.com/macros/s/AKfycbzT1wNRWEgVeVTtvKXhMpG-rVBPTdG99ubHG3c3mzax1TBHIfvxaHa6AxqnPygfeUkU/exec",
             aiAssistant: "https://lmjo-jordanian-buddy.lovable.app/",
+            timer: "https://farmbot1238.github.io/timer/",
             links: {
                 deen_f1: "https://farmbot1238.github.io/DEEN/",
                 arabic_f1: "https://farmbot1238.github.io/Ardic/",
@@ -442,31 +437,60 @@
         ];
 
         const MENU_STRUCTURE = [
-            { title: "🏠 الرئيسية", type: "normal", items: [{ icon: "fas fa-home", text: "الصفحة الرئيسية", action: "home", url: "welcome" }] },
-            { title: "متعاونين على التفوق", type: "featured", items: [{ icon: "fab fa-discord", text: "سيرفر ديسكورد | المساعدة الدراسية وتنفيذ الأفكار", action: "link", url: SITE_CONFIG.discord }] },
-            { title: "📖 الفصل الأول", type: "normal", items: [
-                { icon: "fas fa-mosque", text: "الدين (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.deen_f1 },
-                { icon: "fas fa-book", text: "العربي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.arabic_f1 },
-                { icon: "fas fa-landmark", text: "التاريخ (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.history_f1 },
-                { icon: "fas fa-database", text: "📚 بنوك الفصل الأول", action: "iframe", url: SITE_CONFIG.links.bank_f1 }
-            ]},
-            { title: "📘 الفصل الثاني", type: "normal", items: [
-                { icon: "fas fa-mosque", text: "الدين (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.deen_f2 },
-                { icon: "fas fa-book", text: "العربي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.arabic_f2 },
-                { icon: "fas fa-landmark", text: "التاريخ (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.history_f2 },
-                { icon: "fas fa-language", text: "الانجليزي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.english_f2 }
-            ]},
-            { title: "⚡ إضافات مفيدة", type: "normal", items: [
-                { icon: "fas fa-bolt", text: "تحدي السرعة الشامل", action: "iframe", url: SITE_CONFIG.links.speed_challenge },
-                { icon: "fas fa-star", text: "⚡ تحدي السرعة اليومي ⚡", action: "iframe", url: SITE_CONFIG.links.speed_daily, isNew: true },
-                { icon: "fas fa-file-alt", text: "امتحانات وزارية سابقة", action: "iframe", url: SITE_CONFIG.links.exams },
-                { icon: "fas fa-book-open", text: "كتب وزارية", action: "iframe", url: SITE_CONFIG.links.books }
-            ]},
-            { title: "📞 تواصل واقتراحات", type: "normal", items: [
-                { icon: "fas fa-bell", text: "📧 اشترك في تحديثات الموقع", action: "subscribe", url: "" },
-                { icon: "fas fa-envelope", text: "📧 البريد الإلكتروني", action: "email", url: SITE_CONFIG.email },
-                { icon: "fas fa-pray", text: "دعاء للطالب / اقتراح", action: "link", url: SITE_CONFIG.suggestionForm }
-            ]}
+            {
+                title: "🏠 الرئيسية",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-home", text: "الصفحة الرئيسية", action: "home", url: "welcome" }
+                ]
+            },
+            {
+                title: "متعاونين على التفوق",
+                type: "featured",
+                items: [
+                    { icon: "fab fa-discord", text: "سيرفر ديسكورد | المساعدة الدراسية وتنفيذ الأفكار", action: "link", url: SITE_CONFIG.discord }
+                ]
+            },
+            {
+                title: "📖 الفصل الأول",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-mosque", text: "الدين (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.deen_f1 },
+                    { icon: "fas fa-book", text: "العربي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.arabic_f1 },
+                    { icon: "fas fa-landmark", text: "التاريخ (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.history_f1 },
+                    { icon: "fas fa-database", text: "📚 بنوك الفصل الأول", action: "iframe", url: SITE_CONFIG.links.bank_f1 }
+                ]
+            },
+            {
+                title: "📘 الفصل الثاني",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-mosque", text: "الدين (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.deen_f2 },
+                    { icon: "fas fa-book", text: "العربي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.arabic_f2 },
+                    { icon: "fas fa-landmark", text: "التاريخ (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.history_f2 },
+                    { icon: "fas fa-language", text: "الانجليزي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.english_f2 }
+                ]
+            },
+            {
+                title: "⚡ إضافات مفيدة",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-bolt", text: "تحدي السرعة الشامل", action: "iframe", url: SITE_CONFIG.links.speed_challenge },
+                    { icon: "fas fa-star", text: "⚡ تحدي السرعة اليومي ⚡", action: "iframe", url: SITE_CONFIG.links.speed_daily },
+                    { icon: "fas fa-hourglass-half", text: "⏱️ Timer", action: "iframe", url: SITE_CONFIG.timer },
+                    { icon: "fas fa-file-alt", text: "امتحانات وزارية سابقة", action: "iframe", url: SITE_CONFIG.links.exams },
+                    { icon: "fas fa-book-open", text: "كتب وزارية", action: "iframe", url: SITE_CONFIG.links.books }
+                ]
+            },
+            {
+                title: "📞 تواصل واقتراحات",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-bell", text: "📧 اشترك في تحديثات الموقع", action: "subscribe", url: "" },
+                    { icon: "fas fa-envelope", text: "📧 البريد الإلكتروني", action: "email", url: SITE_CONFIG.email },
+                    { icon: "fas fa-pray", text: "دعاء للطالب / اقتراح", action: "link", url: SITE_CONFIG.suggestionForm }
+                ]
+            }
         ];
 
         let lastQuoteIndex = -1;
@@ -482,7 +506,6 @@
             }, 3000);
         }
 
-        // تخزين الإيميلات في localStorage مؤقتاً (محلي)
         function loadSubscribedEmails() {
             const stored = localStorage.getItem('subscribedEmails');
             if (stored) {
@@ -501,13 +524,11 @@
                 return;
             }
             
-            // التحقق من التكرار محلياً أولاً
             if (subscribedEmails.includes(email)) {
                 showMessage('⚠️ هذا البريد مسجل مسبقاً! يمكنك إلغاء الاشتراك من الأسفل', 'error');
                 return;
             }
             
-            // إرسال إلى Google Sheets
             fetch(SITE_CONFIG.googleScriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -518,13 +539,11 @@
                     action: 'subscribe'
                 })
             }).then(() => {
-                // تخزين محلياً
                 subscribedEmails.push(email);
                 saveSubscribedEmails();
                 showMessage('✅ تم الاشتراك بنجاح! ستصل إليك التحديثات قريباً.', 'success');
                 closeSubscribeModal();
             }).catch(() => {
-                // حتى لو فشل، نخزنه محلياً
                 subscribedEmails.push(email);
                 saveSubscribedEmails();
                 showMessage('✅ تم الاشتراك بنجاح!', 'success');
@@ -539,14 +558,12 @@
                 return;
             }
             
-            // حذف من التخزين المحلي
             const index = subscribedEmails.indexOf(email);
             if (index !== -1) {
                 subscribedEmails.splice(index, 1);
                 saveSubscribedEmails();
             }
             
-            // إرسال طلب إلغاء الاشتراك
             fetch(SITE_CONFIG.googleScriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
@@ -663,8 +680,7 @@
                     sectionDiv.className = 'menu-section';
                     let itemsHtml = '';
                     section.items.forEach(item => {
-                        const newBadge = item.isNew ? '<span class="new-badge">جديد</span>' : '';
-                        itemsHtml += `<button class="menu-btn" onclick="handleAction('${item.action}', '${item.url}', this)"><i class="${item.icon}"></i><span>${item.text}${newBadge}</span></button>`;
+                        itemsHtml += `<button class="menu-btn" onclick="handleAction('${item.action}', '${item.url}', this)"><i class="${item.icon}"></i><span>${item.text}</span></button>`;
                     });
                     sectionDiv.innerHTML = `<div class="menu-section-title">${section.title}</div>${itemsHtml}`;
                     menuContainer.appendChild(sectionDiv);
@@ -716,7 +732,6 @@
             }
         });
 
-        // تحميل الإيميلات المحفوظة
         loadSubscribedEmails();
 
         document.addEventListener('DOMContentLoaded', () => {
