@@ -369,7 +369,7 @@
         const SITE_CONFIG = {
             siteName: "LMJO 09",
             email: "abdalrhmanmaaith1@gmail.com",
-            discord: "https://discord.gg/NxhCN83xrJ",
+            discord: "https://discord.gg/78NKW84H",
             suggestionForm: "https://docs.google.com/forms/d/e/1FAIpQLSeOP7ow84vcJ-q8tm4YlHsKMCuGdoL-E5OCJw6C66PDrbMpWw/viewform",
             googleScriptURL: "https://script.google.com/macros/s/AKfycbzT1wNRWEgVeVTtvKXhMpG-rVBPTdG99ubHG3c3mzax1TBHIfvxaHa6AxqnPygfeUkU/exec",
             aiAssistant: "https://lmjo-jordanian-buddy.lovable.app/",
@@ -420,6 +420,7 @@
                 title: "✨ خدماتنا",
                 type: "normal",
                 items: [
+                    { icon: "fas fa-robot", text: "🤖 المساعد الذكي", action: "iframe", url: SITE_CONFIG.aiAssistant },
                     { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement, isNew: true },
                     { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "iframe", url: SITE_CONFIG.chat, isNew: true },
                     { icon: "fab fa-discord", text: "سيرفر ديسكورد", action: "link", url: SITE_CONFIG.discord }
@@ -659,7 +660,6 @@
                 menuContainer.appendChild(sectionDiv);
             });
             
-            // إضافة الإيميل في نهاية القائمة
             const emailDiv = document.createElement('div');
             emailDiv.className = 'email-text';
             emailDiv.innerHTML = `<i class="fas fa-envelope"></i> ${SITE_CONFIG.email}`;
