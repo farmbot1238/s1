@@ -110,6 +110,26 @@
             color: #f9b81b;
         }
 
+        /* علامة "جديد" مميزة */
+        .new-badge {
+            background: #ff4757;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 20px;
+            margin-right: 8px;
+            display: inline-block;
+            animation: pulse 1.2s ease infinite;
+            box-shadow: 0 0 5px rgba(255, 71, 87, 0.5);
+            vertical-align: middle;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); background: #ff4757; }
+            50% { opacity: 0.8; transform: scale(1.05); background: #ff6b81; }
+        }
+
         .email-text {
             padding: 10px 20px;
             margin: 5px 15px 10px 15px;
@@ -155,6 +175,17 @@
             cursor: pointer;
             transition: all 0.3s ease;
             margin-top: 10px;
+        }
+
+        /* تنسيق خاص لزر الدردشة الدراسية لجعله مميزاً */
+        .discord-btn-special.chat-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            margin-bottom: 5px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .discord-btn-special.chat-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
         }
 
         .discord-btn-special:hover {
@@ -404,6 +435,7 @@
             googleScriptURL: "https://script.google.com/macros/s/AKfycbzT1wNRWEgVeVTtvKXhMpG-rVBPTdG99ubHG3c3mzax1TBHIfvxaHa6AxqnPygfeUkU/exec",
             aiAssistant: "https://lmjo-jordanian-buddy.lovable.app/",
             timer: "https://farmbot1238.github.io/timer/",
+            chat: "https://cooperate-and-conquer.lovable.app",
             links: {
                 deen_f1: "https://farmbot1238.github.io/DEEN/",
                 arabic_f1: "https://farmbot1238.github.io/Ardic/",
@@ -448,6 +480,14 @@
                 title: "متعاونين على التفوق",
                 type: "featured",
                 items: [
+                    { 
+                        icon: "fas fa-comments", 
+                        text: "💬 دردشة دراسية", 
+                        action: "iframe", 
+                        url: SITE_CONFIG.chat,
+                        isNew: true,
+                        special: true 
+                    },
                     { icon: "fab fa-discord", text: "سيرفر ديسكورد | المساعدة الدراسية وتنفيذ الأفكار", action: "link", url: SITE_CONFIG.discord }
                 ]
             },
@@ -671,7 +711,17 @@
                         <div class="featured-header"><i class="fas fa-users"></i> ${section.title} <i class="fas fa-star"></i></div>
                         <div class="featured-content">
                             <div class="featured-text"><i class="fas fa-lightbulb"></i> تعاون - تنفيذ أفكار - مشاريع</div>
-                            ${section.items.map(item => `<button class="discord-btn-special" onclick="handleAction('${item.action}', '${item.url}', this)"><i class="${item.icon}"></i><span>${item.text}</span></button>`).join('')}
+                            ${section.items.map(item => {
+                                let btnClass = 'discord-btn-special';
+                                let btnStyle = '';
+                                if (item.special) {
+                                    btnClass += ' chat-btn';
+                                }
+                                return `<button class="${btnClass}" onclick="handleAction('${item.action}', '${item.url}', this)">
+                                    <i class="${item.icon}"></i>
+                                    <span>${item.text}${item.isNew ? '<span class="new-badge">جديد</span>' : ''}</span>
+                                </button>`;
+                            }).join('')}
                         </div>
                     `;
                     menuContainer.appendChild(featuredDiv);
@@ -680,7 +730,10 @@
                     sectionDiv.className = 'menu-section';
                     let itemsHtml = '';
                     section.items.forEach(item => {
-                        itemsHtml += `<button class="menu-btn" onclick="handleAction('${item.action}', '${item.url}', this)"><i class="${item.icon}"></i><span>${item.text}</span></button>`;
+                        itemsHtml += `<button class="menu-btn" onclick="handleAction('${item.action}', '${item.url}', this)">
+                            <i class="${item.icon}"></i>
+                            <span>${item.text}${item.isNew ? '<span class="new-badge">جديد</span>' : ''}</span>
+                        </button>`;
                     });
                     sectionDiv.innerHTML = `<div class="menu-section-title">${section.title}</div>${itemsHtml}`;
                     menuContainer.appendChild(sectionDiv);
