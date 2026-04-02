@@ -110,19 +110,16 @@
             color: #f9b81b;
         }
 
-        /* علامة "جديد" مميزة */
         .new-badge {
             background: #ff4757;
             color: white;
             font-size: 0.65rem;
             font-weight: bold;
-            padding: 3px 8px;
+            padding: 2px 8px;
             border-radius: 20px;
             margin-right: 8px;
             display: inline-block;
             animation: pulse 1.2s ease infinite;
-            box-shadow: 0 0 5px rgba(255, 71, 87, 0.5);
-            vertical-align: middle;
         }
 
         @keyframes pulse {
@@ -140,63 +137,6 @@
             text-align: center;
             direction: ltr;
             border: 1px dashed rgba(249, 184, 27, 0.3);
-        }
-
-        .featured-section {
-            margin: 20px 15px;
-            background: linear-gradient(135deg, rgba(249, 184, 27, 0.2), rgba(249, 184, 27, 0.05));
-            border-radius: 20px;
-            border: 2px solid #f9b81b;
-            overflow: hidden;
-        }
-
-        .featured-header {
-            background: linear-gradient(135deg, #f9b81b, #e5a00d);
-            padding: 12px;
-            text-align: center;
-            color: #1e3c5c;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .discord-btn-special {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #5865F2, #4752c4);
-            border: none;
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
-
-        /* تنسيق خاص لزر الدردشة الدراسية لجعله مميزاً */
-        .discord-btn-special.chat-btn {
-            background: linear-gradient(135deg, #10b981, #059669);
-            margin-bottom: 5px;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .discord-btn-special.chat-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
-        }
-
-        .discord-btn-special:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(88, 101, 242, 0.3);
-        }
-
-        .featured-text {
-            color: white;
-            font-size: 0.9rem;
-            margin-bottom: 10px;
         }
 
         .content-area {
@@ -255,7 +195,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* مودال الاشتراك */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -436,6 +375,7 @@
             aiAssistant: "https://lmjo-jordanian-buddy.lovable.app/",
             timer: "https://farmbot1238.github.io/timer/",
             chat: "https://cooperate-and-conquer.lovable.app",
+            achievement: "https://my-achievement-buddy.lovable.app",
             links: {
                 deen_f1: "https://farmbot1238.github.io/DEEN/",
                 arabic_f1: "https://farmbot1238.github.io/Ardic/",
@@ -477,18 +417,12 @@
                 ]
             },
             {
-                title: "متعاونين على التفوق",
-                type: "featured",
+                title: "✨ خدماتنا",
+                type: "normal",
                 items: [
-                    { 
-                        icon: "fas fa-comments", 
-                        text: "💬 دردشة دراسية", 
-                        action: "iframe", 
-                        url: SITE_CONFIG.chat,
-                        isNew: true,
-                        special: true 
-                    },
-                    { icon: "fab fa-discord", text: "سيرفر ديسكورد | المساعدة الدراسية وتنفيذ الأفكار", action: "link", url: SITE_CONFIG.discord }
+                    { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement, isNew: true },
+                    { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "iframe", url: SITE_CONFIG.chat, isNew: true },
+                    { icon: "fab fa-discord", text: "سيرفر ديسكورد", action: "link", url: SITE_CONFIG.discord }
                 ]
             },
             {
@@ -704,49 +638,32 @@
             menuContainer.innerHTML = '';
             
             MENU_STRUCTURE.forEach((section) => {
-                if (section.type === 'featured') {
-                    const featuredDiv = document.createElement('div');
-                    featuredDiv.className = 'featured-section';
-                    featuredDiv.innerHTML = `
-                        <div class="featured-header"><i class="fas fa-users"></i> ${section.title} <i class="fas fa-star"></i></div>
-                        <div class="featured-content">
-                            <div class="featured-text"><i class="fas fa-lightbulb"></i> تعاون - تنفيذ أفكار - مشاريع</div>
-                            ${section.items.map(item => {
-                                let btnClass = 'discord-btn-special';
-                                let btnStyle = '';
-                                if (item.special) {
-                                    btnClass += ' chat-btn';
-                                }
-                                return `<button class="${btnClass}" onclick="handleAction('${item.action}', '${item.url}', this)">
-                                    <i class="${item.icon}"></i>
-                                    <span>${item.text}${item.isNew ? '<span class="new-badge">جديد</span>' : ''}</span>
-                                </button>`;
-                            }).join('')}
-                        </div>
-                    `;
-                    menuContainer.appendChild(featuredDiv);
-                } else {
-                    const sectionDiv = document.createElement('div');
-                    sectionDiv.className = 'menu-section';
-                    let itemsHtml = '';
-                    section.items.forEach(item => {
-                        itemsHtml += `<button class="menu-btn" onclick="handleAction('${item.action}', '${item.url}', this)">
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'menu-section';
+                let itemsHtml = '';
+                
+                section.items.forEach(item => {
+                    const newBadge = item.isNew ? '<span class="new-badge">جديد</span>' : '';
+                    itemsHtml += `
+                        <button class="menu-btn" onclick="handleAction('${item.action}', '${item.url}', this)">
                             <i class="${item.icon}"></i>
-                            <span>${item.text}${item.isNew ? '<span class="new-badge">جديد</span>' : ''}</span>
-                        </button>`;
-                    });
-                    sectionDiv.innerHTML = `<div class="menu-section-title">${section.title}</div>${itemsHtml}`;
-                    menuContainer.appendChild(sectionDiv);
-                }
+                            <span>${item.text}${newBadge}</span>
+                        </button>
+                    `;
+                });
+                
+                sectionDiv.innerHTML = `
+                    <div class="menu-section-title">${section.title}</div>
+                    ${itemsHtml}
+                `;
+                menuContainer.appendChild(sectionDiv);
             });
             
-            const lastSection = document.querySelector('.menu-section:last-child');
-            if (lastSection) {
-                const emailDiv = document.createElement('div');
-                emailDiv.className = 'email-text';
-                emailDiv.innerHTML = `<i class="fas fa-envelope"></i> ${SITE_CONFIG.email}`;
-                lastSection.appendChild(emailDiv);
-            }
+            // إضافة الإيميل في نهاية القائمة
+            const emailDiv = document.createElement('div');
+            emailDiv.className = 'email-text';
+            emailDiv.innerHTML = `<i class="fas fa-envelope"></i> ${SITE_CONFIG.email}`;
+            menuContainer.appendChild(emailDiv);
         }
 
         function handleAction(action, url, buttonElement) {
