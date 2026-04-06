@@ -133,7 +133,7 @@ function showWelcome() {
             <div style="text-align: center; max-width: 700px; margin: 0 auto;">
                 <i class="fas fa-graduation-cap" style="font-size: 4rem; color:#f9b81b; margin-bottom:20px;"></i>
                 <h2 style="margin-bottom: 15px;">مرحباً بك في منصة ${SITE_CONFIG.siteName}</h2>
-                <p style="margin-bottom: 30px; font-size: 1.1rem;">✨ متعاونين على التفوق ✨</p>
+                <p style="margin-bottom: 30px; font-size: 1.1rem;">✨ متعاونون على التفوق ✨</p>
                 
                 <div style="margin: 30px auto; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 30px; border-right: 4px solid #f9b81b;">
                     <i class="fas fa-quote-right" style="color: #f9b81b; font-size: 1.5rem;"></i>
@@ -174,11 +174,10 @@ function buildMenu() {
         let itemsHtml = '';
         
         section.items.forEach(item => {
-            const newBadge = item.isNew ? '<span class="new-badge">جديد</span>' : '';
             itemsHtml += `
                 <button class="menu-btn" onclick="handleAction('${item.action}', '${item.url}', this)">
                     <i class="${item.icon}"></i>
-                    <span>${item.text}${newBadge}</span>
+                    <span>${item.text}</span>
                 </button>
             `;
         });
