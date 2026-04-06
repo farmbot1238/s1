@@ -8,6 +8,7 @@ const SITE_CONFIG = {
     timer: "https://farmbot1238.github.io/timer/",
     chat: "https://cooperate-and-conquer.lovable.app",
     achievement: "https://my-achievement-buddy.lovable.app",
+    reward: "https://spiritual-boost.lovable.app",
     links: {
         deen_f1: "https://farmbot1238.github.io/DEEN/",
         arabic_f1: "https://farmbot1238.github.io/Ardic/",
@@ -53,8 +54,9 @@ const MENU_STRUCTURE = [
         type: "normal",
         items: [
             { icon: "fas fa-robot", text: "🤖 المساعد الذكي", action: "iframe", url: SITE_CONFIG.aiAssistant },
-            { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement, isNew: true },
-            { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "iframe", url: SITE_CONFIG.chat, isNew: true },
+            { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement },
+            { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "iframe", url: SITE_CONFIG.chat },
+            { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "iframe", url: SITE_CONFIG.reward },
             { icon: "fab fa-discord", text: "سيرفر ديسكورد", action: "link", url: SITE_CONFIG.discord }
         ]
     },
