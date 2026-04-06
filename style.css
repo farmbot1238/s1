@@ -92,23 +92,6 @@ body {
     color: #f9b81b;
 }
 
-.new-badge {
-    background: #ff4757;
-    color: white;
-    font-size: 0.65rem;
-    font-weight: bold;
-    padding: 2px 8px;
-    border-radius: 20px;
-    margin-right: 8px;
-    display: inline-block;
-    animation: pulse 1.2s ease infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); background: #ff4757; }
-    50% { opacity: 0.8; transform: scale(1.05); background: #ff6b81; }
-}
-
 .email-text {
     padding: 10px 20px;
     margin: 5px 15px 10px 15px;
