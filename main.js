@@ -140,24 +140,6 @@ function showWelcome() {
                     <p style="margin: 20px 0; line-height: 1.8; font-size: 1.1rem;">${quoteLines}</p>
                     <div style="margin-top: 10px;">الدكتور خالد دعجه</div>
                 </div>
-
-                <div style="margin: 30px auto; padding: 25px; background: rgba(0,0,0,0.35); border-radius: 30px; text-align: center; backdrop-filter: blur(5px);">
-                    <i class="fas fa-robot" style="font-size: 2.5rem; color: #f9b81b; margin-bottom: 10px; display: block;"></i>
-                    <h3 style="color: #f9b81b; margin-bottom: 15px; font-size: 1.3rem;">🤖 المساعد الذكي للدراسة</h3>
-                    <p style="font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8;">
-                        📌 <strong>للدقة في الإجابات أو الاستفسار عن المواد:</strong><br>
-                        • يرجى ذكر <strong style="color: #f9b81b;">اسم الكتاب</strong><br>
-                        • يرجى ذكر <strong style="color: #f9b81b;">اسم الوحدة</strong> (إن وجدت)<br>
-                        • يرجى ذكر <strong style="color: #f9b81b;">اسم الدرس</strong> (إن وجد)<br>
-                        سيقوم المساعد بالرد على سؤالك فوراً.
-                    </p>
-                    <button onclick="loadIframe('${SITE_CONFIG.aiAssistant}')" style="background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; padding: 12px 35px; border-radius: 40px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px;">
-                        <i class="fas fa-comment-dots"></i> ابدأ المحادثة مع المساعد
-                    </button>
-                    <p style="font-size: 0.75rem; margin-top: 15px; opacity: 0.7;">
-                        <i class="fas fa-lightbulb"></i> تجربة ممتعة مع الذكاء الاصطناعي
-                    </p>
-                </div>
             </div>
         </div>
     `;
