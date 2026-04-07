@@ -140,6 +140,13 @@ function showWelcome() {
                     <p style="margin: 20px 0; line-height: 1.8; font-size: 1.1rem;">${quoteLines}</p>
                     <div style="margin-top: 10px;">الدكتور خالد دعجه</div>
                 </div>
+
+                <!-- زر الدردشة الدراسية -->
+                <div style="margin: 30px auto;">
+                    <button onclick="loadIframe('${SITE_CONFIG.chat}')" style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 14px 35px; border-radius: 40px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: all 0.3s ease;">
+                        <i class="fas fa-comments"></i> 💬 دردشة دراسية
+                    </button>
+                </div>
             </div>
         </div>
     `;
