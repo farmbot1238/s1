@@ -4,7 +4,6 @@ const SITE_CONFIG = {
     discord: "https://discord.gg/CpF8Uk8Yt",
     suggestionForm: "https://docs.google.com/forms/d/e/1FAIpQLSeOP7ow84vcJ-q8tm4YlHsKMCuGdoL-E5OCJw6C66PDrbMpWw/viewform",
     googleScriptURL: "https://script.google.com/macros/s/AKfycbzT1wNRWEgVeVTtvKXhMpG-rVBPTdG99ubHG3c3mzax1TBHIfvxaHa6AxqnPygfeUkU/exec",
-    aiAssistant: "https://lmjo-jordanian-buddy.lovable.app/",
     timer: "https://farmbot1238.github.io/timer/",
     chat: "https://cooperate-and-conquer.lovable.app",
     achievement: "https://my-achievement-buddy.lovable.app",
@@ -53,7 +52,6 @@ const MENU_STRUCTURE = [
         title: "✨ خدماتنا",
         type: "normal",
         items: [
-            { icon: "fas fa-robot", text: "🤖 المساعد الذكي", action: "iframe", url: SITE_CONFIG.aiAssistant },
             { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement },
             { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "iframe", url: SITE_CONFIG.chat },
             { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "iframe", url: SITE_CONFIG.reward },
