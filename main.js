@@ -135,17 +135,23 @@ function showWelcome() {
                 <h2 style="margin-bottom: 15px;">مرحباً بك في منصة ${SITE_CONFIG.siteName}</h2>
                 <p style="margin-bottom: 30px; font-size: 1.1rem;">✨ متعاونون على التفوق ✨</p>
                 
-                <!-- مقولة الدكتور خالد دعجه (باهتة) -->
+                <!-- مقولة الدكتور خالد دعجه -->
                 <div style="margin: 30px auto; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 30px; border-right: 4px solid #f9b81b; opacity: 0.7;">
                     <i class="fas fa-quote-right" style="color: #f9b81b; font-size: 1.5rem;"></i>
                     <p style="margin: 20px 0; line-height: 1.8; font-size: 1.1rem;">${quoteLines}</p>
                     <div style="margin-top: 10px;">الدكتور خالد دعجه</div>
                 </div>
 
-                <!-- زر الدردشة الدراسية -->
-                <div style="margin: 30px auto;">
-                    <button onclick="loadIframe('${SITE_CONFIG.chat}')" style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 14px 35px; border-radius: 40px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: all 0.3s ease;">
-                        <i class="fas fa-comments"></i> 💬 دردشة دراسية
+                <!-- زر الدردشة الدراسية - نفس مكان الذكاء الاصطناعي -->
+                <div style="margin: 30px auto; padding: 25px; background: rgba(0,0,0,0.35); border-radius: 30px; text-align: center; backdrop-filter: blur(5px);">
+                    <i class="fas fa-comments" style="font-size: 2.5rem; color: #f9b81b; margin-bottom: 10px; display: block;"></i>
+                    <h3 style="color: #f9b81b; margin-bottom: 15px; font-size: 1.3rem;">💬 دردشة دراسية</h3>
+                    <p style="font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8;">
+                        📌 تواصل مع زملائك، ناقش أفكارك، وشارك استفساراتك<br>
+                        بيئة تعاونية للتفوق والنجاح
+                    </p>
+                    <button onclick="loadIframe('${SITE_CONFIG.chat}')" style="background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; padding: 12px 35px; border-radius: 40px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px;">
+                        <i class="fas fa-comment-dots"></i> ابدأ الدردشة الآن
                     </button>
                 </div>
             </div>
