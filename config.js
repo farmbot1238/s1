@@ -49,7 +49,7 @@ const MENU_STRUCTURE = [
             { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement },
             { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "iframe", url: SITE_CONFIG.chat },
             { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "iframe", url: SITE_CONFIG.reward },
-            { icon: "fab fa-discord", text: "سيرفر ديسكورد", action: "link", url: SITE_CONFIG.discord } // يفتح في نافذة جديدة
+            { icon: "fab fa-discord", text: "سيرفر ديسكورد", action: "iframe", url: SITE_CONFIG.discord }
         ]
     },
     {
@@ -89,7 +89,7 @@ const MENU_STRUCTURE = [
         items: [
             { icon: "fas fa-bell", text: "📧 اشترك في تحديثات الموقع", action: "subscribe", url: "" },
             { icon: "fas fa-envelope", text: "📧 البريد الإلكتروني", action: "email", url: SITE_CONFIG.email },
-            { icon: "fas fa-pray", text: "دعاء للطالب / اقتراح", action: "link", url: SITE_CONFIG.suggestionForm }
+            { icon: "fas fa-pray", text: "دعاء للطالب / اقتراح", action: "iframe", url: SITE_CONFIG.suggestionForm }
         ]
     }
 ];
