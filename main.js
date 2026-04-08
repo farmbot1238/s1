@@ -135,14 +135,12 @@ function showWelcome() {
                 <h2 style="margin-bottom: 15px;">مرحباً بك في منصة ${SITE_CONFIG.siteName}</h2>
                 <p style="margin-bottom: 30px; font-size: 1.1rem;">✨ متعاونون على التفوق ✨</p>
                 
-                <!-- مقولة الدكتور خالد دعجه -->
                 <div style="margin: 30px auto; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 30px; border-right: 4px solid #f9b81b; opacity: 0.7;">
                     <i class="fas fa-quote-right" style="color: #f9b81b; font-size: 1.5rem;"></i>
                     <p style="margin: 20px 0; line-height: 1.8; font-size: 1.1rem;">${quoteLines}</p>
                     <div style="margin-top: 10px;">الدكتور خالد دعجه</div>
                 </div>
 
-                <!-- زر الدردشة الدراسية - نفس مكان الذكاء الاصطناعي -->
                 <div style="margin: 30px auto; padding: 25px; background: rgba(0,0,0,0.35); border-radius: 30px; text-align: center; backdrop-filter: blur(5px);">
                     <i class="fas fa-comments" style="font-size: 2.5rem; color: #f9b81b; margin-bottom: 10px; display: block;"></i>
                     <h3 style="color: #f9b81b; margin-bottom: 15px; font-size: 1.3rem;">💬 دردشة دراسية</h3>
@@ -150,7 +148,7 @@ function showWelcome() {
                         📌 تواصل مع زملائك، ناقش أفكارك، وشارك استفساراتك<br>
                         بيئة تعاونية للتفوق والنجاح
                     </p>
-                    <button onclick="loadIframe('${SITE_CONFIG.chat}')" style="background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; padding: 12px 35px; border-radius: 40px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px;">
+                    <button onclick="window.open('${SITE_CONFIG.chat}', '_blank')" style="background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; padding: 12px 35px; border-radius: 40px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px;">
                         <i class="fas fa-comment-dots"></i> ابدأ الدردشة الآن
                     </button>
                 </div>
@@ -170,8 +168,21 @@ function buildMenu() {
         let itemsHtml = '';
         
         section.items.forEach(item => {
+            let actionAttr = '';
+            if (item.action === 'link') {
+                actionAttr = `window.open('${item.url}', '_blank')`;
+            } else if (item.action === 'home') {
+                actionAttr = `showWelcome()`;
+            } else if (item.action === 'subscribe') {
+                actionAttr = `showSubscribeModal()`;
+            } else if (item.action === 'email') {
+                actionAttr = `window.location.href = 'mailto:${item.url}'`;
+            } else if (item.action === 'iframe') {
+                actionAttr = `loadIframe('${item.url}')`;
+            }
+            
             itemsHtml += `
-                <button class="menu-btn" onclick="handleAction('${item.action}', '${item.url}', this)">
+                <button class="menu-btn" onclick="${actionAttr}">
                     <i class="${item.icon}"></i>
                     <span>${item.text}</span>
                 </button>
@@ -189,18 +200,6 @@ function buildMenu() {
     emailDiv.className = 'email-text';
     emailDiv.innerHTML = `<i class="fas fa-envelope"></i> ${SITE_CONFIG.email}`;
     menuContainer.appendChild(emailDiv);
-}
-
-function handleAction(action, url, buttonElement) {
-    lastQuoteIndex = -1;
-    document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
-    if (buttonElement && buttonElement.classList) buttonElement.classList.add('active');
-    
-    if (action === 'iframe') loadIframe(url);
-    else if (action === 'link') window.open(url, '_blank');
-    else if (action === 'home') showWelcome();
-    else if (action === 'subscribe') showSubscribeModal();
-    else if (action === 'email') window.location.href = `mailto:${url}`;
 }
 
 function loadIframe(url) {
