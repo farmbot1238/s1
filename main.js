@@ -128,8 +128,9 @@ function showWelcome() {
     const quote = getRandomQuote();
     const quoteLines = quote.split('\n').join('<br>');
     
+    // عرض الصفحة الرئيسية بشكل صحيح مع كل المحتويات
     container.innerHTML = `
-        <div style="background: linear-gradient(145deg, #1e3c5c, #0f2a3f); color: white; padding: 40px 30px; min-height: 100%;">
+        <div style="background: linear-gradient(145deg, #1e3c5c, #0f2a3f); color: white; padding: 40px 30px; min-height: 100%; overflow-y: auto;">
             <div style="text-align: center; max-width: 700px; margin: 0 auto;">
                 <i class="fas fa-graduation-cap" style="font-size: 4rem; color:#f9b81b; margin-bottom:20px;"></i>
                 <h2 style="margin-bottom: 15px;">مرحباً بك في منصة ${SITE_CONFIG.siteName}</h2>
@@ -227,7 +228,7 @@ loadSubscribedEmails();
 
 document.addEventListener('DOMContentLoaded', () => {
     buildMenu();
-    showWelcome();
+    showWelcome(); // هنا يتم عرض الصفحة الرئيسية عند تحميل الموقع
 });
 
 if ('serviceWorker' in navigator) {
