@@ -8,6 +8,7 @@ const SITE_CONFIG = {
     chat: "https://cooperate-and-conquer.lovable.app",
     achievement: "https://my-achievement-buddy.lovable.app",
     reward: "https://spiritual-boost.lovable.app",
+    studyDuel: "https://studyduel.github.io/-/",
     links: {
         deen_f1: "https://farmbot1238.github.io/DEEN/",
         arabic_f1: "https://farmbot1238.github.io/Ardic/",
@@ -49,12 +50,19 @@ const MENU_STRUCTURE = [
         ]
     },
     {
+        title: "📁 مواقع من تصميم الطلاب",
+        type: "normal",
+        items: [
+            { icon: "fas fa-gamepad", text: "🎮 Study Duel", action: "link", url: SITE_CONFIG.studyDuel }
+        ]
+    },
+    {
         title: "✨ خدماتنا",
         type: "normal",
         items: [
-            { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement },
-            { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "iframe", url: SITE_CONFIG.chat },
-            { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "iframe", url: SITE_CONFIG.reward },
+            { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "link", url: SITE_CONFIG.achievement },
+            { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "link", url: SITE_CONFIG.chat },
+            { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "link", url: SITE_CONFIG.reward },
             { icon: "fab fa-discord", text: "سيرفر ديسكورد", action: "link", url: SITE_CONFIG.discord }
         ]
     },
@@ -62,31 +70,31 @@ const MENU_STRUCTURE = [
         title: "📖 الفصل الأول",
         type: "normal",
         items: [
-            { icon: "fas fa-mosque", text: "الدين (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.deen_f1 },
-            { icon: "fas fa-book", text: "العربي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.arabic_f1 },
-            { icon: "fas fa-landmark", text: "التاريخ (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.history_f1 },
-            { icon: "fas fa-database", text: "📚 بنوك الفصل الأول", action: "iframe", url: SITE_CONFIG.links.bank_f1 }
+            { icon: "fas fa-mosque", text: "الدين (الفصل الأول)", action: "link", url: SITE_CONFIG.links.deen_f1 },
+            { icon: "fas fa-book", text: "العربي (الفصل الأول)", action: "link", url: SITE_CONFIG.links.arabic_f1 },
+            { icon: "fas fa-landmark", text: "التاريخ (الفصل الأول)", action: "link", url: SITE_CONFIG.links.history_f1 },
+            { icon: "fas fa-database", text: "📚 بنوك الفصل الأول", action: "link", url: SITE_CONFIG.links.bank_f1 }
         ]
     },
     {
         title: "📘 الفصل الثاني",
         type: "normal",
         items: [
-            { icon: "fas fa-mosque", text: "الدين (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.deen_f2 },
-            { icon: "fas fa-book", text: "العربي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.arabic_f2 },
-            { icon: "fas fa-landmark", text: "التاريخ (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.history_f2 },
-            { icon: "fas fa-language", text: "الانجليزي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.english_f2 }
+            { icon: "fas fa-mosque", text: "الدين (الفصل الثاني)", action: "link", url: SITE_CONFIG.links.deen_f2 },
+            { icon: "fas fa-book", text: "العربي (الفصل الثاني)", action: "link", url: SITE_CONFIG.links.arabic_f2 },
+            { icon: "fas fa-landmark", text: "التاريخ (الفصل الثاني)", action: "link", url: SITE_CONFIG.links.history_f2 },
+            { icon: "fas fa-language", text: "الانجليزي (الفصل الثاني)", action: "link", url: SITE_CONFIG.links.english_f2 }
         ]
     },
     {
         title: "⚡ إضافات مفيدة",
         type: "normal",
         items: [
-            { icon: "fas fa-bolt", text: "تحدي السرعة الشامل", action: "iframe", url: SITE_CONFIG.links.speed_challenge },
-            { icon: "fas fa-star", text: "⚡ تحدي السرعة اليومي ⚡", action: "iframe", url: SITE_CONFIG.links.speed_daily },
-            { icon: "fas fa-hourglass-half", text: "⏱️ Timer", action: "iframe", url: SITE_CONFIG.timer },
-            { icon: "fas fa-file-alt", text: "امتحانات وزارية سابقة", action: "iframe", url: SITE_CONFIG.links.exams },
-            { icon: "fas fa-book-open", text: "كتب وزارية", action: "iframe", url: SITE_CONFIG.links.books }
+            { icon: "fas fa-bolt", text: "تحدي السرعة الشامل", action: "link", url: SITE_CONFIG.links.speed_challenge },
+            { icon: "fas fa-star", text: "⚡ تحدي السرعة اليومي ⚡", action: "link", url: SITE_CONFIG.links.speed_daily },
+            { icon: "fas fa-hourglass-half", text: "⏱️ Timer", action: "link", url: SITE_CONFIG.timer },
+            { icon: "fas fa-file-alt", text: "امتحانات وزارية سابقة", action: "link", url: SITE_CONFIG.links.exams },
+            { icon: "fas fa-book-open", text: "كتب وزارية", action: "link", url: SITE_CONFIG.links.books }
         ]
     },
     {
