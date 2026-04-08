@@ -11,9 +11,10 @@ body {
     direction: rtl;
 }
 
+/* القائمة الجانبية - تبدأ مخفية على جميع الأجهزة */
 .sidebar {
     position: fixed;
-    right: 0;
+    right: -300px;
     top: 0;
     width: 300px;
     height: 100vh;
@@ -22,7 +23,12 @@ body {
     overflow-y: auto;
     z-index: 100;
     box-shadow: -5px 0 20px rgba(0,0,0,0.2);
-    transition: all 0.3s ease;
+    transition: right 0.3s ease;
+}
+
+/* عندما تكون القائمة مفتوحة */
+.sidebar.open {
+    right: 0;
 }
 
 .sidebar-header {
@@ -104,10 +110,37 @@ body {
     border: 1px dashed rgba(249, 184, 27, 0.3);
 }
 
+/* منطقة المحتوى - تأخذ المساحة كاملة */
 .content-area {
-    margin-right: 300px;
+    margin-right: 0;
     padding: 20px;
     min-height: 100vh;
+}
+
+/* زر القائمة ☰ - يظهر على جميع الأجهزة (بدون أي شرط) */
+.mobile-menu-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #1e3c5c;
+    color: #f9b81b;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 200;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-btn:hover {
+    transform: scale(1.05);
+    background: #0f2a3f;
 }
 
 .iframe-container {
@@ -122,23 +155,6 @@ iframe {
     width: 100%;
     height: 100%;
     border: none;
-}
-
-.mobile-menu-btn {
-    display: none;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #1e3c5c;
-    color: #f9b81b;
-    border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 200;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 .loading {
@@ -160,6 +176,7 @@ iframe {
     to { transform: rotate(360deg); }
 }
 
+/* مودال الاشتراك */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -288,19 +305,17 @@ iframe {
     color: #1e3c5c;
 }
 
+/* للشاشات الصغيرة - فقط تعديل الحجم */
 @media (max-width: 768px) {
-    .sidebar {
-        right: -300px;
-        width: 280px;
-    }
-    .sidebar.open {
-        right: 0;
-    }
-    .content-area {
-        margin-right: 0;
-        padding: 70px 15px 15px;
-    }
     .mobile-menu-btn {
-        display: block;
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+        top: 15px;
+        right: 15px;
+    }
+    
+    .content-area {
+        padding: 70px 15px 15px;
     }
 }
