@@ -169,6 +169,7 @@ function buildMenu() {
         
         section.items.forEach(item => {
             let actionAttr = '';
+            // جميع الإجراءات أصبحت iframe ما عدا home و subscribe و email
             if (item.action === 'iframe') {
                 actionAttr = `loadIframe('${item.url}')`;
             } else if (item.action === 'home') {
@@ -177,8 +178,6 @@ function buildMenu() {
                 actionAttr = `showSubscribeModal()`;
             } else if (item.action === 'email') {
                 actionAttr = `window.location.href = 'mailto:${item.url}'`;
-            } else if (item.action === 'link') {
-                actionAttr = `window.open('${item.url}', '_blank')`;
             }
             
             itemsHtml += `
