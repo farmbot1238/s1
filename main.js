@@ -138,7 +138,6 @@ function showWelcome() {
                 <div style="margin: 30px auto; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 30px; border-right: 4px solid #f9b81b; opacity: 0.7;">
                     <i class="fas fa-quote-right" style="color: #f9b81b; font-size: 1.5rem;"></i>
                     <p style="margin: 20px 0; line-height: 1.8; font-size: 1.1rem;">${quoteLines}</p>
-                    <div style="margin-top: 10px;">الدكتور خالد دعجه</div>
                 </div>
 
                 <div style="margin: 30px auto; padding: 25px; background: rgba(0,0,0,0.35); border-radius: 30px; text-align: center; backdrop-filter: blur(5px);">
@@ -169,7 +168,6 @@ function buildMenu() {
         
         section.items.forEach(item => {
             let actionAttr = '';
-            // جميع الإجراءات أصبحت iframe ما عدا home و subscribe و email
             if (item.action === 'iframe') {
                 actionAttr = `loadIframe('${item.url}')`;
             } else if (item.action === 'home') {
