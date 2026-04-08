@@ -148,7 +148,7 @@ function showWelcome() {
                         📌 تواصل مع زملائك، ناقش أفكارك، وشارك استفساراتك<br>
                         بيئة تعاونية للتفوق والنجاح
                     </p>
-                    <button onclick="window.open('${SITE_CONFIG.chat}', '_blank')" style="background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; padding: 12px 35px; border-radius: 40px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px;">
+                    <button onclick="loadIframe('${SITE_CONFIG.chat}')" style="background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; padding: 12px 35px; border-radius: 40px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px;">
                         <i class="fas fa-comment-dots"></i> ابدأ الدردشة الآن
                     </button>
                 </div>
@@ -169,16 +169,16 @@ function buildMenu() {
         
         section.items.forEach(item => {
             let actionAttr = '';
-            if (item.action === 'link') {
-                actionAttr = `window.open('${item.url}', '_blank')`;
+            if (item.action === 'iframe') {
+                actionAttr = `loadIframe('${item.url}')`;
             } else if (item.action === 'home') {
                 actionAttr = `showWelcome()`;
             } else if (item.action === 'subscribe') {
                 actionAttr = `showSubscribeModal()`;
             } else if (item.action === 'email') {
                 actionAttr = `window.location.href = 'mailto:${item.url}'`;
-            } else if (item.action === 'iframe') {
-                actionAttr = `loadIframe('${item.url}')`;
+            } else if (item.action === 'link') {
+                actionAttr = `window.open('${item.url}', '_blank')`;
             }
             
             itemsHtml += `
