@@ -15,10 +15,324 @@
     </script>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f0f4f8 0%, #d9e2ec 100%);
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        .sidebar {
+            position: fixed;
+            right: -300px;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e3c5c 0%, #0f2a3f 100%);
+            color: white;
+            overflow-y: auto;
+            z-index: 100;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.2);
+            transition: right 0.3s ease;
+        }
+
+        .sidebar.open {
+            right: 0;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 3px solid #f9b81b;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.8rem;
+            color: #f9b81b;
+        }
+
+        .sidebar-header p {
+            font-size: 0.85rem;
+            margin-top: 8px;
+            opacity: 0.8;
+        }
+
+        .sidebar-menu {
+            padding: 15px 0 30px;
+        }
+
+        .menu-section {
+            margin-bottom: 25px;
+        }
+
+        .menu-section-title {
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #f9b81b;
+            border-right: 3px solid #f9b81b;
+            margin: 10px 0 5px 0;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 0.95rem;
+            text-align: right;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-right: 3px solid transparent;
+        }
+
+        .menu-btn i {
+            width: 28px;
+            font-size: 1.1rem;
+        }
+
+        .menu-btn:hover {
+            background: rgba(249, 184, 27, 0.2);
+            border-right-color: #f9b81b;
+        }
+
+        .menu-btn.active {
+            background: rgba(249, 184, 27, 0.3);
+            border-right-color: #f9b81b;
+            color: #f9b81b;
+        }
+
+        .email-text {
+            padding: 10px 20px;
+            margin: 5px 15px 10px 15px;
+            background: rgba(249, 184, 27, 0.1);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: #f9b81b;
+            text-align: center;
+            direction: ltr;
+            border: 1px dashed rgba(249, 184, 27, 0.3);
+        }
+
+        .content-area {
+            margin-right: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .mobile-menu-btn {
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #1e3c5c;
+            color: #f9b81b;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 200;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            transform: scale(1.05);
+            background: #0f2a3f;
+        }
+
+        .iframe-container {
+            background: white;
+            border-radius: 30px;
+            overflow: auto;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            height: calc(100vh - 40px);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            font-size: 1.2rem;
+            color: #1e3c5c;
+        }
+
+        .loading i {
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 30px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            direction: rtl;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .subscribe-btn {
+            background: linear-gradient(135deg, #f9b81b, #e5a00d);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            color: #1e3c5c;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .cancel-btn {
+            background: transparent;
+            border: none;
+            color: #999;
+            margin-top: 15px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .unsubscribe-section {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .unsubscribe-section p {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .unsubscribe-btn {
+            background: #c62828;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 30px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .unsubscribe-btn:hover {
+            background: #b71c1c;
+        }
+
+        .status-message {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-align: center;
+            z-index: 1100;
+            display: none;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            font-weight: bold;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .status-message.success {
+            background: #2e7d32;
+            color: white;
+            border-right: 4px solid #f9b81b;
+        }
+
+        .status-message.error {
+            background: #c62828;
+            color: white;
+            border-right: 4px solid #f9b81b;
+        }
+
+        .status-message.info {
+            background: #f9b81b;
+            color: #1e3c5c;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+                top: 15px;
+                right: 15px;
+            }
+            .content-area {
+                padding: 70px 15px 15px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- زر القائمة ☰ -->
     <button class="mobile-menu-btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </button>
@@ -36,13 +350,364 @@
 
     <div class="content-area" id="contentArea">
         <div class="iframe-container" id="iframeContainer">
-            <div class="loading"><i class="fas fa-spinner"></i> جاري التحميل...</div>
+            <div class="loading"><i class="fas fa-spinner"></i> اختر أحد الأقسام من القائمة</div>
         </div>
     </div>
 
     <div id="statusMessage" class="status-message"></div>
 
-    <script src="config.js"></script>
-    <script src="main.js"></script>
+    <script>
+        const SITE_CONFIG = {
+            siteName: "LMJO 09",
+            email: "abdalrhmanmaaith1@gmail.com",
+            discord: "https://discord.gg/CpF8Uk8Yt",
+            suggestionForm: "https://docs.google.com/forms/d/e/1FAIpQLSeOP7ow84vcJ-q8tm4YlHsKMCuGdoL-E5OCJw6C66PDrbMpWw/viewform",
+            googleScriptURL: "https://script.google.com/macros/s/AKfycbzT1wNRWEgVeVTtvKXhMpG-rVBPTdG99ubHG3c3mzax1TBHIfvxaHa6AxqnPygfeUkU/exec",
+            timer: "https://farmbot1238.github.io/timer/",
+            chat: "https://cooperate-and-conquer.lovable.app",
+            achievement: "https://my-achievement-buddy.lovable.app",
+            reward: "https://spiritual-boost.lovable.app",
+            studyDuel: "https://studyduel.github.io/-/",
+            youtubePosts: "https://www.youtube.com/@Pyabd/posts",
+            links: {
+                deen_f1: "https://farmbot1238.github.io/DEEN/",
+                arabic_f1: "https://farmbot1238.github.io/Ardic/",
+                history_f1: "https://farmbot1238.github.io/MMMNII/",
+                bank_f1: "https://farmbot1238.github.io/BNK/",
+                deen_f2: "https://farmbot1238.github.io/d1/",
+                arabic_f2: "https://farmbot1238.github.io/a1/",
+                history_f2: "https://farmbot1238.github.io/t1/",
+                english_f2: "https://farmbot1238.github.io/e1/",
+                speed_challenge: "https://farmbot1238.github.io/thd1/",
+                speed_daily: "https://farmbot1238.github.io/thd2/",
+                exams: "https://farmbot1238.github.io/w2/",
+                books: "https://farmbot1238.github.io/Book/"
+            }
+        };
+
+        const QUOTES = [
+            `جادل فانك قد خلقت مجادلا\nمن لا يجادل يستوي بالبغل\nحمال أسفار ينوء بحملها\nظهر البعير سخرت للحمل`,
+            `نفس تجن وما بها من جنة\nإن الجنون لبعض وحي العقل`,
+            `من سائل الوردة الحمراء عن عبق\nيجيبك الجذر من روث له طعم`,
+            `إن تأخرت بالسعي نحو مجد\nقد ينال المجد بالسعي سواك`,
+            `أنفضوا النوم وهبوا للعلا\nفالعلا وقف على من لم ينم`,
+            `عجبت لهم قالوا تماديت في المنى\nوفي المثل العليا وفي المرتقى الصعب`,
+            `فقلت لهم مهلا فما اليأس شيمتي\nسأبذر حبي والثمار من الرب`,
+            `أسكنت أحلامي زجاجات الرضا\nأودعتها بحر الدعاء فابحرت\nإن شاء ربي أن تعود لضفتي\nأو ربما خيره أن غادرت`,
+            `العلم صداع الرؤوس بما حوت\nكالأرض تصدع من هطول الوبل`,
+            `الحقيقة المرة خير ألف مرة من الوهم المريح`,
+            `إنك تستطيع أن تصبح عظيماً، إن العظمة ليست محصورة بين قلة من الناس، إنك أحد هؤلاء العظماء متى ما أردت وعملت على ذلك`,
+            `إننا خلقنا لنحيا حياة جميلة وحافلة بالإنجازات والنجاحات، ولم نخلق لنعيش على الهامش. إن لم تزد شيئاً على الحياة كنت أنت - لا سمح الله - الزيادة عليها`,
+            `الكثير منا يعيشون أسرى ضمن حدود منطقتهم الآمنة، ولكن الكيس الفطن من يتجاوز حدود هذه المنطقة`
+        ];
+
+        const MENU_STRUCTURE = [
+            {
+                title: "🏠 الرئيسية",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-home", text: "الصفحة الرئيسية", action: "home", url: "welcome" }
+                ]
+            },
+            {
+                title: "📁 مواقع من تصميم الطلاب",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-gamepad", text: "🎮 Study Duel", action: "iframe", url: SITE_CONFIG.studyDuel }
+                ]
+            },
+            {
+                title: "✨ خدماتنا",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement },
+                    { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "iframe", url: SITE_CONFIG.chat },
+                    { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "iframe", url: SITE_CONFIG.reward },
+                    { icon: "fab fa-discord", text: "سيرفر ديسكورد", action: "iframe", url: SITE_CONFIG.discord },
+                    { icon: "fab fa-youtube", text: "📢 تحديثات الموقع أولاً بأول", action: "link", url: SITE_CONFIG.youtubePosts }
+                ]
+            },
+            {
+                title: "📖 الفصل الأول",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-mosque", text: "الدين (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.deen_f1 },
+                    { icon: "fas fa-book", text: "العربي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.arabic_f1 },
+                    { icon: "fas fa-landmark", text: "التاريخ (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.history_f1 },
+                    { icon: "fas fa-database", text: "📚 بنوك الفصل الأول", action: "iframe", url: SITE_CONFIG.links.bank_f1 }
+                ]
+            },
+            {
+                title: "📘 الفصل الثاني",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-mosque", text: "الدين (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.deen_f2 },
+                    { icon: "fas fa-book", text: "العربي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.arabic_f2 },
+                    { icon: "fas fa-landmark", text: "التاريخ (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.history_f2 },
+                    { icon: "fas fa-language", text: "الانجليزي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.english_f2 }
+                ]
+            },
+            {
+                title: "⚡ إضافات مفيدة",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-bolt", text: "تحدي السرعة الشامل", action: "iframe", url: SITE_CONFIG.links.speed_challenge },
+                    { icon: "fas fa-star", text: "⚡ تحدي السرعة اليومي ⚡", action: "iframe", url: SITE_CONFIG.links.speed_daily },
+                    { icon: "fas fa-hourglass-half", text: "⏱️ Timer", action: "iframe", url: SITE_CONFIG.timer },
+                    { icon: "fas fa-file-alt", text: "امتحانات وزارية سابقة", action: "iframe", url: SITE_CONFIG.links.exams },
+                    { icon: "fas fa-book-open", text: "كتب وزارية", action: "iframe", url: SITE_CONFIG.links.books }
+                ]
+            },
+            {
+                title: "📞 تواصل واقتراحات",
+                type: "normal",
+                items: [
+                    { icon: "fas fa-bell", text: "📧 اشترك في تحديثات الموقع", action: "subscribe", url: "" },
+                    { icon: "fas fa-envelope", text: "📧 البريد الإلكتروني", action: "email", url: SITE_CONFIG.email },
+                    { icon: "fas fa-pray", text: "دعاء للطالب / اقتراح", action: "iframe", url: SITE_CONFIG.suggestionForm }
+                ]
+            }
+        ];
+
+        let lastQuoteIndex = -1;
+        let subscribedEmails = [];
+
+        function showMessage(text, type = 'info') {
+            const msgDiv = document.getElementById('statusMessage');
+            msgDiv.textContent = text;
+            msgDiv.className = `status-message ${type}`;
+            msgDiv.style.display = 'block';
+            setTimeout(() => {
+                msgDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        function loadSubscribedEmails() {
+            const stored = localStorage.getItem('subscribedEmails');
+            if (stored) {
+                subscribedEmails = JSON.parse(stored);
+            }
+        }
+
+        function saveSubscribedEmails() {
+            localStorage.setItem('subscribedEmails', JSON.stringify(subscribedEmails));
+        }
+
+        function submitSubscription() {
+            const email = document.getElementById('subscribeEmail').value;
+            if (!email || !email.includes('@')) {
+                showMessage('⚠️ الرجاء إدخال بريد إلكتروني صحيح', 'error');
+                return;
+            }
+            
+            if (subscribedEmails.includes(email)) {
+                showMessage('⚠️ هذا البريد مسجل مسبقاً! يمكنك إلغاء الاشتراك من الأسفل', 'error');
+                return;
+            }
+            
+            fetch(SITE_CONFIG.googleScriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    email: email, 
+                    date: new Date().toISOString(),
+                    action: 'subscribe'
+                })
+            }).then(() => {
+                subscribedEmails.push(email);
+                saveSubscribedEmails();
+                showMessage('✅ تم الاشتراك بنجاح! ستصل إليك التحديثات قريباً.', 'success');
+                closeSubscribeModal();
+            }).catch(() => {
+                subscribedEmails.push(email);
+                saveSubscribedEmails();
+                showMessage('✅ تم الاشتراك بنجاح!', 'success');
+                closeSubscribeModal();
+            });
+        }
+        
+        function unsubscribeEmail() {
+            const email = document.getElementById('unsubscribeEmail').value;
+            if (!email || !email.includes('@')) {
+                showMessage('⚠️ الرجاء إدخال بريد إلكتروني صحيح', 'error');
+                return;
+            }
+            
+            const index = subscribedEmails.indexOf(email);
+            if (index !== -1) {
+                subscribedEmails.splice(index, 1);
+                saveSubscribedEmails();
+            }
+            
+            fetch(SITE_CONFIG.googleScriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    email: email, 
+                    action: 'unsubscribe'
+                })
+            }).then(() => {
+                showMessage('✅ تم إلغاء الاشتراك بنجاح! لن تصلك أي تحديثات مستقبلية.', 'success');
+                closeSubscribeModal();
+            }).catch(() => {
+                showMessage('✅ تم إلغاء الاشتراك بنجاح!', 'success');
+                closeSubscribeModal();
+            });
+        }
+        
+        function showSubscribeModal() {
+            const modalHtml = `
+                <div id="subscribeModal" class="modal-overlay">
+                    <div class="modal-content">
+                        <i class="fas fa-bell" style="font-size:3rem; color:#f9b81b; margin-bottom:15px;"></i>
+                        <h3 style="color:#1e3c5c; margin-bottom:15px;">اشترك في تحديثات الموقع</h3>
+                        <p style="color:#4a5f73; margin-bottom:20px;">أدخل بريدك الإلكتروني ليصلك كل تحديث جديد</p>
+                        <input type="email" id="subscribeEmail" placeholder="example@email.com">
+                        <button class="subscribe-btn" onclick="submitSubscription()">اشتراك</button>
+                        <button class="cancel-btn" onclick="closeSubscribeModal()">إلغاء</button>
+                        
+                        <div class="unsubscribe-section">
+                            <p><i class="fas fa-trash-alt"></i> تريد إلغاء الاشتراك؟</p>
+                            <input type="email" id="unsubscribeEmail" placeholder="أدخل بريدك لإلغاء الاشتراك">
+                            <button class="unsubscribe-btn" onclick="unsubscribeEmail()">إلغاء الاشتراك</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+
+        function closeSubscribeModal() {
+            const modal = document.getElementById('subscribeModal');
+            if (modal) modal.remove();
+        }
+
+        function getRandomQuote() {
+            let newIndex;
+            do {
+                newIndex = Math.floor(Math.random() * QUOTES.length);
+            } while (newIndex === lastQuoteIndex && QUOTES.length > 1);
+            lastQuoteIndex = newIndex;
+            return QUOTES[newIndex];
+        }
+
+        function showWelcome() {
+            const container = document.getElementById('iframeContainer');
+            if (!container) return;
+            const quote = getRandomQuote();
+            const quoteLines = quote.split('\n').join('<br>');
+            
+            container.innerHTML = `
+                <div style="background: linear-gradient(145deg, #1e3c5c, #0f2a3f); color: white; padding: 40px 30px; min-height: 100%; overflow-y: auto;">
+                    <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+                        <i class="fas fa-graduation-cap" style="font-size: 4rem; color:#f9b81b; margin-bottom:20px;"></i>
+                        <h2 style="margin-bottom: 15px;">مرحباً بك في منصة ${SITE_CONFIG.siteName}</h2>
+                        <p style="margin-bottom: 30px; font-size: 1.1rem;">✨ متعاونون على التفوق ✨</p>
+                        
+                        <div style="margin: 30px auto; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 30px; border-right: 4px solid #f9b81b; opacity: 0.7;">
+                            <i class="fas fa-quote-right" style="color: #f9b81b; font-size: 1.5rem;"></i>
+                            <p style="margin: 20px 0; line-height: 1.8; font-size: 1.1rem;">${quoteLines}</p>
+                        </div>
+
+                        <div style="margin: 30px auto; padding: 25px; background: rgba(0,0,0,0.35); border-radius: 30px; text-align: center; backdrop-filter: blur(5px);">
+                            <i class="fas fa-comments" style="font-size: 2.5rem; color: #f9b81b; margin-bottom: 10px; display: block;"></i>
+                            <h3 style="color: #f9b81b; margin-bottom: 15px; font-size: 1.3rem;">💬 دردشة دراسية</h3>
+                            <p style="font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8;">
+                                📌 تواصل مع زملائك، ناقش أفكارك، وشارك استفساراتك<br>
+                                بيئة تعاونية للتفوق والنجاح
+                            </p>
+                            <button onclick="loadIframe('${SITE_CONFIG.chat}')" style="background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; padding: 12px 35px; border-radius: 40px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px;">
+                                <i class="fas fa-comment-dots"></i> ابدأ الدردشة الآن
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function buildMenu() {
+            const menuContainer = document.getElementById('menuContainer');
+            if (!menuContainer) return;
+            menuContainer.innerHTML = '';
+            
+            MENU_STRUCTURE.forEach((section) => {
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'menu-section';
+                let itemsHtml = '';
+                
+                section.items.forEach(item => {
+                    let actionAttr = '';
+                    if (item.action === 'iframe') {
+                        actionAttr = `loadIframe('${item.url}')`;
+                    } else if (item.action === 'link') {
+                        actionAttr = `window.open('${item.url}', '_blank')`;
+                    } else if (item.action === 'home') {
+                        actionAttr = `showWelcome()`;
+                    } else if (item.action === 'subscribe') {
+                        actionAttr = `showSubscribeModal()`;
+                    } else if (item.action === 'email') {
+                        actionAttr = `window.location.href = 'mailto:${item.url}'`;
+                    }
+                    
+                    itemsHtml += `
+                        <button class="menu-btn" onclick="${actionAttr}">
+                            <i class="${item.icon}"></i>
+                            <span>${item.text}</span>
+                        </button>
+                    `;
+                });
+                
+                sectionDiv.innerHTML = `
+                    <div class="menu-section-title">${section.title}</div>
+                    ${itemsHtml}
+                `;
+                menuContainer.appendChild(sectionDiv);
+            });
+            
+            const emailDiv = document.createElement('div');
+            emailDiv.className = 'email-text';
+            emailDiv.innerHTML = `<i class="fas fa-envelope"></i> ${SITE_CONFIG.email}`;
+            menuContainer.appendChild(emailDiv);
+        }
+
+        function loadIframe(url) {
+            const container = document.getElementById('iframeContainer');
+            if (!container) return;
+            container.innerHTML = `<div class="loading" id="loadingIndicator"><i class="fas fa-spinner"></i> جاري التحميل...</div><iframe id="contentFrame" src="${url}" style="width:100%; height:100%; display:none;" onload="hideLoading()"></iframe>`;
+        }
+
+        function hideLoading() {
+            const loading = document.getElementById('loadingIndicator');
+            const iframe = document.getElementById('contentFrame');
+            if (loading && iframe) { loading.style.display = 'none'; iframe.style.display = 'block'; }
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                const btn = e.target.closest('.menu-btn');
+                const sidebar = document.getElementById('sidebar');
+                if (btn && sidebar && sidebar.classList.contains('open')) sidebar.classList.remove('open');
+            }
+        });
+
+        loadSubscribedEmails();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            buildMenu();
+            showWelcome();
+        });
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(() => console.log('Service Worker Registered'))
+                .catch(err => console.log('Service Worker Error:', err));
+        }
+    </script>
 </body>
 </html>
