@@ -128,7 +128,7 @@ function showWelcome() {
     const quote = getRandomQuote();
     const quoteLines = quote.split('\n').join('<br>');
     
-    // المحتوى الفعلي للصفحة الرئيسية
+    // عرض الصفحة الرئيسية بشكل صحيح
     container.innerHTML = `
         <div style="background: linear-gradient(145deg, #1e3c5c, #0f2a3f); color: white; padding: 40px 30px; min-height: 100%; overflow-y: auto;">
             <div style="text-align: center; max-width: 700px; margin: 0 auto;">
@@ -228,7 +228,7 @@ loadSubscribedEmails();
 
 document.addEventListener('DOMContentLoaded', () => {
     buildMenu();
-    showWelcome(); // عرض الصفحة الرئيسية الحقيقية عند التحميل
+    showWelcome(); // عرض الصفحة الرئيسية عند التحميل
 });
 
 if ('serviceWorker' in navigator) {
