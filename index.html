@@ -3,7 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>متعاونون على التفوق | LMJO 09</title>
+    <title>مدارك جو | منصة التعليم الذكية</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="مدارك جو - منصة تعليمية ذكية للطلاب. اختبر نفسك في المواد الدراسية، تواصل مع زملائك، وطور مهاراتك مع مدارك جو.">
+    <meta name="keywords" content="مدارك, مدارك جو, مدراك, مدراك جو, تعليم, منصة تعليمية, اختبارات, دراسة, طلاب, Jordan, education, learning platform">
+    <meta name="author" content="مدارك جو">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="مدارك جو | منصة التعليم الذكية">
+    <meta property="og:description" content="منصة مدارك جو - تعلم، اختبر، وتفوق مع زملائك">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://farmbot1238.github.io/s1/">
     
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JLP93VX7X"></script>
@@ -318,6 +330,12 @@
             color: #1e3c5c;
         }
 
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+            50% { transform: scale(1.02); box-shadow: 0 15px 35px rgba(88, 101, 242, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        }
+
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 width: 45px;
@@ -339,12 +357,12 @@
 
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h1>LMJO 09</h1>
-            <p style="font-size:0.8rem;">✨ متعاونون على التفوق ✨</p>
+            <h1>مدارك جو</h1>
+            <p style="font-size:0.8rem;">✨ منصة التعليم الذكية ✨</p>
         </div>
         <div class="sidebar-menu" id="menuContainer"></div>
         <div style="padding: 15px; text-align: center; font-size: 0.7rem; opacity:0.6; border-top:1px solid #2a4a6e;">
-            متعاونون على التفوق | LMJO 09
+            مدارك جو | منصة التعليم الذكية
         </div>
     </div>
 
@@ -358,7 +376,7 @@
 
     <script>
         const SITE_CONFIG = {
-            siteName: "LMJO 09",
+            siteName: "مدارك جو",
             email: "abdalrhmanmaaith1@gmail.com",
             discord: "https://discord.gg/CpF8Uk8Yt",
             suggestionForm: "https://docs.google.com/forms/d/e/1FAIpQLSeOP7ow84vcJ-q8tm4YlHsKMCuGdoL-E5OCJw6C66PDrbMpWw/viewform",
@@ -604,22 +622,36 @@
                     <div style="text-align: center; max-width: 700px; margin: 0 auto;">
                         <i class="fas fa-graduation-cap" style="font-size: 4rem; color:#f9b81b; margin-bottom:20px;"></i>
                         <h2 style="margin-bottom: 15px;">مرحباً بك في منصة ${SITE_CONFIG.siteName}</h2>
-                        <p style="margin-bottom: 30px; font-size: 1.1rem;">✨ متعاونون على التفوق ✨</p>
+                        <p style="margin-bottom: 30px; font-size: 1.1rem;">✨ منصة التعليم الذكية ✨</p>
                         
                         <div style="margin: 30px auto; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 30px; border-right: 4px solid #f9b81b; opacity: 0.7;">
                             <i class="fas fa-quote-right" style="color: #f9b81b; font-size: 1.5rem;"></i>
                             <p style="margin: 20px 0; line-height: 1.8; font-size: 1.1rem;">${quoteLines}</p>
                         </div>
 
-                        <div style="margin: 30px auto; padding: 25px; background: rgba(0,0,0,0.35); border-radius: 30px; text-align: center; backdrop-filter: blur(5px);">
-                            <i class="fas fa-comments" style="font-size: 2.5rem; color: #f9b81b; margin-bottom: 10px; display: block;"></i>
-                            <h3 style="color: #f9b81b; margin-bottom: 15px; font-size: 1.3rem;">💬 دردشة دراسية</h3>
-                            <p style="font-size: 0.95rem; margin-bottom: 15px; line-height: 1.8;">
-                                📌 تواصل مع زملائك، ناقش أفكارك، وشارك استفساراتك<br>
-                                بيئة تعاونية للتفوق والنجاح
+                        <div style="margin: 30px auto; padding: 30px; background: linear-gradient(135deg, #5865F2, #404eed); border-radius: 30px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); animation: pulse 2s infinite;">
+                            <i class="fab fa-discord" style="font-size: 3rem; color: white; margin-bottom: 15px; display: block;"></i>
+                            
+                            <h2 style="color: white; margin-bottom: 10px; font-size: 1.8rem;">✨ ادخل عالم الدراسة الذكي ✨</h2>
+                            
+                            <p style="font-size: 1rem; margin-bottom: 15px; line-height: 1.8; color: #e0e0ff; max-width: 500px; margin-left: auto; margin-right: auto;">
+                                هنا مش مجرد سيرفر… هنا مساحة بتجمع العقول الطموحة، تبادل أفكار، ملخصات، ونقاشات بتخلي المذاكرة أخف وأمتع.
                             </p>
-                            <button onclick="loadIframe('${SITE_CONFIG.chat}')" style="background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; padding: 12px 35px; border-radius: 40px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px;">
-                                <i class="fas fa-comment-dots"></i> ابدأ الدردشة الآن
+                            
+                            <p style="font-size: 1rem; margin-bottom: 15px; line-height: 1.8; color: #e0e0ff;">
+                                📚 شارك، اسأل، وتحدى نفسك مع زملاء بيشبهوك.
+                            </p>
+                            
+                            <p style="font-size: 1rem; margin-bottom: 20px; line-height: 1.8; color: #e0e0ff;">
+                                🚀 كل دقيقة هون بتقربك من هدفك الكبير.
+                            </p>
+                            
+                            <p style="font-size: 1.1rem; margin-bottom: 20px; line-height: 1.8; color: #ffffff; font-weight: bold;">
+                                انضم الآن… وخلي دراستك تتحول من واجب إلى رحلة ممتعة!
+                            </p>
+                            
+                            <button onclick="window.open('${SITE_CONFIG.discord}', '_blank')" style="background: white; color: #5865F2; padding: 14px 40px; border-radius: 50px; border: none; font-weight: bold; font-size: 1.1rem; cursor: pointer; margin-top: 10px; transition: all 0.3s ease;">
+                                <i class="fab fa-discord"></i> اضغط هنا للانضمام 👇
                             </button>
                         </div>
                     </div>
