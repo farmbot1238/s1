@@ -385,6 +385,7 @@
             reward: "https://spiritual-boost.lovable.app",
             shareFiles: "https://unified-login-pal.lovable.app",
             youtubePosts: "https://www.youtube.com/@Pyabd/posts",
+            notebookLM: "https://notebooklm.google.com/notebook/20623484-45c7-4f42-9421-655b2b3d2e0d",
             links: {
                 deen_f1: "https://farmbot1238.github.io/DEEN/",
                 arabic_f1: "https://farmbot1238.github.io/Ardic/",
@@ -434,7 +435,8 @@
                     { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "iframe", url: SITE_CONFIG.reward },
                     { icon: "fas fa-share-alt", text: "📂 مشاركة ملفات الدراسة", action: "iframe", url: SITE_CONFIG.shareFiles },
                     { icon: "fab fa-discord", text: "سيرفر ديسكورد", action: "iframe", url: SITE_CONFIG.discord },
-                    { icon: "fab fa-youtube", text: "📢 تحديثات الموقع أولاً بأول", action: "link", url: SITE_CONFIG.youtubePosts }
+                    { icon: "fab fa-youtube", text: "📢 تحديثات الموقع أولاً بأول", action: "link", url: SITE_CONFIG.youtubePosts },
+                    { icon: "fas fa-brain", text: "📓 NoteBookLM", action: "link", url: SITE_CONFIG.notebookLM }
                 ]
             },
             {
@@ -709,7 +711,8 @@
         }
 
         function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
         }
 
         document.addEventListener('click', function(e) {
