@@ -26,17 +26,287 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* === الثيم الافتراضي (أزرق كلاسيكي) === */
+        :root {
+            --bg-gradient-start: #f0f4f8;
+            --bg-gradient-end: #d9e2ec;
+            --sidebar-gradient-start: #1e3c5c;
+            --sidebar-gradient-end: #0f2a3f;
+            --sidebar-text: white;
+            --border-color: #f9b81b;
+            --menu-btn-hover: rgba(249, 184, 27, 0.2);
+            --menu-btn-active: rgba(249, 184, 27, 0.3);
+            --iframe-bg: white;
+            --iframe-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            --btn-bg: linear-gradient(135deg, #f9b81b, #e5a00d);
+            --btn-color: #1e3c5c;
+            --header-text: #f9b81b;
+            --section-title-color: #f9b81b;
+            --email-bg: rgba(249, 184, 27, 0.1);
+            --email-text: #f9b81b;
+            --footer-text: rgba(255,255,255,0.6);
+            --settings-btn-bg: #1e3c5c;
+            --sort-btn-bg: #1e3c5c;
+        }
+
+        /* === الثيم الرمادي الليلي === */
+        body.theme-gray {
+            --bg-gradient-start: #121826;
+            --bg-gradient-end: #0a0d16;
+            --sidebar-gradient-start: #1a1f2e;
+            --sidebar-gradient-end: #0f121c;
+            --sidebar-text: #e5e7eb;
+            --border-color: #6b7280;
+            --menu-btn-hover: rgba(107, 114, 128, 0.3);
+            --menu-btn-active: rgba(107, 114, 128, 0.4);
+            --iframe-bg: #1e2433;
+            --iframe-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            --btn-bg: linear-gradient(135deg, #4b5563, #374151);
+            --btn-color: #f9fafb;
+            --header-text: #9ca3af;
+            --section-title-color: #9ca3af;
+            --email-bg: rgba(107, 114, 128, 0.2);
+            --email-text: #9ca3af;
+            --footer-text: rgba(156, 163, 175, 0.7);
+            --settings-btn-bg: #1f2937;
+            --sort-btn-bg: #1f2937;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         body {
-            background: linear-gradient(145deg, #f0f4f8 0%, #d9e2ec 100%);
+            background: linear-gradient(145deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
             min-height: 100vh;
             direction: rtl;
+        }
+
+        /* زر الإعدادات */
+        .settings-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--settings-btn-bg);
+            color: #f9b81b;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 300;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .settings-btn:hover {
+            transform: scale(1.05) rotate(30deg);
+            background: var(--sidebar-gradient-start);
+        }
+
+        /* زر ترتيب الأقسام */
+        .sort-btn {
+            position: fixed;
+            top: 20px;
+            left: 85px;
+            background: var(--sort-btn-bg);
+            color: #f9b81b;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 300;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .sort-btn:hover {
+            transform: scale(1.05);
+            background: var(--sidebar-gradient-start);
+        }
+
+        /* مودال الثيمات */
+        .theme-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .theme-modal.open {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .theme-modal-content {
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            direction: rtl;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        body.theme-gray .theme-modal-content {
+            background: #1f2937;
+            color: #e5e7eb;
+        }
+
+        .theme-modal.open .theme-modal-content {
+            transform: scale(1);
+        }
+
+        .theme-modal h3 {
+            color: #1e3c5c;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        body.theme-gray .theme-modal h3 {
+            color: #9ca3af;
+        }
+
+        .themes-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .theme-card {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        body.theme-gray .theme-card {
+            background: #2d3748;
+        }
+
+        .theme-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .theme-card.active {
+            border-color: #f9b81b;
+            background: #fff8e7;
+        }
+
+        body.theme-gray .theme-card.active {
+            background: #374151;
+            border-color: #9ca3af;
+        }
+
+        .theme-preview {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .theme-info {
+            text-align: right;
+        }
+
+        .theme-name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        body.theme-gray .theme-name {
+            color: #e5e7eb;
+        }
+
+        .theme-desc {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        body.theme-gray .theme-desc {
+            color: #9ca3af;
+        }
+
+        .close-modal-btn {
+            background: #e0e0e0;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        body.theme-gray .close-modal-btn {
+            background: #374151;
+            color: #e5e7eb;
+        }
+
+        /* وضع السحب والترتيب */
+        body.sort-mode .menu-section,
+        body.sort-mode .menu-section-items {
+            cursor: move;
+        }
+        body.sort-mode .menu-section {
+            background: rgba(0,0,0,0.03);
+            border-radius: 15px;
+            padding: 5px 0;
+            margin-bottom: 15px;
+        }
+        body.sort-mode .menu-section:hover {
+            background: rgba(0,0,0,0.08);
+        }
+        body.sort-mode .menu-section-title {
+            cursor: grab;
+        }
+        body.sort-mode .menu-section-title:active {
+            cursor: grabbing;
+        }
+        body.sort-mode .menu-btn {
+            cursor: grab;
+        }
+        body.sort-mode .menu-btn:active {
+            cursor: grabbing;
+        }
+        .sort-mode-active {
+            background: #f9b81b20;
+            border: 1px dashed #f9b81b;
         }
 
         .sidebar {
@@ -45,8 +315,8 @@
             top: 0;
             width: 300px;
             height: 100vh;
-            background: linear-gradient(180deg, #1e3c5c 0%, #0f2a3f 100%);
-            color: white;
+            background: linear-gradient(180deg, var(--sidebar-gradient-start) 0%, var(--sidebar-gradient-end) 100%);
+            color: var(--sidebar-text);
             overflow-y: auto;
             z-index: 100;
             box-shadow: -5px 0 20px rgba(0,0,0,0.2);
@@ -60,12 +330,12 @@
         .sidebar-header {
             padding: 25px 20px;
             text-align: center;
-            border-bottom: 3px solid #f9b81b;
+            border-bottom: 3px solid var(--border-color);
         }
 
         .sidebar-header h1 {
             font-size: 1.8rem;
-            color: #f9b81b;
+            color: var(--header-text);
         }
 
         .sidebar-header p {
@@ -80,16 +350,22 @@
 
         .menu-section {
             margin-bottom: 25px;
+            transition: all 0.2s;
         }
 
         .menu-section-title {
             padding: 10px 20px;
             font-size: 1rem;
             font-weight: bold;
-            color: #f9b81b;
-            border-right: 3px solid #f9b81b;
+            color: var(--section-title-color);
+            border-right: 3px solid var(--border-color);
             margin: 10px 0 5px 0;
             background: rgba(0,0,0,0.2);
+        }
+
+        .menu-section-items {
+            display: flex;
+            flex-direction: column;
         }
 
         .menu-btn {
@@ -100,7 +376,7 @@
             padding: 10px 20px;
             background: transparent;
             border: none;
-            color: white;
+            color: var(--sidebar-text);
             font-size: 0.95rem;
             text-align: right;
             cursor: pointer;
@@ -114,26 +390,26 @@
         }
 
         .menu-btn:hover {
-            background: rgba(249, 184, 27, 0.2);
-            border-right-color: #f9b81b;
+            background: var(--menu-btn-hover);
+            border-right-color: var(--border-color);
         }
 
         .menu-btn.active {
-            background: rgba(249, 184, 27, 0.3);
-            border-right-color: #f9b81b;
-            color: #f9b81b;
+            background: var(--menu-btn-active);
+            border-right-color: var(--border-color);
+            color: var(--border-color);
         }
 
         .email-text {
             padding: 10px 20px;
             margin: 5px 15px 10px 15px;
-            background: rgba(249, 184, 27, 0.1);
+            background: var(--email-bg);
             border-radius: 12px;
             font-size: 0.85rem;
-            color: #f9b81b;
+            color: var(--email-text);
             text-align: center;
             direction: ltr;
-            border: 1px dashed rgba(249, 184, 27, 0.3);
+            border: 1px dashed var(--border-color);
         }
 
         .content-area {
@@ -149,7 +425,7 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #1e3c5c;
+            background: var(--sidebar-gradient-start);
             color: #f9b81b;
             border: none;
             width: 50px;
@@ -164,14 +440,13 @@
 
         .mobile-menu-btn:hover {
             transform: scale(1.05);
-            background: #0f2a3f;
         }
 
         .iframe-container {
-            background: white;
+            background: var(--iframe-bg);
             border-radius: 30px;
             overflow: auto;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            box-shadow: var(--iframe-shadow);
             height: calc(100vh - 40px);
         }
 
@@ -187,7 +462,7 @@
             align-items: center;
             height: 100%;
             font-size: 1.2rem;
-            color: #1e3c5c;
+            color: var(--sidebar-text);
         }
 
         .loading i {
@@ -225,6 +500,11 @@
             overflow-y: auto;
         }
 
+        body.theme-gray .modal-content {
+            background: #1f2937;
+            color: #e5e7eb;
+        }
+
         .modal-content input {
             width: 100%;
             padding: 12px;
@@ -235,12 +515,18 @@
             font-size: 1rem;
         }
 
+        body.theme-gray .modal-content input {
+            background: #2d3748;
+            border-color: #4b5563;
+            color: #e5e7eb;
+        }
+
         .subscribe-btn {
-            background: linear-gradient(135deg, #f9b81b, #e5a00d);
+            background: var(--btn-bg);
             border: none;
             padding: 12px 30px;
             border-radius: 30px;
-            color: #1e3c5c;
+            color: var(--btn-color);
             font-weight: bold;
             cursor: pointer;
             width: 100%;
@@ -255,16 +541,28 @@
             width: 100%;
         }
 
+        body.theme-gray .cancel-btn {
+            color: #9ca3af;
+        }
+
         .unsubscribe-section {
             margin-top: 20px;
             padding-top: 15px;
             border-top: 1px solid #eee;
         }
 
+        body.theme-gray .unsubscribe-section {
+            border-top-color: #374151;
+        }
+
         .unsubscribe-section p {
             font-size: 0.8rem;
             color: #666;
             margin-bottom: 8px;
+        }
+
+        body.theme-gray .unsubscribe-section p {
+            color: #9ca3af;
         }
 
         .unsubscribe-btn {
@@ -314,18 +612,21 @@
         .status-message.success {
             background: #2e7d32;
             color: white;
-            border-right: 4px solid #f9b81b;
         }
 
         .status-message.error {
             background: #c62828;
             color: white;
-            border-right: 4px solid #f9b81b;
         }
 
         .status-message.info {
             background: #f9b81b;
             color: #1e3c5c;
+        }
+
+        body.theme-gray .status-message.info {
+            background: #4b5563;
+            color: #f9fafb;
         }
 
         @keyframes pulse {
@@ -335,11 +636,19 @@
         }
 
         @media (max-width: 768px) {
-            .mobile-menu-btn {
+            .mobile-menu-btn, .settings-btn, .sort-btn {
                 width: 45px;
                 height: 45px;
                 font-size: 1.3rem;
                 top: 15px;
+            }
+            .settings-btn {
+                left: 15px;
+            }
+            .sort-btn {
+                left: 70px;
+            }
+            .mobile-menu-btn {
                 right: 15px;
             }
             .content-area {
@@ -349,6 +658,12 @@
     </style>
 </head>
 <body>
+    <button class="settings-btn" id="settingsBtn">
+        <i class="fas fa-palette"></i>
+    </button>
+    <button class="sort-btn" id="sortBtn">
+        <i class="fas fa-arrows-alt"></i>
+    </button>
     <button class="mobile-menu-btn" onclick="toggleSidebar()">
         <i class="fas fa-bars"></i>
     </button>
@@ -356,10 +671,10 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h1>مدارك جو</h1>
-            <p style="font-size:0.8rem;">✨ منصة التعليم الذكية ✨</p>
+            <p>✨ منصة التعليم الذكية ✨</p>
         </div>
         <div class="sidebar-menu" id="menuContainer"></div>
-        <div style="padding: 15px; text-align: center; font-size: 0.7rem; opacity:0.6; border-top:1px solid #2a4a6e;">
+        <div style="padding: 15px; text-align: center; font-size: 0.7rem; opacity:0.6; border-top:1px solid var(--border-color);">
             مدارك جو | منصة التعليم الذكية
         </div>
     </div>
@@ -372,6 +687,32 @@
 
     <div id="statusMessage" class="status-message"></div>
 
+    <!-- مودال الثيمات -->
+    <div id="themeModal" class="theme-modal">
+        <div class="theme-modal-content">
+            <h3><i class="fas fa-palette"></i> اختر الثيم المفضل لديك</h3>
+            <div class="themes-grid">
+                <div class="theme-card" data-theme="default">
+                    <div class="theme-preview" style="background: linear-gradient(145deg, #1e3c5c, #0f2a3f);"></div>
+                    <div class="theme-info">
+                        <div class="theme-name">🌊 أزرق كلاسيكي</div>
+                        <div class="theme-desc">الوضع الافتراضي الأصلي</div>
+                    </div>
+                </div>
+                <div class="theme-card" data-theme="gray">
+                    <div class="theme-preview" style="background: linear-gradient(145deg, #1a1f2e, #0f121c);"></div>
+                    <div class="theme-info">
+                        <div class="theme-name">🌙 رمادي ليلي</div>
+                        <div class="theme-desc">وضع ليلي مريح للعين</div>
+                    </div>
+                </div>
+            </div>
+            <button class="close-modal-btn" onclick="closeThemeModal()">إغلاق</button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <script>
         const SITE_CONFIG = {
             siteName: "مدارك جو",
@@ -418,17 +759,15 @@
             `الكثير منا يعيشون أسرى ضمن حدود منطقتهم الآمنة، ولكن الكيس الفطن من يتجاوز حدود هذه المنطقة`
         ];
 
-        const MENU_STRUCTURE = [
+        let MENU_STRUCTURE = [
             {
                 title: "🏠 الرئيسية",
-                type: "normal",
                 items: [
                     { icon: "fas fa-home", text: "الصفحة الرئيسية", action: "home", url: "welcome" }
                 ]
             },
             {
                 title: "✨ خدماتنا",
-                type: "normal",
                 items: [
                     { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement },
                     { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "iframe", url: SITE_CONFIG.chat },
@@ -441,7 +780,6 @@
             },
             {
                 title: "📖 الفصل الأول",
-                type: "normal",
                 items: [
                     { icon: "fas fa-mosque", text: "الدين (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.deen_f1 },
                     { icon: "fas fa-book", text: "العربي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.arabic_f1 },
@@ -451,7 +789,6 @@
             },
             {
                 title: "📘 الفصل الثاني",
-                type: "normal",
                 items: [
                     { icon: "fas fa-mosque", text: "الدين (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.deen_f2 },
                     { icon: "fas fa-book", text: "العربي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.arabic_f2 },
@@ -461,7 +798,6 @@
             },
             {
                 title: "⚡ إضافات مفيدة",
-                type: "normal",
                 items: [
                     { icon: "fas fa-bolt", text: "تحدي السرعة الشامل", action: "iframe", url: SITE_CONFIG.links.speed_challenge },
                     { icon: "fas fa-star", text: "⚡ تحدي السرعة اليومي ⚡", action: "iframe", url: SITE_CONFIG.links.speed_daily },
@@ -472,7 +808,6 @@
             },
             {
                 title: "📞 تواصل واقتراحات",
-                type: "normal",
                 items: [
                     { icon: "fas fa-bell", text: "📧 اشترك في تحديثات الموقع", action: "subscribe", url: "" },
                     { icon: "fas fa-envelope", text: "📧 البريد الإلكتروني", action: "email", url: SITE_CONFIG.email },
@@ -483,7 +818,216 @@
 
         let lastQuoteIndex = -1;
         let subscribedEmails = [];
+        let sortMode = false;
 
+        // === دوال الثيمات ===
+        function applyTheme(themeName) {
+            document.body.classList.remove('theme-gray');
+            if (themeName === 'gray') {
+                document.body.classList.add('theme-gray');
+            }
+            localStorage.setItem('selectedTheme', themeName);
+            
+            document.querySelectorAll('.theme-card').forEach(card => {
+                card.classList.remove('active');
+                if (card.getAttribute('data-theme') === themeName) {
+                    card.classList.add('active');
+                }
+            });
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('selectedTheme');
+            if (savedTheme === 'gray') {
+                applyTheme('gray');
+            } else {
+                document.querySelector('.theme-card[data-theme="default"]').classList.add('active');
+            }
+        }
+
+        function openThemeModal() {
+            document.getElementById('themeModal').classList.add('open');
+        }
+
+        function closeThemeModal() {
+            document.getElementById('themeModal').classList.remove('open');
+        }
+
+        // === دوال السحب والترتيب (للأقسام وللخيارات داخل كل قسم) ===
+        function enableSorting() {
+            // ترتيب الأقسام الرئيسية
+            $("#menuContainer").sortable({
+                items: ".menu-section",
+                cursor: "move",
+                placeholder: "sort-mode-active",
+                tolerance: "pointer",
+                update: function() {
+                    saveSectionsOrder();
+                    // إعادة تمكين الترتيب الداخلي بعد تحديث الأقسام
+                    setTimeout(() => enableItemsSorting(), 100);
+                }
+            });
+            $("#menuContainer").sortable("enable");
+            
+            enableItemsSorting();
+        }
+        
+        function enableItemsSorting() {
+            // ترتيب الخيارات داخل كل قسم
+            $(".menu-section-items").each(function() {
+                if ($(this).hasClass("ui-sortable")) {
+                    $(this).sortable("destroy");
+                }
+                $(this).sortable({
+                    items: ".menu-btn",
+                    cursor: "move",
+                    placeholder: "sort-mode-active",
+                    tolerance: "pointer",
+                    update: function(event, ui) {
+                        const sectionTitle = $(this).closest('.menu-section').find('.menu-section-title').text();
+                        saveItemsOrder(sectionTitle);
+                    }
+                });
+                $(this).sortable("enable");
+            });
+        }
+
+        function disableSorting() {
+            if ($("#menuContainer").hasClass("ui-sortable")) {
+                $("#menuContainer").sortable("disable");
+            }
+            $(".menu-section-items").each(function() {
+                if ($(this).hasClass("ui-sortable")) {
+                    $(this).sortable("disable");
+                }
+            });
+        }
+
+        function saveSectionsOrder() {
+            const sections = [];
+            $("#menuContainer .menu-section").each(function() {
+                const title = $(this).find(".menu-section-title").text();
+                const originalSection = MENU_STRUCTURE.find(s => s.title === title);
+                if (originalSection) {
+                    sections.push(originalSection);
+                }
+            });
+            if (sections.length === MENU_STRUCTURE.length) {
+                MENU_STRUCTURE.length = 0;
+                sections.forEach(s => MENU_STRUCTURE.push(s));
+                localStorage.setItem('menuSectionsOrder', JSON.stringify(MENU_STRUCTURE.map(s => s.title)));
+                // لا نعيد بناء القائمة كاملة حتى لا نخسر الترتيب الداخلي
+                updateSectionsDOM();
+            }
+        }
+        
+        function updateSectionsDOM() {
+            const menuContainer = document.getElementById('menuContainer');
+            const sections = Array.from(menuContainer.querySelectorAll('.menu-section'));
+            const newOrder = [];
+            $("#menuContainer .menu-section").each(function() {
+                const title = $(this).find(".menu-section-title").text();
+                newOrder.push(title);
+            });
+            // إذا تغير الترتيب، نعيد ترتيب DOM بناءً على MENU_STRUCTURE الجديد
+            if (JSON.stringify(newOrder) !== JSON.stringify(MENU_STRUCTURE.map(s => s.title))) {
+                const parent = menuContainer;
+                const children = Array.from(parent.children);
+                const orderedChildren = [];
+                MENU_STRUCTURE.forEach(section => {
+                    const child = children.find(c => c.querySelector('.menu-section-title')?.textContent === section.title);
+                    if (child) orderedChildren.push(child);
+                });
+                orderedChildren.forEach(child => parent.appendChild(child));
+            }
+        }
+
+        function saveItemsOrder(sectionTitle) {
+            const section = MENU_STRUCTURE.find(s => s.title === sectionTitle);
+            if (!section) return;
+            
+            const sectionElement = $("#menuContainer .menu-section").filter(function() {
+                return $(this).find(".menu-section-title").text() === sectionTitle;
+            }).first();
+            
+            const orderedItems = [];
+            sectionElement.find(".menu-btn").each(function() {
+                const itemText = $(this).find("span").text();
+                const originalItem = section.items.find(i => i.text === itemText);
+                if (originalItem) {
+                    orderedItems.push(originalItem);
+                }
+            });
+            
+            if (orderedItems.length === section.items.length) {
+                section.items.length = 0;
+                orderedItems.forEach(i => section.items.push(i));
+                localStorage.setItem(`menuItemsOrder_${sectionTitle}`, JSON.stringify(section.items.map(i => i.text)));
+            }
+        }
+
+        function loadSectionsOrder() {
+            const savedOrder = localStorage.getItem('menuSectionsOrder');
+            if (savedOrder) {
+                const orderTitles = JSON.parse(savedOrder);
+                const newOrder = [];
+                for (let title of orderTitles) {
+                    const section = MENU_STRUCTURE.find(s => s.title === title);
+                    if (section) newOrder.push(section);
+                }
+                MENU_STRUCTURE.forEach(section => {
+                    if (!newOrder.includes(section)) newOrder.push(section);
+                });
+                if (newOrder.length === MENU_STRUCTURE.length) {
+                    MENU_STRUCTURE.length = 0;
+                    newOrder.forEach(s => MENU_STRUCTURE.push(s));
+                }
+            }
+        }
+
+        function loadItemsOrders() {
+            MENU_STRUCTURE.forEach(section => {
+                const savedOrder = localStorage.getItem(`menuItemsOrder_${section.title}`);
+                if (savedOrder) {
+                    const orderTexts = JSON.parse(savedOrder);
+                    const newOrder = [];
+                    for (let text of orderTexts) {
+                        const item = section.items.find(i => i.text === text);
+                        if (item) newOrder.push(item);
+                    }
+                    section.items.forEach(item => {
+                        if (!newOrder.includes(item)) newOrder.push(item);
+                    });
+                    if (newOrder.length === section.items.length) {
+                        section.items.length = 0;
+                        newOrder.forEach(i => section.items.push(i));
+                    }
+                }
+            });
+        }
+
+        function toggleSortMode() {
+            sortMode = !sortMode;
+            if (sortMode) {
+                // إعادة بناء القائمة بشكل نظيف قبل تفعيل الترتيب
+                buildMenu();
+                setTimeout(() => {
+                    enableSorting();
+                    document.body.classList.add('sort-mode');
+                    document.getElementById('sortBtn').style.background = "#f9b81b";
+                    document.getElementById('sortBtn').style.color = "#1e3c5c";
+                    showMessage("🔄 وضع الترتيب مفعل: اسحب الأقسام أو الخيارات لتغيير ترتيبها", "info");
+                }, 100);
+            } else {
+                disableSorting();
+                document.body.classList.remove('sort-mode');
+                document.getElementById('sortBtn').style.background = "var(--sort-btn-bg)";
+                document.getElementById('sortBtn').style.color = "#f9b81b";
+                showMessage("✅ تم حفظ الترتيب الجديد", "success");
+            }
+        }
+
+        // === باقي دوال الموقع ===
         function showMessage(text, type = 'info') {
             const msgDiv = document.getElementById('statusMessage');
             msgDiv.textContent = text;
@@ -661,7 +1205,9 @@
             MENU_STRUCTURE.forEach((section) => {
                 const sectionDiv = document.createElement('div');
                 sectionDiv.className = 'menu-section';
-                let itemsHtml = '';
+                
+                const itemsContainer = document.createElement('div');
+                itemsContainer.className = 'menu-section-items';
                 
                 section.items.forEach(item => {
                     let actionAttr = '';
@@ -677,18 +1223,15 @@
                         actionAttr = `window.location.href = 'mailto:${item.url}'`;
                     }
                     
-                    itemsHtml += `
-                        <button class="menu-btn" onclick="${actionAttr}">
-                            <i class="${item.icon}"></i>
-                            <span>${item.text}</span>
-                        </button>
-                    `;
+                    const btn = document.createElement('button');
+                    btn.className = 'menu-btn';
+                    btn.innerHTML = `<i class="${item.icon}"></i><span>${item.text}</span>`;
+                    btn.onclick = () => eval(actionAttr);
+                    itemsContainer.appendChild(btn);
                 });
                 
-                sectionDiv.innerHTML = `
-                    <div class="menu-section-title">${section.title}</div>
-                    ${itemsHtml}
-                `;
+                sectionDiv.innerHTML = `<div class="menu-section-title">${section.title}</div>`;
+                sectionDiv.appendChild(itemsContainer);
                 menuContainer.appendChild(sectionDiv);
             });
             
@@ -696,6 +1239,10 @@
             emailDiv.className = 'email-text';
             emailDiv.innerHTML = `<i class="fas fa-envelope"></i> ${SITE_CONFIG.email}`;
             menuContainer.appendChild(emailDiv);
+            
+            if (sortMode) {
+                setTimeout(() => enableSorting(), 50);
+            }
         }
 
         function loadIframe(url) {
@@ -723,7 +1270,24 @@
             }
         });
 
+        // إعداد أحداث الثيمات والترتيب
+        document.getElementById('settingsBtn').addEventListener('click', openThemeModal);
+        document.getElementById('sortBtn').addEventListener('click', toggleSortMode);
+        document.querySelectorAll('.theme-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const theme = card.getAttribute('data-theme');
+                applyTheme(theme);
+                closeThemeModal();
+            });
+        });
+        document.getElementById('themeModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('themeModal')) closeThemeModal();
+        });
+
         loadSubscribedEmails();
+        loadTheme();
+        loadSectionsOrder();
+        loadItemsOrders();
 
         document.addEventListener('DOMContentLoaded', () => {
             buildMenu();
@@ -735,6 +1299,19 @@
                 .then(() => console.log('Service Worker Registered'))
                 .catch(err => console.log('Service Worker Error:', err));
         }
+    </script>
+     <!-- كود تتبع الزوار -->
+    <script>
+    (function() {
+        const scriptUrl = 'https://script.google.com/macros/s/AKfycbxNoyUZ3IlcxBTwjRnQUs34EpRDRdUrwE4omAlzsbHj9sjpw_U3X7iyIQM5TKsE75dctg/exec';
+        function trackVisit() {
+            fetch(scriptUrl + '?page=' + encodeURIComponent(document.title), {
+                method: 'GET',
+                mode: 'no-cors'
+            }).catch(e => console.log('Tracking error:', e));
+        }
+        trackVisit();
+    })();
     </script>
 </body>
 </html>
