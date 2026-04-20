@@ -7,7 +7,7 @@
     
     <!-- SEO Meta Tags -->
     <meta name="description" content="مدارك جو - منصة تعليمية ذكية للطلاب. اختبر نفسك في المواد الدراسية، تواصل مع زملائك، وطور مهاراتك مع مدارك جو.">
-    <meta name="keywords" content="مدارك, مدارك جو, تعليم, منصة تعليمية, اختبارات, دراسة, طلاب">
+    <meta name="keywords" content="مدارك, مدارك جو, تعليم, منصة تعليمية, اختبارات, دراسة, طلاب, الحس الوزاري">
     <meta name="author" content="مدارك جو">
     <meta name="robots" content="index, follow">
     
@@ -46,6 +46,8 @@
             --email-text: #f9b81b;
             --footer-text: rgba(255,255,255,0.6);
             --settings-btn-bg: #1e3c5c;
+            --new-badge-bg: #e74c3c;
+            --new-badge-text: white;
         }
 
         /* === الثيم الرمادي الليلي === */
@@ -68,6 +70,8 @@
             --email-text: #9ca3af;
             --footer-text: rgba(156, 163, 175, 0.7);
             --settings-btn-bg: #1f2937;
+            --new-badge-bg: #e74c3c;
+            --new-badge-text: #f1f5f9;
         }
 
         * {
@@ -356,6 +360,7 @@
             cursor: pointer;
             transition: all 0.2s ease;
             border-right: 3px solid transparent;
+            position: relative;
         }
 
         .menu-btn i {
@@ -372,6 +377,27 @@
             background: var(--menu-btn-active);
             border-right-color: var(--border-color);
             color: var(--border-color);
+        }
+        
+        /* علامة "جديد" */
+        .new-badge {
+            background: var(--new-badge-bg);
+            color: var(--new-badge-text);
+            font-size: 0.65rem;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 30px;
+            margin-right: 10px;
+            display: inline-block;
+            vertical-align: middle;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; transform: scale(0.95);}
+            70% { opacity: 1; transform: scale(1.05);}
+            100% { opacity: 0.7; transform: scale(0.95);}
         }
 
         .email-text {
@@ -605,6 +631,10 @@
                 width: 280px;
                 padding: 20px;
             }
+            .new-badge {
+                font-size: 0.6rem;
+                padding: 2px 6px;
+            }
         }
     </style>
 </head>
@@ -684,6 +714,8 @@
             shareFiles: "https://unified-login-pal.lovable.app",
             youtubePosts: "https://www.youtube.com/@Pyabd/posts",
             notebookLM: "https://notebooklm.google.com/notebook/20623484-45c7-4f42-9421-655b2b3d2e0d",
+            // الرابط الجديد للحس الوزاري
+            officialExamHub: "https://madarik-exams-hub.lovable.app",
             links: {
                 deen_f1: "https://farmbot1238.github.io/DEEN/",
                 arabic_f1: "https://farmbot1238.github.io/Ardic/",
@@ -716,6 +748,7 @@
             `الكثير منا يعيشون أسرى ضمن حدود منطقتهم الآمنة، ولكن الكيس الفطن من يتجاوز حدود هذه المنطقة`
         ];
 
+        // *** تحديث هيكل القائمة: إضافة قسم "الحس الوزاري" في خدماتنا مع علامة "جديد" ***
         let MENU_STRUCTURE = [
             {
                 title: "🏠 الرئيسية",
@@ -726,6 +759,8 @@
             {
                 title: "✨ خدماتنا",
                 items: [
+                    // الخيار الجديد (الحس الوزاري) مع علامة جديدة
+                    { icon: "fas fa-graduation-cap", text: "الحس الوزاري 🆕", action: "iframe", url: SITE_CONFIG.officialExamHub, isNew: true },
                     { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement },
                     { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "iframe", url: SITE_CONFIG.chat },
                     { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "iframe", url: SITE_CONFIG.reward },
@@ -776,7 +811,7 @@
         let lastQuoteIndex = -1;
         let subscribedEmails = [];
         let sortMode = false;
-        let isFirstTimeSort = true;   // لتحديد أول مرة يتم فيها تفعيل الترتيب
+        let isFirstTimeSort = true;
 
         // === دوال الثيمات ===
         function applyTheme(themeName) {
@@ -854,8 +889,8 @@
             }).first();
             const orderedItems = [];
             sectionElement.find(".menu-btn").each(function() {
-                const itemText = $(this).find("span").text();
-                const originalItem = section.items.find(i => i.text === itemText);
+                let itemText = $(this).find("span").clone().children(".new-badge").remove().end().text().trim();
+                const originalItem = section.items.find(i => i.text.includes(itemText) || itemText.includes(i.text.split('🆕')[0].trim()));
                 if (originalItem) orderedItems.push(originalItem);
             });
             if (orderedItems.length === section.items.length) {
@@ -905,18 +940,14 @@
             });
         }
 
-        // دالة تفعيل وضع الترتيب مع إظهار التعليمات أول مرة فقط
         function toggleSortMode() {
             if (!sortMode) {
-                // أول مرة يتم تشغيل الترتيب: نظهر التعليمات
                 if (isFirstTimeSort) {
                     const instructionModal = document.getElementById('sortInstructionModal');
                     instructionModal.classList.add('open');
-                    // بعد إغلاق التعليمات نكمل تفعيل الوضع
                     const closeBtn = document.getElementById('closeInstructionBtn');
                     const originalHandler = () => {
                         instructionModal.classList.remove('open');
-                        // الآن نفعّل الترتيب بشكل حقيقي
                         sortMode = true;
                         buildMenu();
                         setTimeout(() => {
@@ -931,7 +962,6 @@
                     isFirstTimeSort = false;
                     return;
                 } else {
-                    // ليس أول مرة: نفعّل مباشرة
                     sortMode = true;
                     buildMenu();
                     setTimeout(() => {
@@ -942,7 +972,6 @@
                     }, 50);
                 }
             } else {
-                // إيقاف الترتيب
                 sortMode = false;
                 disableSorting();
                 document.body.classList.remove('sort-mode');
@@ -1019,9 +1048,12 @@
                     else if (item.action === 'home') actionAttr = `showWelcome()`;
                     else if (item.action === 'subscribe') actionAttr = `showSubscribeModal()`;
                     else if (item.action === 'email') actionAttr = `window.location.href = 'mailto:${item.url}'`;
+                    
                     const btn = document.createElement('button');
                     btn.className = 'menu-btn';
-                    btn.innerHTML = `<i class="${item.icon}"></i><span>${item.text}</span>`;
+                    let displayText = item.text.replace('🆕', '').trim();
+                    let badgeHtml = (item.isNew || item.text.includes('🆕')) ? `<span class="new-badge">جديد</span>` : '';
+                    btn.innerHTML = `<i class="${item.icon}"></i><span>${displayText} ${badgeHtml}</span>`;
                     btn.onclick = () => eval(actionAttr);
                     itemsContainer.appendChild(btn);
                 });
