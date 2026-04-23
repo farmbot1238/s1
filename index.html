@@ -980,6 +980,29 @@
             }
         }
 
+        // === دوال حفظ واسترجاع آخر صفحة ===
+        function saveCurrentPage(url) {
+            if (url) {
+                localStorage.setItem('lastPageUrl', url);
+            } else {
+                // في حالة الصفحة الرئيسية
+                localStorage.setItem('lastPageUrl', 'home');
+            }
+        }
+
+        function loadLastPage() {
+            const lastPage = localStorage.getItem('lastPageUrl');
+            if (lastPage) {
+                if (lastPage === 'home') {
+                    showWelcome();
+                } else {
+                    loadIframe(lastPage);
+                }
+            } else {
+                showWelcome(); // إذا لم يكن هناك صفحة محفوظة، نعرض الترحيب
+            }
+        }
+
         // === باقي دوال الموقع ===
         function showMessage(text, type = 'info') {
             const msgDiv = document.getElementById('statusMessage');
@@ -1030,6 +1053,7 @@
             if (!container) return;
             const quote = getRandomQuote();
             container.innerHTML = `<div style="background: linear-gradient(145deg, #1e3c5c, #0f2a3f); color: white; padding: 40px 30px; min-height: 100%; overflow-y: auto;"><div style="text-align: center; max-width: 700px; margin: 0 auto;"><i class="fas fa-graduation-cap" style="font-size: 4rem; color:#f9b81b; margin-bottom:20px;"></i><h2 style="margin-bottom: 15px;">مرحباً بك في منصة ${SITE_CONFIG.siteName}</h2><p style="margin-bottom: 30px;">✨ منصة التعليم الذكية ✨</p><div style="margin: 30px auto; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 30px; border-right: 4px solid #f9b81b;"><i class="fas fa-quote-right" style="color:#f9b81b;"></i><p style="margin:15px 0; line-height:1.8;">${quote.split('\n').join('<br>')}</p></div><div style="margin: 30px auto; padding: 25px; background: #5865F2; border-radius: 30px;"><i class="fab fa-discord" style="font-size:2.5rem;"></i><h3>✨ ادخل عالم الدراسة الذكي ✨</h3><p>شارك، اسأل، وتحدى نفسك مع زملائك</p><button onclick="window.open('${SITE_CONFIG.discord}','_blank')" style="background:white; color:#5865F2; padding:10px 25px; border-radius:40px; margin-top:10px;">انضم الآن</button></div></div></div>`;
+            saveCurrentPage(null); // حفظ أننا في الصفحة الرئيسية
         }
 
         function buildMenu() {
@@ -1071,12 +1095,15 @@
         function loadIframe(url) {
             const container = document.getElementById('iframeContainer');
             container.innerHTML = `<div class="loading" id="loadingIndicator"><i class="fas fa-spinner"></i> جاري التحميل...</div><iframe id="contentFrame" src="${url}" style="width:100%; height:100%; display:none;" onload="hideLoading()"></iframe>`;
+            saveCurrentPage(url); // حفظ الرابط الحالي
         }
+        
         function hideLoading() {
             const loading = document.getElementById('loadingIndicator');
             const iframe = document.getElementById('contentFrame');
             if (loading && iframe) { loading.style.display = 'none'; iframe.style.display = 'block'; }
         }
+        
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
 
         // === أحداث الإعدادات الموحدة ===
@@ -1109,7 +1136,10 @@
         loadTheme();
         loadSectionsOrder();
         loadItemsOrders();
-        document.addEventListener('DOMContentLoaded', () => { buildMenu(); showWelcome(); });
+        document.addEventListener('DOMContentLoaded', () => { 
+            buildMenu(); 
+            loadLastPage(); // استدعاء الدالة لتحميل آخر صفحة بدلاً من showWelcome() مباشرة
+        });
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(e => console.log);
     </script>
 </body>
