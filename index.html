@@ -714,8 +714,8 @@
             shareFiles: "https://unified-login-pal.lovable.app",
             youtubePosts: "https://www.youtube.com/@Pyabd/posts",
             notebookLM: "https://notebooklm.google.com/notebook/20623484-45c7-4f42-9421-655b2b3d2e0d",
-            // الرابط الجديد للحس الوزاري
             officialExamHub: "https://madarik-exams-hub.lovable.app",
+            whatsappGroup: "https://chat.whatsapp.com/BsBu2cCEzKhFFgFOKW6WA5",
             links: {
                 deen_f1: "https://farmbot1238.github.io/DEEN/",
                 arabic_f1: "https://farmbot1238.github.io/Ardic/",
@@ -748,7 +748,7 @@
             `الكثير منا يعيشون أسرى ضمن حدود منطقتهم الآمنة، ولكن الكيس الفطن من يتجاوز حدود هذه المنطقة`
         ];
 
-        // *** تحديث هيكل القائمة: إضافة قسم "الحس الوزاري" في خدماتنا مع علامة "جديد" ***
+        // *** هيكل القائمة مع تعديل action لقروب الواتس لفتحه في تبويب جديد ***
         let MENU_STRUCTURE = [
             {
                 title: "🏠 الرئيسية",
@@ -759,15 +759,16 @@
             {
                 title: "✨ خدماتنا",
                 items: [
-                    // الخيار الجديد (الحس الوزاري) مع علامة جديدة
-                    { icon: "fas fa-graduation-cap", text: "الحس الوزاري 🆕", action: "iframe", url: SITE_CONFIG.officialExamHub, isNew: true },
+                    { icon: "fas fa-graduation-cap", text: "الحس الوزاري", action: "iframe", url: SITE_CONFIG.officialExamHub },
                     { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement },
                     { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "iframe", url: SITE_CONFIG.chat },
                     { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "iframe", url: SITE_CONFIG.reward },
                     { icon: "fas fa-share-alt", text: "📂 مشاركة ملفات الدراسة", action: "iframe", url: SITE_CONFIG.shareFiles },
                     { icon: "fab fa-discord", text: "سيرفر ديسكورد", action: "link", url: SITE_CONFIG.discord },
                     { icon: "fab fa-youtube", text: "📢 تحديثات الموقع أولاً بأول", action: "link", url: SITE_CONFIG.youtubePosts },
-                    { icon: "fas fa-brain", text: "📓 NoteBookLM", action: "link", url: SITE_CONFIG.notebookLM }
+                    { icon: "fas fa-brain", text: "📓 NoteBookLM", action: "link", url: SITE_CONFIG.notebookLM },
+                    // قروب واتس 2009 - action: "link" لفتحه في تبويب جديد
+                    { icon: "fab fa-whatsapp", text: "قروب واتس 2009 🆕", action: "link", url: SITE_CONFIG.whatsappGroup, isNew: true }
                 ]
             },
             {
@@ -985,7 +986,6 @@
             if (url) {
                 localStorage.setItem('lastPageUrl', url);
             } else {
-                // في حالة الصفحة الرئيسية
                 localStorage.setItem('lastPageUrl', 'home');
             }
         }
@@ -999,7 +999,7 @@
                     loadIframe(lastPage);
                 }
             } else {
-                showWelcome(); // إذا لم يكن هناك صفحة محفوظة، نعرض الترحيب
+                showWelcome();
             }
         }
 
@@ -1053,7 +1053,7 @@
             if (!container) return;
             const quote = getRandomQuote();
             container.innerHTML = `<div style="background: linear-gradient(145deg, #1e3c5c, #0f2a3f); color: white; padding: 40px 30px; min-height: 100%; overflow-y: auto;"><div style="text-align: center; max-width: 700px; margin: 0 auto;"><i class="fas fa-graduation-cap" style="font-size: 4rem; color:#f9b81b; margin-bottom:20px;"></i><h2 style="margin-bottom: 15px;">مرحباً بك في منصة ${SITE_CONFIG.siteName}</h2><p style="margin-bottom: 30px;">✨ منصة التعليم الذكية ✨</p><div style="margin: 30px auto; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 30px; border-right: 4px solid #f9b81b;"><i class="fas fa-quote-right" style="color:#f9b81b;"></i><p style="margin:15px 0; line-height:1.8;">${quote.split('\n').join('<br>')}</p></div><div style="margin: 30px auto; padding: 25px; background: #5865F2; border-radius: 30px;"><i class="fab fa-discord" style="font-size:2.5rem;"></i><h3>✨ ادخل عالم الدراسة الذكي ✨</h3><p>شارك، اسأل، وتحدى نفسك مع زملائك</p><button onclick="window.open('${SITE_CONFIG.discord}','_blank')" style="background:white; color:#5865F2; padding:10px 25px; border-radius:40px; margin-top:10px;">انضم الآن</button></div></div></div>`;
-            saveCurrentPage(null); // حفظ أننا في الصفحة الرئيسية
+            saveCurrentPage(null);
         }
 
         function buildMenu() {
@@ -1095,7 +1095,7 @@
         function loadIframe(url) {
             const container = document.getElementById('iframeContainer');
             container.innerHTML = `<div class="loading" id="loadingIndicator"><i class="fas fa-spinner"></i> جاري التحميل...</div><iframe id="contentFrame" src="${url}" style="width:100%; height:100%; display:none;" onload="hideLoading()"></iframe>`;
-            saveCurrentPage(url); // حفظ الرابط الحالي
+            saveCurrentPage(url);
         }
         
         function hideLoading() {
@@ -1138,7 +1138,7 @@
         loadItemsOrders();
         document.addEventListener('DOMContentLoaded', () => { 
             buildMenu(); 
-            loadLastPage(); // استدعاء الدالة لتحميل آخر صفحة بدلاً من showWelcome() مباشرة
+            loadLastPage();
         });
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(e => console.log);
     </script>
