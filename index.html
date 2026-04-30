@@ -7,13 +7,9 @@
     
     <!-- SEO Meta Tags -->
     <meta name="description" content="مدارك جو - منصة تعليمية ذكية للطلاب. اختبر نفسك في المواد الدراسية، تواصل مع زملائك، وطور مهاراتك مع مدارك جو.">
-    <meta name="keywords" content="مدارك, مدارك جو, تعليم, منصة تعليمية, اختبارات, دراسة, طلاب, الحس الوزاري">
+    <meta name="keywords" content="مدارك, مدارك جو, تعليم, منصة تعليمية, اختبارات, دراسة, طلاب">
     <meta name="author" content="مدارك جو">
     <meta name="robots" content="index, follow">
-    
-    <meta property="og:title" content="مدارك جو | منصة التعليم الذكية">
-    <meta property="og:description" content="منصة مدارك جو - تعلم، اختبر، وتفوق مع زملائك">
-    <meta property="og:type" content="website">
     
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JLP93VX7X"></script>
@@ -26,276 +22,210 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* === الثيم الافتراضي (أزرق كلاسيكي) === */
-        :root {
-            --bg-gradient-start: #f0f4f8;
-            --bg-gradient-end: #d9e2ec;
-            --sidebar-gradient-start: #1e3c5c;
-            --sidebar-gradient-end: #0f2a3f;
-            --sidebar-text: white;
-            --border-color: #f9b81b;
-            --menu-btn-hover: rgba(249, 184, 27, 0.2);
-            --menu-btn-active: rgba(249, 184, 27, 0.3);
-            --iframe-bg: white;
-            --iframe-shadow: 0 15px 30px rgba(0,0,0,0.1);
-            --btn-bg: linear-gradient(135deg, #f9b81b, #e5a00d);
-            --btn-color: #1e3c5c;
-            --header-text: #f9b81b;
-            --section-title-color: #f9b81b;
-            --email-bg: rgba(249, 184, 27, 0.1);
-            --email-text: #f9b81b;
-            --footer-text: rgba(255,255,255,0.6);
-            --settings-btn-bg: #1e3c5c;
-            --new-badge-bg: #e74c3c;
-            --new-badge-text: white;
-        }
-
-        /* === الثيم الرمادي الليلي === */
-        body.theme-gray {
-            --bg-gradient-start: #121826;
-            --bg-gradient-end: #0a0d16;
-            --sidebar-gradient-start: #1a1f2e;
-            --sidebar-gradient-end: #0f121c;
-            --sidebar-text: #e5e7eb;
-            --border-color: #6b7280;
-            --menu-btn-hover: rgba(107, 114, 128, 0.3);
-            --menu-btn-active: rgba(107, 114, 128, 0.4);
-            --iframe-bg: #1e2433;
-            --iframe-shadow: 0 15px 30px rgba(0,0,0,0.3);
-            --btn-bg: linear-gradient(135deg, #4b5563, #374151);
-            --btn-color: #f9fafb;
-            --header-text: #9ca3af;
-            --section-title-color: #9ca3af;
-            --email-bg: rgba(107, 114, 128, 0.2);
-            --email-text: #9ca3af;
-            --footer-text: rgba(156, 163, 175, 0.7);
-            --settings-btn-bg: #1f2937;
-            --new-badge-bg: #e74c3c;
-            --new-badge-text: #f1f5f9;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         body {
-            background: linear-gradient(145deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            background: linear-gradient(145deg, #f0f4f8 0%, #d9e2ec 100%);
             min-height: 100vh;
             direction: rtl;
+            transition: all 0.3s ease;
         }
 
-        /* زر الإعدادات الموحد */
-        .settings-main-btn {
+        /* شاشة اختيار السنة */
+        .year-selector-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, #1e3c5c, #0f2a3f);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+
+        .screen-content {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo-area h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #f9b81b, #ffd700);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .about-text {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            margin: 30px 0;
+            color: white;
+            line-height: 1.8;
+        }
+
+        .about-text h2 {
+            color: #f9b81b;
+            margin-bottom: 15px;
+        }
+
+        .about-text p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .years-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .year-card {
+            width: 250px;
+            padding: 35px 20px;
+            text-align: center;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(249,184,27,0.5);
+        }
+
+        .year-card:hover {
+            transform: translateY(-5px);
+            background: rgba(249,184,27,0.2);
+            border-color: #f9b81b;
+        }
+
+        .year-card h2 {
+            font-size: 3rem;
+            color: #f9b81b;
+            margin-bottom: 10px;
+        }
+
+        .year-card p {
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .year-card.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .year-card.disabled:hover {
+            transform: none;
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* التطبيق الرئيسي */
+        .main-app {
+            display: none;
+        }
+
+        .main-app.active {
+            display: block;
+        }
+
+        /* زر تبديل السنة */
+        .year-switch-btn {
             position: fixed;
             top: 20px;
-            left: 20px;
-            width: 50px;
-            height: 50px;
+            left: 90px;
+            background: linear-gradient(135deg, #f9b81b, #e5a00d);
+            color: #1e3c5c;
+            border: none;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            background: var(--settings-btn-bg);
-            color: #f9b81b;
-            border: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             cursor: pointer;
             z-index: 300;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .settings-main-btn:hover {
+        .year-switch-btn:hover {
             transform: scale(1.08);
-            background: var(--sidebar-gradient-start);
         }
 
-        /* المودال الموحد للإعدادات */
-        .settings-modal {
-            position: fixed;
-            top: 80px;
-            left: 20px;
-            background: white;
-            border-radius: 20px;
-            padding: 15px;
-            width: 280px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            z-index: 400;
-            display: none;
-            flex-direction: column;
-            gap: 12px;
-            border: 1px solid #ddd;
-            direction: rtl;
-        }
-
-        body.theme-gray .settings-modal {
-            background: #1f2937;
-            border-color: #4b5563;
-        }
-
-        .settings-modal.open {
-            display: flex;
-        }
-
-        /* كل خيار داخل الإعدادات */
-        .settings-option {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 12px;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: #f8f9fa;
-            font-weight: 500;
-        }
-
-        body.theme-gray .settings-option {
-            background: #2d3748;
-            color: #e5e7eb;
-        }
-
-        .settings-option:hover {
-            background: #e9ecef;
-            transform: translateX(-5px);
-        }
-
-        body.theme-gray .settings-option:hover {
-            background: #374151;
-        }
-
-        /* قسم الثيمات داخل الإعدادات */
-        .theme-selector {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            margin-top: 5px;
-        }
-        .theme-badge {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #e9ecef;
-            padding: 6px 12px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-        body.theme-gray .theme-badge {
-            background: #374151;
-        }
-        .theme-badge.active {
-            background: #f9b81b;
-            color: #1e3c5c;
-        }
-        body.theme-gray .theme-badge.active {
-            background: #9ca3af;
-            color: #0a0d16;
-        }
-        .color-dot {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        /* وضع الترتيب (sort) */
-        .sort-toggle {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
-        .toggle-switch {
-            width: 44px;
-            height: 24px;
-            background: #ccc;
-            border-radius: 30px;
-            position: relative;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .toggle-switch.active {
-            background: #f9b81b;
-        }
-        .toggle-switch::after {
-            content: '';
-            width: 20px;
-            height: 20px;
-            background: white;
-            border-radius: 50%;
-            position: absolute;
-            top: 2px;
-            right: 3px;
-            transition: 0.2s;
-        }
-        .toggle-switch.active::after {
-            right: 21px;
-        }
-
-        /* نافذة التعليمات لسحب وترتيب الأقسام */
-        .sort-instruction {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            border-radius: 30px;
-            padding: 25px;
-            width: 300px;
+        /* شعار 2009 الذهبي */
+        .golden-logo {
             text-align: center;
-            z-index: 1000;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            display: none;
-            flex-direction: column;
-            gap: 15px;
-            direction: rtl;
-            border: 2px solid #f9b81b;
-        }
-        body.theme-gray .sort-instruction {
-            background: #1f2937;
-            color: #e5e7eb;
-            border-color: #9ca3af;
-        }
-        .sort-instruction.open {
-            display: flex;
-        }
-        .sort-instruction i {
-            font-size: 3rem;
-            color: #f9b81b;
-            margin-bottom: 5px;
-        }
-        .sort-instruction p {
-            font-size: 1rem;
-            line-height: 1.6;
-        }
-        .sort-instruction button {
-            background: #f9b81b;
-            border: none;
-            padding: 10px;
-            border-radius: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        body.theme-gray .sort-instruction button {
-            background: #9ca3af;
-            color: #0a0d16;
+            margin: 20px 0 30px;
+            position: relative;
         }
 
+        .golden-logo h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f9b81b, #ffd700, #e5a00d);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(249,184,27,0.5);
+            animation: sparkle 1.5s ease-in-out infinite;
+            letter-spacing: 5px;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { text-shadow: 0 0 5px rgba(249,184,27,0.5); opacity: 1; }
+            50% { text-shadow: 0 0 30px rgba(249,184,27,0.8), 0 0 10px #ffd700; opacity: 0.95; }
+        }
+
+        .golden-logo::before {
+            content: '⚡';
+            position: absolute;
+            top: -20px;
+            right: 20%;
+            font-size: 2rem;
+            animation: starMove 2s ease-in-out infinite;
+        }
+
+        .golden-logo::after {
+            content: '⚡';
+            position: absolute;
+            bottom: -20px;
+            left: 20%;
+            font-size: 2rem;
+            animation: starMove 2s ease-in-out infinite reverse;
+        }
+
+        @keyframes starMove {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            50% { transform: translateY(-10px) rotate(20deg); opacity: 0.7; }
+        }
+
+        /* القائمة الجانبية */
         .sidebar {
             position: fixed;
             right: -300px;
             top: 0;
             width: 300px;
             height: 100vh;
-            background: linear-gradient(180deg, var(--sidebar-gradient-start) 0%, var(--sidebar-gradient-end) 100%);
-            color: var(--sidebar-text);
+            background: linear-gradient(180deg, #1e3c5c 0%, #0f2a3f 100%);
+            color: white;
             overflow-y: auto;
             z-index: 100;
             box-shadow: -5px 0 20px rgba(0,0,0,0.2);
@@ -309,12 +239,12 @@
         .sidebar-header {
             padding: 25px 20px;
             text-align: center;
-            border-bottom: 3px solid var(--border-color);
+            border-bottom: 3px solid #f9b81b;
         }
 
         .sidebar-header h1 {
             font-size: 1.8rem;
-            color: var(--header-text);
+            color: #f9b81b;
         }
 
         .sidebar-header p {
@@ -335,8 +265,8 @@
             padding: 10px 20px;
             font-size: 1rem;
             font-weight: bold;
-            color: var(--section-title-color);
-            border-right: 3px solid var(--border-color);
+            color: #f9b81b;
+            border-right: 3px solid #f9b81b;
             margin: 10px 0 5px 0;
             background: rgba(0,0,0,0.2);
         }
@@ -354,13 +284,12 @@
             padding: 10px 20px;
             background: transparent;
             border: none;
-            color: var(--sidebar-text);
+            color: white;
             font-size: 0.95rem;
             text-align: right;
             cursor: pointer;
             transition: all 0.2s ease;
             border-right: 3px solid transparent;
-            position: relative;
         }
 
         .menu-btn i {
@@ -369,47 +298,37 @@
         }
 
         .menu-btn:hover {
-            background: var(--menu-btn-hover);
-            border-right-color: var(--border-color);
+            background: rgba(249, 184, 27, 0.2);
+            border-right-color: #f9b81b;
         }
 
-        .menu-btn.active {
-            background: var(--menu-btn-active);
-            border-right-color: var(--border-color);
-            color: var(--border-color);
-        }
-        
-        /* علامة "جديد" */
         .new-badge {
-            background: var(--new-badge-bg);
-            color: var(--new-badge-text);
+            background: #ff4757;
+            color: white;
             font-size: 0.65rem;
             font-weight: bold;
             padding: 2px 8px;
-            border-radius: 30px;
-            margin-right: 10px;
+            border-radius: 20px;
+            margin-right: 8px;
             display: inline-block;
-            vertical-align: middle;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-            animation: pulse 1.5s infinite;
+            animation: pulse 1.2s ease infinite;
         }
-        
+
         @keyframes pulse {
-            0% { opacity: 0.7; transform: scale(0.95);}
-            70% { opacity: 1; transform: scale(1.05);}
-            100% { opacity: 0.7; transform: scale(0.95);}
+            0%, 100% { opacity: 1; transform: scale(1); background: #ff4757; }
+            50% { opacity: 0.8; transform: scale(1.05); background: #ff6b81; }
         }
 
         .email-text {
             padding: 10px 20px;
             margin: 5px 15px 10px 15px;
-            background: var(--email-bg);
+            background: rgba(249, 184, 27, 0.1);
             border-radius: 12px;
             font-size: 0.85rem;
-            color: var(--email-text);
+            color: #f9b81b;
             text-align: center;
             direction: ltr;
-            border: 1px dashed var(--border-color);
+            border: 1px dashed rgba(249, 184, 27, 0.3);
         }
 
         .content-area {
@@ -425,7 +344,7 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: var(--sidebar-gradient-start);
+            background: #1e3c5c;
             color: #f9b81b;
             border: none;
             width: 50px;
@@ -438,15 +357,11 @@
             transition: all 0.3s ease;
         }
 
-        .mobile-menu-btn:hover {
-            transform: scale(1.05);
-        }
-
         .iframe-container {
-            background: var(--iframe-bg);
+            background: white;
             border-radius: 30px;
             overflow: auto;
-            box-shadow: var(--iframe-shadow);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
             height: calc(100vh - 40px);
         }
 
@@ -462,7 +377,7 @@
             align-items: center;
             height: 100%;
             font-size: 1.2rem;
-            color: var(--sidebar-text);
+            color: #1e3c5c;
         }
 
         .loading i {
@@ -473,108 +388,6 @@
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 30px;
-            max-width: 450px;
-            width: 90%;
-            text-align: center;
-            direction: rtl;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        body.theme-gray .modal-content {
-            background: #1f2937;
-            color: #e5e7eb;
-        }
-
-        .modal-content input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-size: 1rem;
-        }
-
-        body.theme-gray .modal-content input {
-            background: #2d3748;
-            border-color: #4b5563;
-            color: #e5e7eb;
-        }
-
-        .subscribe-btn {
-            background: var(--btn-bg);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 30px;
-            color: var(--btn-color);
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .cancel-btn {
-            background: transparent;
-            border: none;
-            color: #999;
-            margin-top: 15px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        body.theme-gray .cancel-btn {
-            color: #9ca3af;
-        }
-
-        .unsubscribe-section {
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-        }
-
-        body.theme-gray .unsubscribe-section {
-            border-top-color: #374151;
-        }
-
-        .unsubscribe-section p {
-            font-size: 0.8rem;
-            color: #666;
-            margin-bottom: 8px;
-        }
-
-        body.theme-gray .unsubscribe-section p {
-            color: #9ca3af;
-        }
-
-        .unsubscribe-btn {
-            background: #c62828;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 30px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: bold;
-            margin-top: 5px;
         }
 
         .status-message {
@@ -590,7 +403,6 @@
             z-index: 1100;
             display: none;
             animation: slideUp 0.3s ease;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
             font-weight: bold;
         }
 
@@ -602,21 +414,8 @@
         .status-message.success { background: #2e7d32; color: white; }
         .status-message.error { background: #c62828; color: white; }
         .status-message.info { background: #f9b81b; color: #1e3c5c; }
-        body.theme-gray .status-message.info { background: #4b5563; color: #f9fafb; }
 
         @media (max-width: 768px) {
-            .settings-main-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 1.3rem;
-                top: 15px;
-                left: 15px;
-            }
-            .settings-modal {
-                top: 70px;
-                left: 15px;
-                width: 240px;
-            }
             .mobile-menu-btn {
                 width: 45px;
                 height: 45px;
@@ -624,75 +423,81 @@
                 top: 15px;
                 right: 15px;
             }
+            .year-switch-btn {
+                left: 70px;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            .golden-logo h1 {
+                font-size: 3rem;
+            }
+            .logo-area h1 {
+                font-size: 2.2rem;
+            }
             .content-area {
                 padding: 70px 15px 15px;
             }
-            .sort-instruction {
-                width: 280px;
-                padding: 20px;
-            }
-            .new-badge {
-                font-size: 0.6rem;
-                padding: 2px 6px;
+            .year-card {
+                width: 200px;
+                padding: 25px 15px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- زر الإعدادات الموحد -->
-    <button class="settings-main-btn" id="settingsMainBtn">
-        <i class="fas fa-cog"></i>
-    </button>
+    <!-- شاشة اختيار السنة -->
+    <div id="yearSelectorScreen" class="year-selector-screen">
+        <div class="screen-content">
+            <div class="logo-area">
+                <h1>📚 مدارك جو</h1>
+            </div>
+            
+            <div class="about-text">
+                <h2><i class="fas fa-info-circle"></i> نبذة عن المنصة</h2>
+                <p>مدارك جو هي منصة تعليمية ذكية تهدف إلى مساعدة الطلاب على التفوق الدراسي من خلال اختبارات تفاعلية، تحديات سرعة، ومراجعات ذكية.</p>
+                <p>📌 <strong>خدماتنا تشمل:</strong> اختبارات الفصل الأول والثاني، بنوك أسئلة، تحدي السرعة، امتحانات وزارية سابقة، كتب وزارية، دردشة دراسية، وأكثر من ذلك بكثير!</p>
+                <p>🎯 المنصة مصممة لتكون رفيقك في الرحلة التعليمية، نقدم لك تجربة تعلم ممتعة وفعالة تساعدك على تحقيق أهدافك الدراسية.</p>
+                <p>✨ <strong>اختر الإصدار الذي يناسبك:</strong></p>
+            </div>
 
-    <!-- المودال الموحد للإعدادات (الثيم + الترتيب) -->
-    <div id="settingsModal" class="settings-modal">
-        <div class="settings-option">
-            <span><i class="fas fa-palette"></i> المظهر (الثيم)</span>
-            <div class="theme-selector">
-                <div class="theme-badge" data-theme="default">
-                    <span class="color-dot" style="background: #1e3c5c;"></span> أزرق
+            <div class="years-container">
+                <div class="year-card" id="year2009Btn">
+                    <h2>2009</h2>
+                    <p>النسخة الكلاسيكية<br>🎓 تجربة تعليمية متكاملة</p>
                 </div>
-                <div class="theme-badge" data-theme="gray">
-                    <span class="color-dot" style="background: #1a1f2e;"></span> رمادي
+                <div class="year-card disabled" id="year2010Btn">
+                    <h2>2010</h2>
+                    <p>📢 قيد الإعداد والتطوير<br>🚧 سيتم الإعلان قريباً</p>
                 </div>
             </div>
         </div>
-        <div class="settings-option" id="sortModeOption">
-            <div class="sort-toggle">
-                <span><i class="fas fa-arrows-alt"></i> ترتيب الأقسام</span>
-                <div class="toggle-switch" id="sortToggleSwitch"></div>
+    </div>
+
+    <!-- التطبيق الرئيسي -->
+    <div id="mainApp" class="main-app">
+        <button class="year-switch-btn" id="yearSwitchBtn">
+            <i class="fas fa-calendar-alt"></i>
+        </button>
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>مدارك جو</h1>
+                <p>✨ منصة التعليم الذكية ✨</p>
+            </div>
+            <div class="sidebar-menu" id="menuContainer"></div>
+            <div style="padding: 15px; text-align: center; font-size: 0.7rem; opacity:0.6; border-top:1px solid #2a4a6e;">
+                مدارك جو | منصة التعليم الذكية
             </div>
         </div>
-    </div>
 
-    <!-- نافذة التعليمات التي تظهر أول مرة يتم فيها تفعيل الترتيب -->
-    <div id="sortInstructionModal" class="sort-instruction">
-        <i class="fas fa-arrows-alt"></i>
-        <p><strong>كيف ترتب الأقسام والخيارات؟</strong></p>
-        <p>🔹 الآن أصبحت القائمة قابلة للسحب.</p>
-        <p>🔹 <strong>اسحب أي قسم أو خيار</strong> بالماوس إلى المكان الذي تريده.</p>
-        <p>🔹 عندما تنتهي، <strong>أطفئ زر "ترتيب الأقسام"</strong> من الإعدادات لحفظ الترتيب الجديد.</p>
-        <button id="closeInstructionBtn">فهمت، ابدأ الترتيب</button>
-    </div>
-
-    <button class="mobile-menu-btn" onclick="toggleSidebar()">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h1>مدارك جو</h1>
-            <p>✨ منصة التعليم الذكية ✨</p>
-        </div>
-        <div class="sidebar-menu" id="menuContainer"></div>
-        <div style="padding: 15px; text-align: center; font-size: 0.7rem; opacity:0.6; border-top:1px solid var(--border-color);">
-            مدارك جو | منصة التعليم الذكية
-        </div>
-    </div>
-
-    <div class="content-area" id="contentArea">
-        <div class="iframe-container" id="iframeContainer">
-            <div class="loading"><i class="fas fa-spinner"></i> اختر أحد الأقسام من القائمة</div>
+        <div class="content-area" id="contentArea">
+            <div class="iframe-container" id="iframeContainer">
+                <div class="loading"><i class="fas fa-spinner"></i> اختر أحد الأقسام من القائمة</div>
+            </div>
         </div>
     </div>
 
@@ -701,6 +506,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
     <script>
+        // ========== الروابط الكاملة ==========
         const SITE_CONFIG = {
             siteName: "مدارك جو",
             email: "abdalrhmanmaaith1@gmail.com",
@@ -714,8 +520,7 @@
             shareFiles: "https://unified-login-pal.lovable.app",
             youtubePosts: "https://www.youtube.com/@Pyabd/posts",
             notebookLM: "https://notebooklm.google.com/notebook/20623484-45c7-4f42-9421-655b2b3d2e0d",
-            // الرابط الجديد للحس الوزاري
-            officialExamHub: "https://madarik-exams-hub.lovable.app",
+            ministryExams: "https://madarik-exams-hub.lovable.app",
             links: {
                 deen_f1: "https://farmbot1238.github.io/DEEN/",
                 arabic_f1: "https://farmbot1238.github.io/Ardic/",
@@ -732,35 +537,16 @@
             }
         };
 
-        const QUOTES = [
-            `جادل فانك قد خلقت مجادلا\nمن لا يجادل يستوي بالبغل\nحمال أسفار ينوء بحملها\nظهر البعير سخرت للحمل`,
-            `نفس تجن وما بها من جنة\nإن الجنون لبعض وحي العقل`,
-            `من سائل الوردة الحمراء عن عبق\nيجيبك الجذر من روث له طعم`,
-            `إن تأخرت بالسعي نحو مجد\nقد ينال المجد بالسعي سواك`,
-            `أنفضوا النوم وهبوا للعلا\nفالعلا وقف على من لم ينم`,
-            `عجبت لهم قالوا تماديت في المنى\nوفي المثل العليا وفي المرتقى الصعب`,
-            `فقلت لهم مهلا فما اليأس شيمتي\nسأبذر حبي والثمار من الرب`,
-            `أسكنت أحلامي زجاجات الرضا\nأودعتها بحر الدعاء فابحرت\nإن شاء ربي أن تعود لضفتي\nأو ربما خيره أن غادرت`,
-            `العلم صداع الرؤوس بما حوت\nكالأرض تصدع من هطول الوبل`,
-            `الحقيقة المرة خير ألف مرة من الوهم المريح`,
-            `إنك تستطيع أن تصبح عظيماً، إن العظمة ليست محصورة بين قلة من الناس، إنك أحد هؤلاء العظماء متى ما أردت وعملت على ذلك`,
-            `إننا خلقنا لنحيا حياة جميلة وحافلة بالإنجازات والنجاحات، ولم نخلق لنعيش على الهامش. إن لم تزد شيئاً على الحياة كنت أنت - لا سمح الله - الزيادة عليها`,
-            `الكثير منا يعيشون أسرى ضمن حدود منطقتهم الآمنة، ولكن الكيس الفطن من يتجاوز حدود هذه المنطقة`
-        ];
-
-        // *** تحديث هيكل القائمة: إضافة قسم "الحس الوزاري" في خدماتنا مع علامة "جديد" ***
+        // هيكل القائمة (تم حذف قروب واتس 2009)
         let MENU_STRUCTURE = [
-            {
-                title: "🏠 الرئيسية",
-                items: [
-                    { icon: "fas fa-home", text: "الصفحة الرئيسية", action: "home", url: "welcome" }
-                ]
+            { 
+                title: "🏠 الرئيسية", 
+                items: [{ icon: "fas fa-home", text: "الصفحة الرئيسية", action: "home", url: "welcome" }] 
             },
-            {
-                title: "✨ خدماتنا",
+            { 
+                title: "✨ خدماتنا", 
                 items: [
-                    // الخيار الجديد (الحس الوزاري) مع علامة جديدة
-                    { icon: "fas fa-graduation-cap", text: "الحس الوزاري 🆕", action: "iframe", url: SITE_CONFIG.officialExamHub, isNew: true },
+                    { icon: "fas fa-graduation-cap", text: "📚 الحس الوزاري", action: "iframe", url: SITE_CONFIG.ministryExams, isNew: true },
                     { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement },
                     { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "iframe", url: SITE_CONFIG.chat },
                     { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "iframe", url: SITE_CONFIG.reward },
@@ -770,8 +556,8 @@
                     { icon: "fas fa-brain", text: "📓 NoteBookLM", action: "link", url: SITE_CONFIG.notebookLM }
                 ]
             },
-            {
-                title: "📖 الفصل الأول",
+            { 
+                title: "📖 الفصل الأول", 
                 items: [
                     { icon: "fas fa-mosque", text: "الدين (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.deen_f1 },
                     { icon: "fas fa-book", text: "العربي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.arabic_f1 },
@@ -779,8 +565,8 @@
                     { icon: "fas fa-database", text: "📚 بنوك الفصل الأول", action: "iframe", url: SITE_CONFIG.links.bank_f1 }
                 ]
             },
-            {
-                title: "📘 الفصل الثاني",
+            { 
+                title: "📘 الفصل الثاني", 
                 items: [
                     { icon: "fas fa-mosque", text: "الدين (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.deen_f2 },
                     { icon: "fas fa-book", text: "العربي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.arabic_f2 },
@@ -788,8 +574,8 @@
                     { icon: "fas fa-language", text: "الانجليزي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.english_f2 }
                 ]
             },
-            {
-                title: "⚡ إضافات مفيدة",
+            { 
+                title: "⚡ إضافات مفيدة", 
                 items: [
                     { icon: "fas fa-bolt", text: "تحدي السرعة الشامل", action: "iframe", url: SITE_CONFIG.links.speed_challenge },
                     { icon: "fas fa-star", text: "⚡ تحدي السرعة اليومي ⚡", action: "iframe", url: SITE_CONFIG.links.speed_daily },
@@ -798,8 +584,8 @@
                     { icon: "fas fa-book-open", text: "كتب وزارية", action: "iframe", url: SITE_CONFIG.links.books }
                 ]
             },
-            {
-                title: "📞 تواصل واقتراحات",
+            { 
+                title: "📞 تواصل واقتراحات", 
                 items: [
                     { icon: "fas fa-bell", text: "📧 اشترك في تحديثات الموقع", action: "subscribe", url: "" },
                     { icon: "fas fa-envelope", text: "📧 البريد الإلكتروني", action: "email", url: SITE_CONFIG.email },
@@ -808,216 +594,128 @@
             }
         ];
 
-        let lastQuoteIndex = -1;
         let subscribedEmails = [];
-        let sortMode = false;
-        let isFirstTimeSort = true;
+        let lastSection = null;
 
-        // === دوال الثيمات ===
-        function applyTheme(themeName) {
-            document.body.classList.remove('theme-gray');
-            if (themeName === 'gray') {
-                document.body.classList.add('theme-gray');
-            }
-            localStorage.setItem('selectedTheme', themeName);
-            
-            document.querySelectorAll('.theme-badge').forEach(badge => {
-                badge.classList.remove('active');
-                if (badge.getAttribute('data-theme') === themeName) {
-                    badge.classList.add('active');
-                }
-            });
+        function showMessage(txt, type='info') {
+            const msg = document.getElementById('statusMessage');
+            msg.textContent = txt;
+            msg.className = `status-message ${type}`;
+            msg.style.display = 'block';
+            setTimeout(() => msg.style.display = 'none', 3000);
         }
 
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('selectedTheme');
-            if (savedTheme === 'gray') applyTheme('gray');
-            else applyTheme('default');
+        // شاشة اختيار السنة
+        function showYearSelector() {
+            document.getElementById('yearSelectorScreen').style.display = 'flex';
+            document.getElementById('mainApp').classList.remove('active');
         }
 
-        // === دوال الترتيب ===
-        function enableSorting() {
-            $("#menuContainer").sortable({
-                items: ".menu-section",
-                cursor: "move",
-                placeholder: "sort-mode-active",
-                tolerance: "pointer",
-                update: function() { saveSectionsOrder(); }
-            });
-            $("#menuContainer").sortable("enable");
-            $(".menu-section-items").each(function() {
-                $(this).sortable({
-                    items: ".menu-btn",
-                    cursor: "move",
-                    placeholder: "sort-mode-active",
-                    tolerance: "pointer",
-                    update: function(event, ui) {
-                        const sectionTitle = $(this).closest('.menu-section').find('.menu-section-title').text();
-                        saveItemsOrder(sectionTitle);
-                    }
-                });
-                $(this).sortable("enable");
-            });
+        function hideYearSelector() {
+            document.getElementById('yearSelectorScreen').style.display = 'none';
+            document.getElementById('mainApp').classList.add('active');
         }
 
-        function disableSorting() {
-            if ($("#menuContainer").hasClass("ui-sortable")) $("#menuContainer").sortable("disable");
-            $(".menu-section-items").each(function() {
-                if ($(this).hasClass("ui-sortable")) $(this).sortable("disable");
-            });
-        }
-
-        function saveSectionsOrder() {
-            const sections = [];
-            $("#menuContainer .menu-section").each(function() {
-                const title = $(this).find(".menu-section-title").text();
-                const originalSection = MENU_STRUCTURE.find(s => s.title === title);
-                if (originalSection) sections.push(originalSection);
-            });
-            if (sections.length === MENU_STRUCTURE.length) {
-                MENU_STRUCTURE.length = 0;
-                sections.forEach(s => MENU_STRUCTURE.push(s));
-                localStorage.setItem('menuSectionsOrder', JSON.stringify(MENU_STRUCTURE.map(s => s.title)));
+        function selectYear(year) {
+            if (year === 2009) {
+                hideYearSelector();
+                localStorage.setItem('selectedYear', '2009');
+                showWelcome2009();
+            } else if (year === 2010) {
+                showMessage("📢 منصة 2010 لا تزال قيد الإعداد والتطوير. ستكون جاهزة قريباً! 🚧", "info");
             }
         }
 
-        function saveItemsOrder(sectionTitle) {
-            const section = MENU_STRUCTURE.find(s => s.title === sectionTitle);
-            if (!section) return;
-            const sectionElement = $("#menuContainer .menu-section").filter(function() {
-                return $(this).find(".menu-section-title").text() === sectionTitle;
-            }).first();
-            const orderedItems = [];
-            sectionElement.find(".menu-btn").each(function() {
-                let itemText = $(this).find("span").clone().children(".new-badge").remove().end().text().trim();
-                const originalItem = section.items.find(i => i.text.includes(itemText) || itemText.includes(i.text.split('🆕')[0].trim()));
-                if (originalItem) orderedItems.push(originalItem);
-            });
-            if (orderedItems.length === section.items.length) {
-                section.items.length = 0;
-                orderedItems.forEach(i => section.items.push(i));
-                localStorage.setItem(`menuItemsOrder_${sectionTitle}`, JSON.stringify(section.items.map(i => i.text)));
-            }
+        function switchYear() {
+            showYearSelector();
         }
 
-        function loadSectionsOrder() {
-            const savedOrder = localStorage.getItem('menuSectionsOrder');
-            if (savedOrder) {
-                const orderTitles = JSON.parse(savedOrder);
-                const newOrder = [];
-                for (let title of orderTitles) {
-                    const section = MENU_STRUCTURE.find(s => s.title === title);
-                    if (section) newOrder.push(section);
-                }
-                MENU_STRUCTURE.forEach(section => {
-                    if (!newOrder.includes(section)) newOrder.push(section);
-                });
-                if (newOrder.length === MENU_STRUCTURE.length) {
-                    MENU_STRUCTURE.length = 0;
-                    newOrder.forEach(s => MENU_STRUCTURE.push(s));
-                }
-            }
+        // صفحة الترحيب لنسخة 2009
+        function showWelcome2009() {
+            const container = document.getElementById('iframeContainer');
+            container.innerHTML = `
+                <div style="background:linear-gradient(145deg,#1e3c5c,#0f2a3f);color:white;padding:40px 30px;min-height:100%;overflow-y:auto;text-align:center;">
+                    <div style="max-width:700px;margin:0 auto;">
+                        <div class="golden-logo" style="margin-bottom:20px;">
+                            <h1>2009</h1>
+                        </div>
+                        <i class="fas fa-graduation-cap" style="font-size:4rem;color:#f9b81b;margin:20px 0;"></i>
+                        <h2 style="margin-bottom:15px;">مرحباً بك في منصة مدارك جو</h2>
+                        <p style="margin-bottom:30px;">✨ نسخة 2009 الكلاسيكية ✨</p>
+                        <p>اختر أحد الأقسام من القائمة الجانبية لبدء التحدي والاختبارات</p>
+                    </div>
+                </div>
+            `;
         }
 
-        function loadItemsOrders() {
+        // بناء القائمة
+        function buildMenu() {
+            const cont = document.getElementById('menuContainer');
+            if (!cont) return;
+            cont.innerHTML = '';
             MENU_STRUCTURE.forEach(section => {
-                const savedOrder = localStorage.getItem(`menuItemsOrder_${section.title}`);
-                if (savedOrder) {
-                    const orderTexts = JSON.parse(savedOrder);
-                    const newOrder = [];
-                    for (let text of orderTexts) {
-                        const item = section.items.find(i => i.text === text);
-                        if (item) newOrder.push(item);
-                    }
-                    section.items.forEach(item => {
-                        if (!newOrder.includes(item)) newOrder.push(item);
-                    });
-                    if (newOrder.length === section.items.length) {
-                        section.items.length = 0;
-                        newOrder.forEach(i => section.items.push(i));
-                    }
-                }
+                const secDiv = document.createElement('div'); 
+                secDiv.className = 'menu-section';
+                const itemsDiv = document.createElement('div'); 
+                itemsDiv.className = 'menu-section-items';
+                section.items.forEach(item => {
+                    let act = '';
+                    if (item.action === 'iframe') act = `loadIframe('${item.url}')`;
+                    else if (item.action === 'link') act = `window.open('${item.url}', '_blank')`;
+                    else if (item.action === 'home') act = `showWelcome2009()`;
+                    else if (item.action === 'subscribe') act = `showSubscribeModal()`;
+                    else if (item.action === 'email') act = `window.location.href = 'mailto:${item.url}'`;
+                    const btn = document.createElement('button'); 
+                    btn.className = 'menu-btn';
+                    const newBadge = item.isNew ? '<span class="new-badge">جديد</span>' : '';
+                    btn.innerHTML = `<i class="${item.icon}"></i><span>${item.text}${newBadge}</span>`;
+                    btn.onclick = () => eval(act);
+                    itemsDiv.appendChild(btn);
+                });
+                secDiv.innerHTML = `<div class="menu-section-title">${section.title}</div>`;
+                secDiv.appendChild(itemsDiv);
+                cont.appendChild(secDiv);
             });
+            const emailDiv = document.createElement('div'); 
+            emailDiv.className = 'email-text';
+            emailDiv.innerHTML = `<i class="fas fa-envelope"></i> ${SITE_CONFIG.email}`;
+            cont.appendChild(emailDiv);
         }
 
-        function toggleSortMode() {
-            if (!sortMode) {
-                if (isFirstTimeSort) {
-                    const instructionModal = document.getElementById('sortInstructionModal');
-                    instructionModal.classList.add('open');
-                    const closeBtn = document.getElementById('closeInstructionBtn');
-                    const originalHandler = () => {
-                        instructionModal.classList.remove('open');
-                        sortMode = true;
-                        buildMenu();
-                        setTimeout(() => {
-                            enableSorting();
-                            document.body.classList.add('sort-mode');
-                            document.getElementById('sortToggleSwitch').classList.add('active');
-                            showMessage("🔄 وضع الترتيب مفعل: اسحب الأقسام أو الخيارات", "info");
-                        }, 50);
-                        closeBtn.removeEventListener('click', originalHandler);
-                    };
-                    closeBtn.addEventListener('click', originalHandler);
-                    isFirstTimeSort = false;
-                    return;
-                } else {
-                    sortMode = true;
-                    buildMenu();
-                    setTimeout(() => {
-                        enableSorting();
-                        document.body.classList.add('sort-mode');
-                        document.getElementById('sortToggleSwitch').classList.add('active');
-                        showMessage("🔄 وضع الترتيب مفعل: اسحب الأقسام أو الخيارات", "info");
-                    }, 50);
-                }
+        function loadIframe(url) {
+            const cont = document.getElementById('iframeContainer');
+            cont.innerHTML = `<div class="loading" id="loadingIndicator"><i class="fas fa-spinner"></i> جاري التحميل...</div><iframe id="contentFrame" src="${url}" style="width:100%; height:100%; display:none;" onload="hideLoading()"></iframe>`;
+            lastSection = url;
+            localStorage.setItem('lastSection2009', url);
+        }
+
+        function hideLoading() { 
+            const ld = document.getElementById('loadingIndicator'); 
+            const fr = document.getElementById('contentFrame'); 
+            if(ld && fr) { ld.style.display='none'; fr.style.display='block'; } 
+        }
+
+        function toggleSidebar() { 
+            document.getElementById('sidebar').classList.toggle('open'); 
+        }
+
+        function loadLastSection() {
+            const last = localStorage.getItem('lastSection2009');
+            if (last) {
+                loadIframe(last);
             } else {
-                sortMode = false;
-                disableSorting();
-                document.body.classList.remove('sort-mode');
-                document.getElementById('sortToggleSwitch').classList.remove('active');
-                showMessage("✅ تم حفظ الترتيب الجديد", "success");
+                showWelcome2009();
             }
         }
 
-        // === دوال حفظ واسترجاع آخر صفحة ===
-        function saveCurrentPage(url) {
-            if (url) {
-                localStorage.setItem('lastPageUrl', url);
-            } else {
-                // في حالة الصفحة الرئيسية
-                localStorage.setItem('lastPageUrl', 'home');
-            }
+        // دوال الاشتراك
+        function loadSubscribedEmails() { 
+            const st = localStorage.getItem('subscribedEmails'); 
+            if (st) subscribedEmails = JSON.parse(st); 
         }
-
-        function loadLastPage() {
-            const lastPage = localStorage.getItem('lastPageUrl');
-            if (lastPage) {
-                if (lastPage === 'home') {
-                    showWelcome();
-                } else {
-                    loadIframe(lastPage);
-                }
-            } else {
-                showWelcome(); // إذا لم يكن هناك صفحة محفوظة، نعرض الترحيب
-            }
+        function saveSubscribedEmails() { 
+            localStorage.setItem('subscribedEmails', JSON.stringify(subscribedEmails)); 
         }
-
-        // === باقي دوال الموقع ===
-        function showMessage(text, type = 'info') {
-            const msgDiv = document.getElementById('statusMessage');
-            msgDiv.textContent = text;
-            msgDiv.className = `status-message ${type}`;
-            msgDiv.style.display = 'block';
-            setTimeout(() => { msgDiv.style.display = 'none'; }, 2500);
-        }
-
-        function loadSubscribedEmails() {
-            const stored = localStorage.getItem('subscribedEmails');
-            if (stored) subscribedEmails = JSON.parse(stored);
-        }
-        function saveSubscribedEmails() { localStorage.setItem('subscribedEmails', JSON.stringify(subscribedEmails)); }
-
         function submitSubscription() {
             const email = document.getElementById('subscribeEmail').value;
             if (!email || !email.includes('@')) { showMessage('⚠️ بريد غير صحيح', 'error'); return; }
@@ -1029,118 +727,36 @@
         function unsubscribeEmail() {
             const email = document.getElementById('unsubscribeEmail').value;
             if (!email || !email.includes('@')) { showMessage('⚠️ بريد غير صحيح', 'error'); return; }
-            const index = subscribedEmails.indexOf(email);
-            if (index !== -1) { subscribedEmails.splice(index, 1); saveSubscribedEmails(); }
+            const idx = subscribedEmails.indexOf(email);
+            if (idx !== -1) { subscribedEmails.splice(idx,1); saveSubscribedEmails(); }
             fetch(SITE_CONFIG.googleScriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ email, action: 'unsubscribe' }) })
                 .then(() => { showMessage('✅ تم إلغاء الاشتراك', 'success'); closeSubscribeModal(); })
                 .catch(() => { showMessage('✅ تم إلغاء الاشتراك', 'success'); closeSubscribeModal(); });
         }
         function showSubscribeModal() {
-            const modalHtml = `<div id="subscribeModal" class="modal-overlay"><div class="modal-content"><i class="fas fa-bell" style="font-size:2rem; margin-bottom:15px;"></i><h3>اشترك في التحديثات</h3><p style="margin-bottom:15px;">أدخل بريدك ليصلك كل جديد</p><input type="email" id="subscribeEmail" placeholder="example@email.com"><button class="subscribe-btn" onclick="submitSubscription()">اشتراك</button><button class="cancel-btn" onclick="closeSubscribeModal()">إلغاء</button><div class="unsubscribe-section"><p><i class="fas fa-trash-alt"></i> إلغاء الاشتراك</p><input type="email" id="unsubscribeEmail" placeholder="أدخل بريدك"><button class="unsubscribe-btn" onclick="unsubscribeEmail()">إلغاء</button></div></div></div>`;
-            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            const html = `<div id="subscribeModal" class="modal-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1000;display:flex;justify-content:center;align-items:center;"><div style="background:white;padding:30px;border-radius:30px;max-width:400px;width:90%;text-align:center;"><i class="fas fa-bell" style="font-size:2rem;"></i><h3>اشترك في التحديثات</h3><input type="email" id="subscribeEmail" placeholder="example@email.com" style="width:100%;padding:12px;margin:15px 0;border:1px solid #ddd;border-radius:15px;"><button class="subscribe-btn" onclick="submitSubscription()" style="background:#f9b81b;border:none;padding:12px;width:100%;border-radius:30px;">اشتراك</button><button class="cancel-btn" onclick="closeSubscribeModal()" style="margin-top:10px;background:none;border:none;">إلغاء</button><div style="margin-top:20px;padding-top:15px;border-top:1px solid #eee;"><p>إلغاء الاشتراك</p><input type="email" id="unsubscribeEmail" placeholder="بريدك" style="width:100%;padding:10px;margin:10px 0;border:1px solid #ddd;border-radius:15px;"><button onclick="unsubscribeEmail()" style="background:#c62828;color:white;padding:10px;width:100%;border:none;border-radius:30px;">إلغاء الاشتراك</button></div></div></div>`;
+            document.body.insertAdjacentHTML('beforeend', html);
         }
-        function closeSubscribeModal() { document.getElementById('subscribeModal')?.remove(); }
-
-        function getRandomQuote() {
-            let newIndex;
-            do { newIndex = Math.floor(Math.random() * QUOTES.length); } while (newIndex === lastQuoteIndex && QUOTES.length > 1);
-            lastQuoteIndex = newIndex;
-            return QUOTES[newIndex];
+        function closeSubscribeModal() { 
+            document.getElementById('subscribeModal')?.remove(); 
         }
 
-        function showWelcome() {
-            const container = document.getElementById('iframeContainer');
-            if (!container) return;
-            const quote = getRandomQuote();
-            container.innerHTML = `<div style="background: linear-gradient(145deg, #1e3c5c, #0f2a3f); color: white; padding: 40px 30px; min-height: 100%; overflow-y: auto;"><div style="text-align: center; max-width: 700px; margin: 0 auto;"><i class="fas fa-graduation-cap" style="font-size: 4rem; color:#f9b81b; margin-bottom:20px;"></i><h2 style="margin-bottom: 15px;">مرحباً بك في منصة ${SITE_CONFIG.siteName}</h2><p style="margin-bottom: 30px;">✨ منصة التعليم الذكية ✨</p><div style="margin: 30px auto; padding: 25px; background: rgba(255,255,255,0.1); border-radius: 30px; border-right: 4px solid #f9b81b;"><i class="fas fa-quote-right" style="color:#f9b81b;"></i><p style="margin:15px 0; line-height:1.8;">${quote.split('\n').join('<br>')}</p></div><div style="margin: 30px auto; padding: 25px; background: #5865F2; border-radius: 30px;"><i class="fab fa-discord" style="font-size:2.5rem;"></i><h3>✨ ادخل عالم الدراسة الذكي ✨</h3><p>شارك، اسأل، وتحدى نفسك مع زملائك</p><button onclick="window.open('${SITE_CONFIG.discord}','_blank')" style="background:white; color:#5865F2; padding:10px 25px; border-radius:40px; margin-top:10px;">انضم الآن</button></div></div></div>`;
-            saveCurrentPage(null); // حفظ أننا في الصفحة الرئيسية
-        }
+        // الأحداث
+        document.getElementById('year2009Btn').addEventListener('click', () => selectYear(2009));
+        document.getElementById('year2010Btn').addEventListener('click', () => selectYear(2010));
+        document.getElementById('yearSwitchBtn').addEventListener('click', switchYear);
 
-        function buildMenu() {
-            const menuContainer = document.getElementById('menuContainer');
-            if (!menuContainer) return;
-            menuContainer.innerHTML = '';
-            MENU_STRUCTURE.forEach(section => {
-                const sectionDiv = document.createElement('div');
-                sectionDiv.className = 'menu-section';
-                const itemsContainer = document.createElement('div');
-                itemsContainer.className = 'menu-section-items';
-                section.items.forEach(item => {
-                    let actionAttr = '';
-                    if (item.action === 'iframe') actionAttr = `loadIframe('${item.url}')`;
-                    else if (item.action === 'link') actionAttr = `window.open('${item.url}', '_blank')`;
-                    else if (item.action === 'home') actionAttr = `showWelcome()`;
-                    else if (item.action === 'subscribe') actionAttr = `showSubscribeModal()`;
-                    else if (item.action === 'email') actionAttr = `window.location.href = 'mailto:${item.url}'`;
-                    
-                    const btn = document.createElement('button');
-                    btn.className = 'menu-btn';
-                    let displayText = item.text.replace('🆕', '').trim();
-                    let badgeHtml = (item.isNew || item.text.includes('🆕')) ? `<span class="new-badge">جديد</span>` : '';
-                    btn.innerHTML = `<i class="${item.icon}"></i><span>${displayText} ${badgeHtml}</span>`;
-                    btn.onclick = () => eval(actionAttr);
-                    itemsContainer.appendChild(btn);
-                });
-                sectionDiv.innerHTML = `<div class="menu-section-title">${section.title}</div>`;
-                sectionDiv.appendChild(itemsContainer);
-                menuContainer.appendChild(sectionDiv);
-            });
-            const emailDiv = document.createElement('div');
-            emailDiv.className = 'email-text';
-            emailDiv.innerHTML = `<i class="fas fa-envelope"></i> ${SITE_CONFIG.email}`;
-            menuContainer.appendChild(emailDiv);
-            if (sortMode) setTimeout(() => enableSorting(), 50);
+        // التحقق من السنة المختارة مسبقاً
+        const savedYear = localStorage.getItem('selectedYear');
+        if (savedYear === '2009') {
+            hideYearSelector();
+            loadLastSection();
+        } else {
+            showYearSelector();
         }
-
-        function loadIframe(url) {
-            const container = document.getElementById('iframeContainer');
-            container.innerHTML = `<div class="loading" id="loadingIndicator"><i class="fas fa-spinner"></i> جاري التحميل...</div><iframe id="contentFrame" src="${url}" style="width:100%; height:100%; display:none;" onload="hideLoading()"></iframe>`;
-            saveCurrentPage(url); // حفظ الرابط الحالي
-        }
-        
-        function hideLoading() {
-            const loading = document.getElementById('loadingIndicator');
-            const iframe = document.getElementById('contentFrame');
-            if (loading && iframe) { loading.style.display = 'none'; iframe.style.display = 'block'; }
-        }
-        
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
-
-        // === أحداث الإعدادات الموحدة ===
-        const settingsBtn = document.getElementById('settingsMainBtn');
-        const settingsModal = document.getElementById('settingsModal');
-        const sortToggleSwitch = document.getElementById('sortToggleSwitch');
-
-        settingsBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            settingsModal.classList.toggle('open');
-        });
-        document.addEventListener('click', (e) => {
-            if (!settingsBtn.contains(e.target) && !settingsModal.contains(e.target)) {
-                settingsModal.classList.remove('open');
-            }
-        });
-        sortToggleSwitch.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleSortMode();
-        });
-        document.querySelectorAll('.theme-badge').forEach(badge => {
-            badge.addEventListener('click', (e) => {
-                const theme = badge.getAttribute('data-theme');
-                applyTheme(theme);
-                settingsModal.classList.remove('open');
-            });
-        });
 
         loadSubscribedEmails();
-        loadTheme();
-        loadSectionsOrder();
-        loadItemsOrders();
-        document.addEventListener('DOMContentLoaded', () => { 
-            buildMenu(); 
-            loadLastPage(); // استدعاء الدالة لتحميل آخر صفحة بدلاً من showWelcome() مباشرة
-        });
-        if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(e => console.log);
+        buildMenu();
     </script>
 </body>
 </html>
