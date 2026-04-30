@@ -145,31 +145,6 @@
             display: block;
         }
 
-        /* زر تبديل السنة */
-        .year-switch-btn {
-            position: fixed;
-            top: 20px;
-            left: 90px;
-            background: linear-gradient(135deg, #f9b81b, #e5a00d);
-            color: #1e3c5c;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            z-index: 300;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .year-switch-btn:hover {
-            transform: scale(1.08);
-        }
-
         /* شعار 2009 الذهبي */
         .golden-logo {
             text-align: center;
@@ -331,6 +306,42 @@
             border: 1px dashed rgba(249, 184, 27, 0.3);
         }
 
+        /* زر تبديل السنة داخل القائمة الجانبية */
+        .sidebar-year-switch {
+            padding: 15px 20px;
+            margin: 10px 15px;
+            background: linear-gradient(135deg, #f9b81b, #e5a00d);
+            border-radius: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            width: calc(100% - 30px);
+        }
+
+        .sidebar-year-switch:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(249,184,27,0.4);
+        }
+
+        .sidebar-year-switch button {
+            background: transparent;
+            border: none;
+            color: #1e3c5c;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .sidebar-year-switch i {
+            font-size: 1.2rem;
+        }
+
         .content-area {
             margin-right: 0;
             padding: 20px;
@@ -423,12 +434,6 @@
                 top: 15px;
                 right: 15px;
             }
-            .year-switch-btn {
-                left: 70px;
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-            }
             .golden-logo h1 {
                 font-size: 3rem;
             }
@@ -441,6 +446,9 @@
             .year-card {
                 width: 200px;
                 padding: 25px 15px;
+            }
+            .sidebar-year-switch {
+                padding: 12px 15px;
             }
         }
     </style>
@@ -476,9 +484,6 @@
 
     <!-- التطبيق الرئيسي -->
     <div id="mainApp" class="main-app">
-        <button class="year-switch-btn" id="yearSwitchBtn">
-            <i class="fas fa-calendar-alt"></i>
-        </button>
         <button class="mobile-menu-btn" onclick="toggleSidebar()">
             <i class="fas fa-bars"></i>
         </button>
@@ -489,7 +494,14 @@
                 <p>✨ منصة التعليم الذكية ✨</p>
             </div>
             <div class="sidebar-menu" id="menuContainer"></div>
-            <div style="padding: 15px; text-align: center; font-size: 0.7rem; opacity:0.6; border-top:1px solid #2a4a6e;">
+            <!-- زر تبديل السنة داخل القائمة الجانبية في الأسفل -->
+            <div class="sidebar-year-switch" id="sidebarYearSwitchBtn">
+                <button>
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>تبديل السنة</span>
+                </button>
+            </div>
+            <div style="padding: 15px; text-align: center; font-size: 0.7rem; opacity:0.6; border-top:1px solid #2a4a6e; margin-top: 10px;">
                 مدارك جو | منصة التعليم الذكية
             </div>
         </div>
@@ -537,7 +549,7 @@
             }
         };
 
-        // هيكل القائمة (تم حذف قروب واتس 2009)
+        // هيكل القائمة
         let MENU_STRUCTURE = [
             { 
                 title: "🏠 الرئيسية", 
@@ -744,7 +756,7 @@
         // الأحداث
         document.getElementById('year2009Btn').addEventListener('click', () => selectYear(2009));
         document.getElementById('year2010Btn').addEventListener('click', () => selectYear(2010));
-        document.getElementById('yearSwitchBtn').addEventListener('click', switchYear);
+        document.getElementById('sidebarYearSwitchBtn').addEventListener('click', switchYear);
 
         // التحقق من السنة المختارة مسبقاً
         const savedYear = localStorage.getItem('selectedYear');
