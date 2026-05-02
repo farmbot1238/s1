@@ -494,7 +494,7 @@
                 <p>✨ منصة التعليم الذكية ✨</p>
             </div>
             <div class="sidebar-menu" id="menuContainer"></div>
-            <!-- زر تبديل السنة داخل القائمة الجانبية في الأسفل -->
+            <!-- زر تبديل السنة داخل القائمة الجانبية -->
             <div class="sidebar-year-switch" id="sidebarYearSwitchBtn">
                 <button>
                     <i class="fas fa-calendar-alt"></i>
@@ -533,6 +533,7 @@
             youtubePosts: "https://www.youtube.com/@Pyabd/posts",
             notebookLM: "https://notebooklm.google.com/notebook/20623484-45c7-4f42-9421-655b2b3d2e0d",
             ministryExams: "https://madarik-exams-hub.lovable.app",
+            charity: "https://www.youtube.com/@OSAID123-u2q/shorts",
             links: {
                 deen_f1: "https://farmbot1238.github.io/DEEN/",
                 arabic_f1: "https://farmbot1238.github.io/Ardic/",
@@ -549,7 +550,7 @@
             }
         };
 
-        // هيكل القائمة
+        // هيكل القائمة (تم إزالة "جديد" من الحس الوزاري وإضافة صدقة جارية)
         let MENU_STRUCTURE = [
             { 
                 title: "🏠 الرئيسية", 
@@ -558,7 +559,8 @@
             { 
                 title: "✨ خدماتنا", 
                 items: [
-                    { icon: "fas fa-graduation-cap", text: "📚 الحس الوزاري", action: "iframe", url: SITE_CONFIG.ministryExams, isNew: true },
+                    { icon: "fas fa-graduation-cap", text: "📚 الحس الوزاري", action: "iframe", url: SITE_CONFIG.ministryExams },
+                    { icon: "fas fa-hand-holding-heart", text: "🤲 صدقة جارية", action: "link", url: SITE_CONFIG.charity, isNew: true },
                     { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement },
                     { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "iframe", url: SITE_CONFIG.chat },
                     { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "iframe", url: SITE_CONFIG.reward },
@@ -607,7 +609,6 @@
         ];
 
         let subscribedEmails = [];
-        let lastSection = null;
 
         function showMessage(txt, type='info') {
             const msg = document.getElementById('statusMessage');
@@ -632,7 +633,7 @@
             if (year === 2009) {
                 hideYearSelector();
                 localStorage.setItem('selectedYear', '2009');
-                showWelcome2009();
+                loadLastSavedPage();
             } else if (year === 2010) {
                 showMessage("📢 منصة 2010 لا تزال قيد الإعداد والتطوير. ستكون جاهزة قريباً! 🚧", "info");
             }
@@ -640,6 +641,25 @@
 
         function switchYear() {
             showYearSelector();
+        }
+
+        // حفظ آخر صفحة تم فتحها
+        function saveCurrentPage(url, isHome = false) {
+            if (isHome) {
+                localStorage.setItem('lastPageUrl_2009', 'home');
+            } else if (url) {
+                localStorage.setItem('lastPageUrl_2009', url);
+            }
+        }
+
+        // تحميل آخر صفحة محفوظة
+        function loadLastSavedPage() {
+            const lastPage = localStorage.getItem('lastPageUrl_2009');
+            if (lastPage && lastPage !== 'home') {
+                loadIframe(lastPage);
+            } else {
+                showWelcome2009();
+            }
         }
 
         // صفحة الترحيب لنسخة 2009
@@ -658,6 +678,7 @@
                     </div>
                 </div>
             `;
+            saveCurrentPage(null, true);
         }
 
         // بناء القائمة
@@ -672,11 +693,17 @@
                 itemsDiv.className = 'menu-section-items';
                 section.items.forEach(item => {
                     let act = '';
-                    if (item.action === 'iframe') act = `loadIframe('${item.url}')`;
-                    else if (item.action === 'link') act = `window.open('${item.url}', '_blank')`;
-                    else if (item.action === 'home') act = `showWelcome2009()`;
-                    else if (item.action === 'subscribe') act = `showSubscribeModal()`;
-                    else if (item.action === 'email') act = `window.location.href = 'mailto:${item.url}'`;
+                    if (item.action === 'iframe') {
+                        act = `loadIframe('${item.url}')`;
+                    } else if (item.action === 'link') {
+                        act = `window.open('${item.url}', '_blank')`;
+                    } else if (item.action === 'home') {
+                        act = `showWelcome2009()`;
+                    } else if (item.action === 'subscribe') {
+                        act = `showSubscribeModal()`;
+                    } else if (item.action === 'email') {
+                        act = `window.location.href = 'mailto:${item.url}'`;
+                    }
                     const btn = document.createElement('button'); 
                     btn.className = 'menu-btn';
                     const newBadge = item.isNew ? '<span class="new-badge">جديد</span>' : '';
@@ -697,8 +724,7 @@
         function loadIframe(url) {
             const cont = document.getElementById('iframeContainer');
             cont.innerHTML = `<div class="loading" id="loadingIndicator"><i class="fas fa-spinner"></i> جاري التحميل...</div><iframe id="contentFrame" src="${url}" style="width:100%; height:100%; display:none;" onload="hideLoading()"></iframe>`;
-            lastSection = url;
-            localStorage.setItem('lastSection2009', url);
+            saveCurrentPage(url, false);
         }
 
         function hideLoading() { 
@@ -709,15 +735,6 @@
 
         function toggleSidebar() { 
             document.getElementById('sidebar').classList.toggle('open'); 
-        }
-
-        function loadLastSection() {
-            const last = localStorage.getItem('lastSection2009');
-            if (last) {
-                loadIframe(last);
-            } else {
-                showWelcome2009();
-            }
         }
 
         // دوال الاشتراك
@@ -762,7 +779,7 @@
         const savedYear = localStorage.getItem('selectedYear');
         if (savedYear === '2009') {
             hideYearSelector();
-            loadLastSection();
+            loadLastSavedPage();
         } else {
             showYearSelector();
         }
