@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head>
+<head:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>مدارك جو | منصة التعليم الذكية</title>
@@ -538,6 +538,7 @@
                 deen_f1: "https://farmbot1238.github.io/DEEN/",
                 arabic_f1: "https://farmbot1238.github.io/Ardic/",
                 history_f1: "https://farmbot1238.github.io/MMMNII/",
+                english_f1: "https://farmbot1238.github.io/ENG1/", // تم إضافة رابط الانجليزي للفصل الأول
                 bank_f1: "https://farmbot1238.github.io/BNK/",
                 deen_f2: "https://farmbot1238.github.io/d1/",
                 arabic_f2: "https://farmbot1238.github.io/a1/",
@@ -550,7 +551,7 @@
             }
         };
 
-        // هيكل القائمة (تم إزالة "جديد" من الحس الوزاري وإضافة صدقة جارية)
+        // هيكل القائمة (تم إضافة الانجليزي للفصل الأول وإزالة "جديد" من الحس الوزاري وإضافة صدقة جارية)
         let MENU_STRUCTURE = [
             { 
                 title: "🏠 الرئيسية", 
@@ -576,6 +577,7 @@
                     { icon: "fas fa-mosque", text: "الدين (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.deen_f1 },
                     { icon: "fas fa-book", text: "العربي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.arabic_f1 },
                     { icon: "fas fa-landmark", text: "التاريخ (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.history_f1 },
+                    { icon: "fas fa-language", text: "الانجليزي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.english_f1 }, // تمت إضافة هذا السطر
                     { icon: "fas fa-database", text: "📚 بنوك الفصل الأول", action: "iframe", url: SITE_CONFIG.links.bank_f1 }
                 ]
             },
