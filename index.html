@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-<head:
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>مدارك جو | منصة التعليم الذكية</title>
@@ -190,6 +190,92 @@
         @keyframes starMove {
             0%, 100% { transform: translateY(0) rotate(0deg); opacity: 1; }
             50% { transform: translateY(-10px) rotate(20deg); opacity: 0.7; }
+        }
+
+        /* عداد الامتحان */
+        .exam-countdown {
+            background: linear-gradient(135deg, #1e3c5c, #0f2a3f);
+            border-radius: 30px;
+            padding: 25px 20px;
+            margin: 20px auto;
+            max-width: 550px;
+            text-align: center;
+            border: 2px solid #f9b81b;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .exam-countdown h3 {
+            color: #f9b81b;
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .exam-countdown h3 i {
+            font-size: 1.8rem;
+        }
+
+        .exam-day {
+            color: #ffd700;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed rgba(249,184,27,0.5);
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+
+        .countdown-unit {
+            background: rgba(0,0,0,0.5);
+            border-radius: 15px;
+            padding: 12px 18px;
+            min-width: 80px;
+        }
+
+        .countdown-number {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #f9b81b;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+            margin-top: 5px;
+        }
+
+        .exam-message {
+            margin-top: 15px;
+            padding: 8px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .exam-message.warning {
+            background: rgba(255,71,87,0.2);
+            color: #ff6b81;
+        }
+
+        .exam-message.exam-day {
+            background: rgba(249,184,27,0.2);
+            color: #f9b81b;
+            font-weight: bold;
+        }
+
+        .exam-message.passed {
+            background: rgba(46,125,50,0.2);
+            color: #6bff7b;
         }
 
         /* القائمة الجانبية */
@@ -450,6 +536,19 @@
             .sidebar-year-switch {
                 padding: 12px 15px;
             }
+            .countdown-unit {
+                min-width: 60px;
+                padding: 8px 12px;
+            }
+            .countdown-number {
+                font-size: 1.6rem;
+            }
+            .exam-countdown h3 {
+                font-size: 1.2rem;
+            }
+            .exam-day {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -538,7 +637,7 @@
                 deen_f1: "https://farmbot1238.github.io/DEEN/",
                 arabic_f1: "https://farmbot1238.github.io/Ardic/",
                 history_f1: "https://farmbot1238.github.io/MMMNII/",
-                english_f1: "https://farmbot1238.github.io/ENG1/", // تم إضافة رابط الانجليزي للفصل الأول
+                english_f1: "https://farmbot1238.github.io/ENG1/",
                 bank_f1: "https://farmbot1238.github.io/BNK/",
                 deen_f2: "https://farmbot1238.github.io/d1/",
                 arabic_f2: "https://farmbot1238.github.io/a1/",
@@ -551,7 +650,10 @@
             }
         };
 
-        // هيكل القائمة (تم إضافة الانجليزي للفصل الأول وإزالة "جديد" من الحس الوزاري وإضافة صدقة جارية)
+        // تاريخ الامتحان الأول: 23 يوليو 2026
+        const EXAM_DATE = new Date(2026, 6, 23); // شهر 6 = يوليو (JavaScript الأشهر من 0-11)
+
+        // هيكل القائمة
         let MENU_STRUCTURE = [
             { 
                 title: "🏠 الرئيسية", 
@@ -577,7 +679,7 @@
                     { icon: "fas fa-mosque", text: "الدين (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.deen_f1 },
                     { icon: "fas fa-book", text: "العربي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.arabic_f1 },
                     { icon: "fas fa-landmark", text: "التاريخ (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.history_f1 },
-                    { icon: "fas fa-language", text: "الانجليزي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.english_f1 }, // تمت إضافة هذا السطر
+                    { icon: "fas fa-language", text: "الانجليزي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.english_f1 },
                     { icon: "fas fa-database", text: "📚 بنوك الفصل الأول", action: "iframe", url: SITE_CONFIG.links.bank_f1 }
                 ]
             },
@@ -664,7 +766,61 @@
             }
         }
 
-        // صفحة الترحيب لنسخة 2009
+        // تحديث العداد
+        function updateCountdown() {
+            const now = new Date();
+            const diff = EXAM_DATE - now;
+            
+            const daysElem = document.getElementById('countdown-days');
+            const hoursElem = document.getElementById('countdown-hours');
+            const minutesElem = document.getElementById('countdown-minutes');
+            const secondsElem = document.getElementById('countdown-seconds');
+            const messageElem = document.getElementById('exam-message');
+            
+            if (!daysElem) return;
+            
+            if (diff <= 0) {
+                // الامتحان انتهى أو هو اليوم
+                if (now.toDateString() === EXAM_DATE.toDateString()) {
+                    daysElem.textContent = '0';
+                    hoursElem.textContent = '0';
+                    minutesElem.textContent = '0';
+                    secondsElem.textContent = '0';
+                    if (messageElem) {
+                        messageElem.innerHTML = '📖 اليوم هو يوم امتحان اللغة العربية! بالتوفيق للجميع 🤲';
+                        messageElem.className = 'exam-message exam-day';
+                    }
+                } else {
+                    if (messageElem) {
+                        messageElem.innerHTML = '✅ انتهى موعد امتحان اللغة العربية. نتمنى للجميع النجاح والتفوق 🎓';
+                        messageElem.className = 'exam-message passed';
+                    }
+                }
+                return;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            daysElem.textContent = days;
+            hoursElem.textContent = hours;
+            minutesElem.textContent = minutes;
+            secondsElem.textContent = seconds;
+            
+            if (messageElem) {
+                if (days <= 7) {
+                    messageElem.innerHTML = '⚠️ تبقى أسبوع أو أقل على الامتحان! راجع دروسك جيداً ⚠️';
+                    messageElem.className = 'exam-message warning';
+                } else {
+                    messageElem.innerHTML = '📅 استعد مبكراً للامتحان، راجع الدروس وحل الامتحانات السابقة 💪';
+                    messageElem.className = 'exam-message';
+                }
+            }
+        }
+
+        // صفحة الترحيب لنسخة 2009 مع العداد (النص المطلوب: أول امتحان وزاري عربي - يوم الخميس)
         function showWelcome2009() {
             const container = document.getElementById('iframeContainer');
             container.innerHTML = `
@@ -673,6 +829,38 @@
                         <div class="golden-logo" style="margin-bottom:20px;">
                             <h1>2009</h1>
                         </div>
+                        
+                        <!-- عداد الامتحان -->
+                        <div class="exam-countdown">
+                            <h3>
+                                <i class="fas fa-calendar-check"></i>
+                                أول امتحان وزاري عربي
+                                <i class="fas fa-book"></i>
+                            </h3>
+                            <div class="exam-day">
+                                <i class="fas fa-calendar-alt"></i> يوم الخميس 23 يوليو 2026
+                            </div>
+                            <div class="countdown-timer">
+                                <div class="countdown-unit">
+                                    <div class="countdown-number" id="countdown-days">0</div>
+                                    <div class="countdown-label">أيام</div>
+                                </div>
+                                <div class="countdown-unit">
+                                    <div class="countdown-number" id="countdown-hours">0</div>
+                                    <div class="countdown-label">ساعات</div>
+                                </div>
+                                <div class="countdown-unit">
+                                    <div class="countdown-number" id="countdown-minutes">0</div>
+                                    <div class="countdown-label">دقائق</div>
+                                </div>
+                                <div class="countdown-unit">
+                                    <div class="countdown-number" id="countdown-seconds">0</div>
+                                    <div class="countdown-label">ثواني</div>
+                                </div>
+                            </div>
+                            <div id="exam-message" class="exam-message"></div>
+                        </div>
+                        
                         <i class="fas fa-graduation-cap" style="font-size:4rem;color:#f9b81b;margin:20px 0;"></i>
                         <h2 style="margin-bottom:15px;">مرحباً بك في منصة مدارك جو</h2>
                         <p style="margin-bottom:30px;">✨ نسخة 2009 الكلاسيكية ✨</p>
@@ -680,6 +868,13 @@
                     </div>
                 </div>
             `;
+            
+            // بدء تحديث العداد
+            updateCountdown();
+            // مسح أي interval سابق قبل إنشاء واحد جديد
+            if (window.countdownInterval) clearInterval(window.countdownInterval);
+            window.countdownInterval = setInterval(updateCountdown, 1000);
+            
             saveCurrentPage(null, true);
         }
 
