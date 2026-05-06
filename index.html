@@ -623,7 +623,6 @@
             email: "abdalrhmanmaaith1@gmail.com",
             discord: "https://discord.gg/CpF8Uk8Yt",
             suggestionForm: "https://docs.google.com/forms/d/e/1FAIpQLSeOP7ow84vcJ-q8tm4YlHsKMCuGdoL-E5OCJw6C66PDrbMpWw/viewform",
-            googleScriptURL: "https://script.google.com/macros/s/AKfycbzT1wNRWEgVeVTtvKXhMpG-rVBPTdG99ubHG3c3mzax1TBHIfvxaHa6AxqnPygfeUkU/exec",
             timer: "https://farmbot1238.github.io/timer/",
             chat: "https://cooperate-and-conquer.lovable.app",
             achievement: "https://my-achievement-buddy.lovable.app",
@@ -653,7 +652,7 @@
         // تاريخ الامتحان الأول: 23 يوليو 2026
         const EXAM_DATE = new Date(2026, 6, 23); // شهر 6 = يوليو (JavaScript الأشهر من 0-11)
 
-        // هيكل القائمة
+        // هيكل القائمة (تم إزالة قسم تواصل واقتراحات بالكامل)
         let MENU_STRUCTURE = [
             { 
                 title: "🏠 الرئيسية", 
@@ -701,18 +700,8 @@
                     { icon: "fas fa-file-alt", text: "امتحانات وزارية سابقة", action: "iframe", url: SITE_CONFIG.links.exams },
                     { icon: "fas fa-book-open", text: "كتب وزارية", action: "iframe", url: SITE_CONFIG.links.books }
                 ]
-            },
-            { 
-                title: "📞 تواصل واقتراحات", 
-                items: [
-                    { icon: "fas fa-bell", text: "📧 اشترك في تحديثات الموقع", action: "subscribe", url: "" },
-                    { icon: "fas fa-envelope", text: "📧 البريد الإلكتروني", action: "email", url: SITE_CONFIG.email },
-                    { icon: "fas fa-pray", text: "دعاء للطالب / اقتراح", action: "iframe", url: SITE_CONFIG.suggestionForm }
-                ]
             }
         ];
-
-        let subscribedEmails = [];
 
         function showMessage(txt, type='info') {
             const msg = document.getElementById('statusMessage');
@@ -820,7 +809,7 @@
             }
         }
 
-        // صفحة الترحيب لنسخة 2009 مع العداد (النص المطلوب: أول امتحان وزاري عربي - يوم الخميس)
+        // صفحة الترحيب لنسخة 2009 مع العداد
         function showWelcome2009() {
             const container = document.getElementById('iframeContainer');
             container.innerHTML = `
@@ -871,7 +860,6 @@
             
             // بدء تحديث العداد
             updateCountdown();
-            // مسح أي interval سابق قبل إنشاء واحد جديد
             if (window.countdownInterval) clearInterval(window.countdownInterval);
             window.countdownInterval = setInterval(updateCountdown, 1000);
             
@@ -896,10 +884,6 @@
                         act = `window.open('${item.url}', '_blank')`;
                     } else if (item.action === 'home') {
                         act = `showWelcome2009()`;
-                    } else if (item.action === 'subscribe') {
-                        act = `showSubscribeModal()`;
-                    } else if (item.action === 'email') {
-                        act = `window.location.href = 'mailto:${item.url}'`;
                     }
                     const btn = document.createElement('button'); 
                     btn.className = 'menu-btn';
@@ -912,6 +896,7 @@
                 secDiv.appendChild(itemsDiv);
                 cont.appendChild(secDiv);
             });
+            // عرض البريد الإلكتروني فقط بدون أي زر اشتراك
             const emailDiv = document.createElement('div'); 
             emailDiv.className = 'email-text';
             emailDiv.innerHTML = `<i class="fas fa-envelope"></i> ${SITE_CONFIG.email}`;
@@ -934,39 +919,6 @@
             document.getElementById('sidebar').classList.toggle('open'); 
         }
 
-        // دوال الاشتراك
-        function loadSubscribedEmails() { 
-            const st = localStorage.getItem('subscribedEmails'); 
-            if (st) subscribedEmails = JSON.parse(st); 
-        }
-        function saveSubscribedEmails() { 
-            localStorage.setItem('subscribedEmails', JSON.stringify(subscribedEmails)); 
-        }
-        function submitSubscription() {
-            const email = document.getElementById('subscribeEmail').value;
-            if (!email || !email.includes('@')) { showMessage('⚠️ بريد غير صحيح', 'error'); return; }
-            if (subscribedEmails.includes(email)) { showMessage('⚠️ مسجل مسبقاً', 'error'); return; }
-            fetch(SITE_CONFIG.googleScriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ email, date: new Date().toISOString(), action: 'subscribe' }) })
-                .then(() => { subscribedEmails.push(email); saveSubscribedEmails(); showMessage('✅ تم الاشتراك', 'success'); closeSubscribeModal(); })
-                .catch(() => { subscribedEmails.push(email); saveSubscribedEmails(); showMessage('✅ تم الاشتراك', 'success'); closeSubscribeModal(); });
-        }
-        function unsubscribeEmail() {
-            const email = document.getElementById('unsubscribeEmail').value;
-            if (!email || !email.includes('@')) { showMessage('⚠️ بريد غير صحيح', 'error'); return; }
-            const idx = subscribedEmails.indexOf(email);
-            if (idx !== -1) { subscribedEmails.splice(idx,1); saveSubscribedEmails(); }
-            fetch(SITE_CONFIG.googleScriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ email, action: 'unsubscribe' }) })
-                .then(() => { showMessage('✅ تم إلغاء الاشتراك', 'success'); closeSubscribeModal(); })
-                .catch(() => { showMessage('✅ تم إلغاء الاشتراك', 'success'); closeSubscribeModal(); });
-        }
-        function showSubscribeModal() {
-            const html = `<div id="subscribeModal" class="modal-overlay" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1000;display:flex;justify-content:center;align-items:center;"><div style="background:white;padding:30px;border-radius:30px;max-width:400px;width:90%;text-align:center;"><i class="fas fa-bell" style="font-size:2rem;"></i><h3>اشترك في التحديثات</h3><input type="email" id="subscribeEmail" placeholder="example@email.com" style="width:100%;padding:12px;margin:15px 0;border:1px solid #ddd;border-radius:15px;"><button class="subscribe-btn" onclick="submitSubscription()" style="background:#f9b81b;border:none;padding:12px;width:100%;border-radius:30px;">اشتراك</button><button class="cancel-btn" onclick="closeSubscribeModal()" style="margin-top:10px;background:none;border:none;">إلغاء</button><div style="margin-top:20px;padding-top:15px;border-top:1px solid #eee;"><p>إلغاء الاشتراك</p><input type="email" id="unsubscribeEmail" placeholder="بريدك" style="width:100%;padding:10px;margin:10px 0;border:1px solid #ddd;border-radius:15px;"><button onclick="unsubscribeEmail()" style="background:#c62828;color:white;padding:10px;width:100%;border:none;border-radius:30px;">إلغاء الاشتراك</button></div></div></div>`;
-            document.body.insertAdjacentHTML('beforeend', html);
-        }
-        function closeSubscribeModal() { 
-            document.getElementById('subscribeModal')?.remove(); 
-        }
-
         // الأحداث
         document.getElementById('year2009Btn').addEventListener('click', () => selectYear(2009));
         document.getElementById('year2010Btn').addEventListener('click', () => selectYear(2010));
@@ -981,7 +933,6 @@
             showYearSelector();
         }
 
-        loadSubscribedEmails();
         buildMenu();
     </script>
 </body>
