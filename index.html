@@ -380,6 +380,45 @@
             50% { opacity: 0.8; transform: scale(1.05); background: #ff6b81; }
         }
 
+        /* زر الدعاء والاقتراح */
+        .dua-suggestion-btn {
+            padding: 12px 20px;
+            margin: 10px 15px;
+            background: linear-gradient(135deg, #2e7d32, #1b5e20);
+            border-radius: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            width: calc(100% - 30px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .dua-suggestion-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 18px rgba(46,125,50,0.5);
+            background: linear-gradient(135deg, #388e3c, #2e7d32);
+        }
+
+        .dua-suggestion-btn button {
+            background: transparent;
+            border: none;
+            color: #ffd700;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .dua-suggestion-btn i {
+            font-size: 1.2rem;
+            color: #ffd700;
+        }
+
         .email-text {
             padding: 10px 20px;
             margin: 5px 15px 10px 15px;
@@ -390,6 +429,113 @@
             text-align: center;
             direction: ltr;
             border: 1px dashed rgba(249, 184, 27, 0.3);
+        }
+
+        /* نافذة الدعاء المنبثقة */
+        .dua-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .dua-popup.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .dua-popup-content {
+            background: linear-gradient(145deg, #1e3c5c, #0f2a3f);
+            border-radius: 40px;
+            padding: 30px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            border: 2px solid #f9b81b;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.4s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dua-popup-content h3 {
+            color: #f9b81b;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .dua-text {
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            padding: 20px;
+            margin: 20px 0;
+            color: white;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .dua-text p {
+            margin: 15px 0;
+        }
+
+        .dua-text i {
+            color: #f9b81b;
+            margin-left: 8px;
+        }
+
+        .popup-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .popup-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .popup-btn-primary {
+            background: linear-gradient(135deg, #f9b81b, #e5a00d);
+            color: #1e3c5c;
+        }
+
+        .popup-btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(249,184,27,0.4);
+        }
+
+        .popup-btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .popup-btn-secondary:hover {
+            background: rgba(255,255,255,0.3);
         }
 
         /* زر تبديل السنة داخل القائمة الجانبية */
@@ -593,6 +739,15 @@
                 <p>✨ منصة التعليم الذكية ✨</p>
             </div>
             <div class="sidebar-menu" id="menuContainer"></div>
+            
+            <!-- زر الدعاء والاقتراح (فوق الإيميل) -->
+            <div class="dua-suggestion-btn" id="duaSuggestionBtn">
+                <button>
+                    <i class="fas fa-hands-praying"></i>
+                    <span>🤲 دعاء للطالب أو اقتراح للموقع</span>
+                </button>
+            </div>
+            
             <!-- زر تبديل السنة داخل القائمة الجانبية -->
             <div class="sidebar-year-switch" id="sidebarYearSwitchBtn">
                 <button>
@@ -612,6 +767,24 @@
         </div>
     </div>
 
+    <!-- نافذة الدعاء المنبثقة -->
+    <div id="duaPopup" class="dua-popup">
+        <div class="dua-popup-content">
+            <h3><i class="fas fa-hands-praying"></i> دعاء للطالب</h3>
+            <div class="dua-text">
+                <p><i class="fas fa-star-of-life"></i> <strong>اللهم لا سهل إلا ما جعلته سهلاً</strong>، وأنت تجعل الحزن إذا شئت سهلاً.</p>
+                <p><i class="fas fa-book-open"></i> <strong>رب اشرح لي صدري، ويسر لي أمري</strong>، واحلل عقدة من لساني يفقهوا قولي.</p>
+                <p><i class="fas fa-graduation-cap"></i> <strong>اللهم إني أسألك فهم النبيين</strong>، وحفظ المرسلين والملائكة المقربين.</p>
+                <p><i class="fas fa-brain"></i> <strong>اللهم اجعل ألسنتنا عامرة بذكرك</strong>، وقلوبنا بخشيتك، إنك على كل شيء قدير.</p>
+                <p><i class="fas fa-chart-line"></i> <strong>اللهم وفقني في دراستي</strong>، وارزقني النجاح والتفوق، واجعل العلم نوراً في حياتي.</p>
+            </div>
+            <div class="popup-buttons">
+                <button class="popup-btn popup-btn-primary" id="goToFormBtn">📝 إرسال دعاء أو اقتراح</button>
+                <button class="popup-btn popup-btn-secondary" id="closePopupBtn">✖ إغلاق</button>
+            </div>
+        </div>
+    </div>
+
     <div id="statusMessage" class="status-message"></div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -622,7 +795,7 @@
             siteName: "مدارك جو",
             email: "abdalrhmanmaaith1@gmail.com",
             discord: "https://discord.gg/CpF8Uk8Yt",
-            suggestionForm: "https://docs.google.com/forms/d/e/1FAIpQLSeOP7ow84vcJ-q8tm4YlHsKMCuGdoL-E5OCJw6C66PDrbMpWw/viewform",
+            suggestionForm: "https://docs.google.com/forms/d/e/1FAIpQLSeOP7ow84vcJ-q8tm4YlHsKMCuGdoL-E5OCJw6C66PDrbMpWw/viewform?usp=dialog",
             timer: "https://farmbot1238.github.io/timer/",
             chat: "https://cooperate-and-conquer.lovable.app",
             achievement: "https://my-achievement-buddy.lovable.app",
@@ -650,7 +823,7 @@
         };
 
         // تاريخ الامتحان الأول: 23 يوليو 2026
-        const EXAM_DATE = new Date(2026, 6, 23); // شهر 6 = يوليو (JavaScript الأشهر من 0-11)
+        const EXAM_DATE = new Date(2026, 6, 23);
 
         // هيكل القائمة (تم حذف بند "💬 دردشة دراسية")
         let MENU_STRUCTURE = [
@@ -710,6 +883,20 @@
             setTimeout(() => msg.style.display = 'none', 3000);
         }
 
+        // نافذة الدعاء
+        function openDuaPopup() {
+            document.getElementById('duaPopup').classList.add('active');
+        }
+
+        function closeDuaPopup() {
+            document.getElementById('duaPopup').classList.remove('active');
+        }
+
+        function openSuggestionForm() {
+            window.open(SITE_CONFIG.suggestionForm, '_blank');
+            closeDuaPopup();
+        }
+
         // شاشة اختيار السنة
         function showYearSelector() {
             document.getElementById('yearSelectorScreen').style.display = 'flex';
@@ -735,7 +922,6 @@
             showYearSelector();
         }
 
-        // حفظ آخر صفحة تم فتحها
         function saveCurrentPage(url, isHome = false) {
             if (isHome) {
                 localStorage.setItem('lastPageUrl_2009', 'home');
@@ -744,7 +930,6 @@
             }
         }
 
-        // تحميل آخر صفحة محفوظة
         function loadLastSavedPage() {
             const lastPage = localStorage.getItem('lastPageUrl_2009');
             if (lastPage && lastPage !== 'home') {
@@ -754,7 +939,6 @@
             }
         }
 
-        // تحديث العداد
         function updateCountdown() {
             const now = new Date();
             const diff = EXAM_DATE - now;
@@ -768,7 +952,6 @@
             if (!daysElem) return;
             
             if (diff <= 0) {
-                // الامتحان انتهى أو هو اليوم
                 if (now.toDateString() === EXAM_DATE.toDateString()) {
                     daysElem.textContent = '0';
                     hoursElem.textContent = '0';
@@ -808,7 +991,6 @@
             }
         }
 
-        // صفحة الترحيب لنسخة 2009 مع العداد
         function showWelcome2009() {
             const container = document.getElementById('iframeContainer');
             container.innerHTML = `
@@ -818,7 +1000,6 @@
                             <h1>2009</h1>
                         </div>
                         
-                        <!-- عداد الامتحان -->
                         <div class="exam-countdown">
                             <h3>
                                 <i class="fas fa-calendar-check"></i>
@@ -857,7 +1038,6 @@
                 </div>
             `;
             
-            // بدء تحديث العداد
             updateCountdown();
             if (window.countdownInterval) clearInterval(window.countdownInterval);
             window.countdownInterval = setInterval(updateCountdown, 1000);
@@ -865,7 +1045,6 @@
             saveCurrentPage(null, true);
         }
 
-        // بناء القائمة
         function buildMenu() {
             const cont = document.getElementById('menuContainer');
             if (!cont) return;
@@ -895,7 +1074,7 @@
                 secDiv.appendChild(itemsDiv);
                 cont.appendChild(secDiv);
             });
-            // عرض البريد الإلكتروني فقط بدون أي زر اشتراك
+            // عرض البريد الإلكتروني فقط
             const emailDiv = document.createElement('div'); 
             emailDiv.className = 'email-text';
             emailDiv.innerHTML = `<i class="fas fa-envelope"></i> ${SITE_CONFIG.email}`;
@@ -922,6 +1101,13 @@
         document.getElementById('year2009Btn').addEventListener('click', () => selectYear(2009));
         document.getElementById('year2010Btn').addEventListener('click', () => selectYear(2010));
         document.getElementById('sidebarYearSwitchBtn').addEventListener('click', switchYear);
+        document.getElementById('duaSuggestionBtn').addEventListener('click', openDuaPopup);
+        document.getElementById('goToFormBtn').addEventListener('click', openSuggestionForm);
+        document.getElementById('closePopupBtn').addEventListener('click', closeDuaPopup);
+        // إغلاق النافذة عند الضغط خارجها
+        document.getElementById('duaPopup').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('duaPopup')) closeDuaPopup();
+        });
 
         // التحقق من السنة المختارة مسبقاً
         const savedYear = localStorage.getItem('selectedYear');
