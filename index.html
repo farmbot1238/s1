@@ -27,7 +27,11 @@
         .main-app { display: none; }
         .main-app.active { display: block; }
         
-        .sidebar { position: fixed; right: -300px; top: 0; width: 300px; height: 100vh; background: linear-gradient(180deg, #1e3c5c 0%, #0f2a3f 100%); color: white; z-index: 100; transition: right 0.3s; overflow-y: auto; }
+        .sidebar {
+            position: fixed; right: -300px; top: 0; width: 300px; height: 100vh;
+            background: linear-gradient(180deg, #1e3c5c 0%, #0f2a3f 100%);
+            color: white; z-index: 100; transition: right 0.3s; overflow-y: auto;
+        }
         .sidebar.open { right: 0; }
         .sidebar-header { padding: 25px 20px; text-align: center; border-bottom: 3px solid #f9b81b; }
         .sidebar-header h1 { color: #f9b81b; }
@@ -46,6 +50,9 @@
         .sidebar-year-switch { padding: 15px 20px; margin: 10px 15px; background: linear-gradient(135deg, #f9b81b, #e5a00d); border-radius: 40px; cursor: pointer; width: calc(100% - 30px); }
         .sidebar-year-switch button { background: transparent; border: none; color: #1e3c5c; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
         
+        .new-badge { background: #ff4757; color: white; border-radius: 20px; padding: 2px 8px; margin-right: 8px; font-size: 0.65rem; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+        
         .dua-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s; }
         .dua-popup.active { opacity: 1; visibility: visible; }
         .dua-popup-content { background: linear-gradient(145deg, #1e3c5c, #0f2a3f); border-radius: 40px; padding: 30px; max-width: 450px; width: 90%; text-align: center; border: 2px solid #f9b81b; }
@@ -55,6 +62,33 @@
         .popup-btn { padding: 12px 25px; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; }
         .popup-btn-primary { background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; }
         .popup-btn-secondary { background: rgba(255,255,255,0.2); color: white; }
+        
+        /* اعلان الترحيب */
+        .welcome-popup {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 3000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: all 0.4s ease;
+        }
+        .welcome-popup.active { opacity: 1; visibility: visible; }
+        .welcome-popup-content {
+            background: linear-gradient(145deg, #1e3c5c, #0f2a3f);
+            border-radius: 50px; padding: 40px; max-width: 500px; width: 90%;
+            text-align: center; border: 3px solid #f9b81b;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5); animation: bounceIn 0.5s ease;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            80% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .welcome-popup-content h2 { color: #f9b81b; font-size: 1.8rem; margin-bottom: 15px; }
+        .welcome-popup-content h2 i { margin-left: 10px; }
+        .announcement-box { background: rgba(249,184,27,0.15); border-radius: 30px; padding: 25px; margin: 20px 0; }
+        .announcement-box p { color: white; margin: 15px 0; line-height: 1.8; font-size: 1rem; }
+        .announcement-box .highlight { color: #f9b81b; font-weight: bold; }
+        .close-announcement { background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; border: none; padding: 12px 30px; border-radius: 40px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 15px; transition: all 0.3s; }
+        .close-announcement:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(249,184,27,0.4); }
         
         .golden-logo h1 { font-size: 5rem; background: linear-gradient(135deg, #f9b81b, #ffd700, #e5a00d); -webkit-background-clip: text; background-clip: text; color: transparent; text-align: center; }
         .exam-countdown { background: linear-gradient(135deg, #1e3c5c, #0f2a3f); border-radius: 30px; padding: 25px; margin: 20px auto; max-width: 550px; text-align: center; border: 2px solid #f9b81b; }
@@ -92,6 +126,20 @@
         <div style="padding:15px; text-align:center; font-size:0.7rem;">مدارك جو | منصة التعليم الذكية</div>
     </div>
     <div class="content-area"><div class="iframe-container" id="iframeContainer"><div class="loading"><i class="fas fa-spinner"></i> اختر أحد الأقسام</div></div></div>
+</div>
+
+<!-- اعلان الترحيب -->
+<div id="welcomePopup" class="welcome-popup">
+    <div class="welcome-popup-content">
+        <h2><i class="fas fa-gift"></i> تحديث جديد</h2>
+        <div class="announcement-box">
+            <p><i class="fas fa-rocket" style="color:#f9b81b;"></i> <span class="highlight">🎉 تم إضافة قسم جديد "🌐 جولات" 🎉</span></p>
+            <p>📌 <span class="highlight">عبدالرحمن جراح</span> - منصة OrbitX</p>
+            <p>📌 <span class="highlight">عبدالرحمن معايطه</span> - منصة jawlat (صاحب المنصة)</p>
+            <p style="margin-top:20px;"><i class="fas fa-star" style="color:#ffd700;"></i> استكشف المحتوى الجديد واستمتع بتجربة مميزة!</p>
+        </div>
+        <button class="close-announcement" onclick="closeWelcomePopup()"><i class="fas fa-check-circle"></i> حسناً، استعرضت التحديث</button>
+    </div>
 </div>
 
 <div id="duaPopup" class="dua-popup">
@@ -137,12 +185,14 @@
     };
 
     const EXAM_DATE = new Date(2026, 6, 23);
+    const ANNOUNCEMENT_KEY = 'announcement_seen_2009_v2';
+    const ANNOUNCEMENT_DATE_KEY = 'announcement_date';
 
     let MENU_STRUCTURE = [
         { title: "🏠 الرئيسية", items: [{ icon: "fas fa-home", text: "الصفحة الرئيسية", action: "home" }] },
         { title: "🌐 جولات", items: [
-            { icon: "fas fa-user-astronaut", text: "عبدالرحمن جراح", action: "link", url: SITE_CONFIG.orbitX },
-            { icon: "fas fa-globe", text: "عبدالرحمن معايطه", action: "iframe", url: SITE_CONFIG.jawlat }
+            { icon: "fas fa-user-astronaut", text: "عبدالرحمن جراح", action: "link", url: SITE_CONFIG.orbitX, isNew: true },
+            { icon: "fas fa-globe", text: "عبدالرحمن معايطه", action: "iframe", url: SITE_CONFIG.jawlat, isNew: true }
         ]},
         { title: "✨ خدماتنا", items: [
             { icon: "fas fa-graduation-cap", text: "📚 الحس الوزاري", action: "iframe", url: SITE_CONFIG.ministryExams },
@@ -176,6 +226,28 @@
         ]}
     ];
 
+    function showWelcomePopupIfNeeded() {
+        const seen = localStorage.getItem(ANNOUNCEMENT_KEY);
+        const announcementDate = localStorage.getItem(ANNOUNCEMENT_DATE_KEY);
+        const now = new Date().getTime();
+        const threeDays = 3 * 24 * 60 * 60 * 1000;
+        
+        if (seen === 'true' && announcementDate && (now - parseInt(announcementDate)) < threeDays) {
+            return;
+        }
+        
+        if (seen !== 'true' || (announcementDate && (now - parseInt(announcementDate)) >= threeDays)) {
+            document.getElementById('welcomePopup').classList.add('active');
+            document.getElementById('sidebar').classList.add('open');
+        }
+    }
+    
+    function closeWelcomePopup() {
+        document.getElementById('welcomePopup').classList.remove('active');
+        localStorage.setItem(ANNOUNCEMENT_KEY, 'true');
+        localStorage.setItem(ANNOUNCEMENT_DATE_KEY, new Date().getTime().toString());
+    }
+
     function showYearSelector() {
         document.getElementById('yearSelectorScreen').style.display = 'flex';
         document.getElementById('mainApp').classList.remove('active');
@@ -191,6 +263,7 @@
             hideYearSelector();
             localStorage.setItem('selectedYear', '2009');
             loadLastSavedPage();
+            showWelcomePopupIfNeeded();
         } else if (year === 2010) {
             alert("📢 منصة 2010 لا تزال قيد الإعداد والتطوير");
         }
@@ -261,7 +334,7 @@
             const itemsDiv = document.createElement('div'); itemsDiv.className = 'menu-section-items';
             section.items.forEach(item => {
                 const btn = document.createElement('button'); btn.className = 'menu-btn';
-                const newBadge = item.isNew ? '<span class="new-badge" style="background:#ff4757;color:white;border-radius:20px;padding:2px 8px;margin-right:8px;font-size:0.65rem;">جديد</span>' : '';
+                const newBadge = item.isNew ? '<span class="new-badge">جديد</span>' : '';
                 btn.innerHTML = `<i class="${item.icon}"></i><span>${item.text}${newBadge}</span>`;
                 if (item.action === 'iframe') btn.onclick = () => loadIframe(item.url);
                 else if (item.action === 'link') btn.onclick = () => window.open(item.url, '_blank');
@@ -291,7 +364,7 @@
     document.getElementById('duaPopup').addEventListener('click', (e) => { if (e.target === document.getElementById('duaPopup')) closeDuaPopup(); });
 
     const savedYear = localStorage.getItem('selectedYear');
-    if (savedYear === '2009') { hideYearSelector(); loadLastSavedPage(); }
+    if (savedYear === '2009') { hideYearSelector(); loadLastSavedPage(); showWelcomePopupIfNeeded(); }
     else { showYearSelector(); }
 
     buildMenu();
