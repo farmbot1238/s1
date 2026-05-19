@@ -39,8 +39,6 @@
         .menu-section-title { padding: 10px 20px; color: #f9b81b; border-right: 3px solid #f9b81b; margin: 10px 0; background: rgba(0,0,0,0.2); }
         .menu-btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 20px; background: transparent; border: none; color: white; cursor: pointer; text-align: right; }
         .menu-btn:hover { background: rgba(249,184,27,0.2); }
-        .menu-btn.disabled { opacity: 0.6; cursor: pointer; }
-        .menu-btn.disabled:hover { background: rgba(255,165,0,0.2); }
         .mobile-menu-btn { position: fixed; top: 20px; right: 20px; background: #1e3c5c; color: #f9b81b; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; z-index: 200; }
         .content-area { padding: 20px; min-height: 100vh; }
         .iframe-container { background: white; border-radius: 30px; overflow: auto; height: calc(100vh - 40px); }
@@ -52,11 +50,6 @@
         .sidebar-year-switch { padding: 15px 20px; margin: 10px 15px; background: linear-gradient(135deg, #f9b81b, #e5a00d); border-radius: 40px; cursor: pointer; width: calc(100% - 30px); }
         .sidebar-year-switch button { background: transparent; border: none; color: #1e3c5c; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
         
-        .new-badge { background: #ff4757; color: white; border-radius: 20px; padding: 2px 8px; margin-right: 8px; font-size: 0.65rem; animation: pulse 1s infinite; }
-        .blocked-badge { background: #ffa500; color: #1e3c5c; border-radius: 20px; padding: 2px 8px; margin-right: 8px; font-size: 0.65rem; font-weight: bold; animation: blink 1s infinite; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
-        @keyframes blink { 0%,100% { opacity: 1; background: #ffa500; } 50% { opacity: 0.7; background: #ff7700; } }
-        
         .dua-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s; }
         .dua-popup.active { opacity: 1; visibility: visible; }
         .dua-popup-content { background: linear-gradient(145deg, #1e3c5c, #0f2a3f); border-radius: 40px; padding: 30px; max-width: 450px; width: 90%; text-align: center; border: 2px solid #f9b81b; }
@@ -67,46 +60,90 @@
         .popup-btn-primary { background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; }
         .popup-btn-secondary { background: rgba(255,255,255,0.2); color: white; }
         
-        /* نافذة الإعلان المؤقت */
-        .blocked-popup {
+        /* إعلان منبثق عرضي (أفقي) */
+        .announcement-popup {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); z-index: 4000;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 3000;
             display: flex; justify-content: center; align-items: center;
             opacity: 0; visibility: hidden; transition: all 0.4s ease;
         }
-        .blocked-popup.active { opacity: 1; visibility: visible; }
-        .blocked-popup-content {
-            background: linear-gradient(145deg, #1e3c5c, #0f2a3f);
-            border-radius: 50px; padding: 40px; max-width: 480px; width: 90%;
-            text-align: center; border: 3px solid #ffa500;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5); animation: shakeIn 0.5s ease;
+        .announcement-popup.active { opacity: 1; visibility: visible; }
+        .announcement-content {
+            background: linear-gradient(135deg, #1e3c5c, #0f2a3f);
+            border-radius: 30px; padding: 25px 35px;
+            max-width: 700px; width: 90%;
+            text-align: center; border: 2px solid #f9b81b;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            animation: slideInRight 0.5s ease;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
-        @keyframes shakeIn {
-            0% { transform: scale(0.9) rotate(-2deg); opacity: 0; }
-            50% { transform: scale(1.02) rotate(1deg); }
-            100% { transform: scale(1) rotate(0); opacity: 1; }
+        @keyframes slideInRight {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
-        .blocked-popup-content i { font-size: 4rem; color: #ffa500; margin-bottom: 20px; }
-        .blocked-popup-content h2 { color: #ffa500; margin-bottom: 15px; }
-        .blocked-popup-content p { color: white; margin: 15px 0; line-height: 1.8; }
-        .blocked-timer-box {
-            background: rgba(0,0,0,0.5); border-radius: 30px; padding: 20px; margin: 20px 0;
-            border: 2px solid #ffa500;
+        .announcement-icon {
+            font-size: 3.5rem;
+            color: #f9b81b;
+            animation: bounce 1s ease infinite;
         }
-        .blocked-timer-digits {
-            display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+        @keyframes bounce {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
-        .blocked-timer-unit {
-            background: rgba(0,0,0,0.6); border-radius: 15px; padding: 12px; min-width: 80px;
+        .announcement-text {
+            flex: 1;
+            text-align: right;
         }
-        .blocked-timer-number {
-            font-size: 2.5rem; font-weight: bold; color: #ffa500; font-family: monospace;
+        .announcement-text h3 {
+            color: #f9b81b;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
         }
-        .blocked-timer-label { font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-top: 5px; }
-        .blocked-close { background: linear-gradient(135deg, #ffa500, #ff8c00); color: #1e3c5c; border: none; padding: 12px 30px; border-radius: 40px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 15px; transition: all 0.3s; }
-        .blocked-close:hover { transform: scale(1.05); }
-        .notes-link { display: inline-block; margin-top: 15px; color: #f9b81b; text-decoration: none; font-weight: bold; }
-        .notes-link:hover { text-decoration: underline; }
+        .announcement-text p {
+            color: white;
+            margin: 8px 0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .announcement-text .highlight {
+            color: #ffa500;
+            font-weight: bold;
+        }
+        .announcement-text .date-highlight {
+            color: #f9b81b;
+            font-weight: bold;
+        }
+        .announcement-close {
+            background: linear-gradient(135deg, #f9b81b, #e5a00d);
+            color: #1e3c5c;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        .announcement-close:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(249,184,27,0.4);
+        }
+        .notes-link {
+            display: inline-block;
+            margin-top: 5px;
+            color: #f9b81b;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+        .notes-link:hover {
+            text-decoration: underline;
+        }
         
         .golden-logo h1 { font-size: 5rem; background: linear-gradient(135deg, #f9b81b, #ffd700, #e5a00d); -webkit-background-clip: text; background-clip: text; color: transparent; text-align: center; }
         .exam-countdown { background: linear-gradient(135deg, #1e3c5c, #0f2a3f); border-radius: 30px; padding: 25px; margin: 20px auto; max-width: 550px; text-align: center; border: 2px solid #f9b81b; }
@@ -114,7 +151,14 @@
         .countdown-unit { background: rgba(0,0,0,0.5); border-radius: 15px; padding: 12px; min-width: 80px; }
         .countdown-number { font-size: 2.2rem; font-weight: bold; color: #f9b81b; }
         
-        @media (max-width: 768px) { .mobile-menu-btn { width: 45px; height: 45px; } .golden-logo h1 { font-size: 3rem; } .content-area { padding: 70px 15px 15px; } }
+        @media (max-width: 768px) {
+            .mobile-menu-btn { width: 45px; height: 45px; }
+            .golden-logo h1 { font-size: 3rem; }
+            .content-area { padding: 70px 15px 15px; }
+            .announcement-content { padding: 20px; flex-direction: column; text-align: center; }
+            .announcement-text { text-align: center; }
+            .announcement-icon { font-size: 2.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -146,25 +190,24 @@
     <div class="content-area"><div class="iframe-container" id="iframeContainer"><div class="loading"><i class="fas fa-spinner"></i> اختر أحد الأقسام</div></div></div>
 </div>
 
-<!-- نافذة البلوك -->
-<div id="blockedPopup" class="blocked-popup">
-    <div class="blocked-popup-content">
-        <i class="fas fa-ban"></i>
-        <h2>⛔ الموقع غير متاح حالياً</h2>
-        <p>تم إيقاف موقعي <strong>جولات (عبدالرحمن جراح & عبدالرحمن معايطه)</strong> مؤقتاً.</p>
-        <div class="blocked-timer-box">
-            <p style="margin-bottom:15px;"><i class="fas fa-hourglass-half"></i> الموقعان سيعودان تلقائياً بعد:</p>
-            <div class="blocked-timer-digits">
-                <div class="blocked-timer-unit"><div class="blocked-timer-number" id="blockedDays">00</div><div class="blocked-timer-label">أيام</div></div>
-                <div class="blocked-timer-unit"><div class="blocked-timer-number" id="blockedHours">00</div><div class="blocked-timer-label">ساعات</div></div>
-                <div class="blocked-timer-unit"><div class="blocked-timer-number" id="blockedMinutes">00</div><div class="blocked-timer-label">دقائق</div></div>
-                <div class="blocked-timer-unit"><div class="blocked-timer-number" id="blockedSeconds">00</div><div class="blocked-timer-label">ثواني</div></div>
-            </div>
+<!-- إعلان منبثق عرضي -->
+<div id="announcementPopup" class="announcement-popup">
+    <div class="announcement-content">
+        <div class="announcement-icon">
+            <i class="fas fa-exclamation-triangle"></i>
         </div>
-        <p><i class="fas fa-calendar-alt"></i> <strong>سيتم إرجاع الدردشة القديمة بتاريخ 1 يونيو (6/1)</strong></p>
-        <p>📢 لأي ملاحظات أو استفسارات، يرجى إرسالها عبر النموذج أدناه:</p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdVSE0hTHhrN29Ppt7kghMjpG2N9puUD1d4r-6BC4nP5I9mzw/viewform?usp=publish-editor" target="_blank" class="notes-link"><i class="fas fa-pen-alt"></i> 📝 اضغط هنا لإرسال ملاحظاتك</a>
-        <button class="blocked-close" onclick="closeBlockedPopup()"><i class="fas fa-check"></i> فهمت</button>
+        <div class="announcement-text">
+            <h3><i class="fas fa-bell"></i> إشعار مهم</h3>
+            <p>🔧 تم <span class="highlight">حذف قسم "جولات"</span> بشكل مؤقت بسبب <span class="highlight">مشاكل تقنية</span>.</p>
+            <p>📌 في حال تم حل المشكلة، <span class="highlight">سيتم إرجاع الموقعين</span> إن شاء الله.</p>
+            <p>💬 <span class="date-highlight">سيتم إرجاع الدردشة القديمة بتاريخ <i class="fas fa-calendar-alt"></i> <strong>1 يونيو (6/1)</strong></span></p>
+            <p>📢 لأي ملاحظات أو استفسارات: 
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdVSE0hTHhrN29Ppt7kghMjpG2N9puUD1d4r-6BC4nP5I9mzw/viewform?usp=publish-editor" target="_blank" class="notes-link">
+                    <i class="fas fa-pen-alt"></i> اضغط هنا لإرسال ملاحظاتك
+                </a>
+            </p>
+        </div>
+        <button class="announcement-close" onclick="closeAnnouncementPopup()"><i class="fas fa-check-circle"></i> حسناً</button>
     </div>
 </div>
 
@@ -198,8 +241,6 @@
         notebookLM: "https://notebooklm.google.com/notebook/20623484-45c7-4f42-9421-655b2b3d2e0d",
         ministryExams: "https://madarik-exams-hub.lovable.app",
         charity: "https://www.youtube.com/@OSAID123-u2q/shorts",
-        jawlat: "https://lmjo-09.github.io/jawlat/",
-        orbitX: "https://abdalrahmanjarrah.github.io/OrbitX../",
         links: {
             deen_f1: "https://farmbot1238.github.io/DEEN/", arabic_f1: "https://farmbot1238.github.io/Ardic/",
             history_f1: "https://farmbot1238.github.io/MMMNII/", english_f1: "https://farmbot1238.github.io/ENG1/",
@@ -212,61 +253,17 @@
     };
 
     const EXAM_DATE = new Date(2026, 6, 23);
-    
-    // مدة البلوك: يومين (48 ساعة) من الآن
-    let blockEndTime = localStorage.getItem('block_end_time');
-    if (!blockEndTime) {
-        blockEndTime = new Date().getTime() + (2 * 24 * 60 * 60 * 1000);
-        localStorage.setItem('block_end_time', blockEndTime);
+    const ANNOUNCEMENT_KEY = 'announcement_seen_v4';
+
+    function showAnnouncementPopup() {
+        const seen = localStorage.getItem(ANNOUNCEMENT_KEY);
+        if (seen === 'true') return;
+        document.getElementById('announcementPopup').classList.add('active');
     }
     
-    let timerInterval = null;
-
-    function updateBlockedTimer() {
-        const now = new Date().getTime();
-        const remaining = parseInt(blockEndTime) - now;
-        
-        const daysElem = document.getElementById('blockedDays');
-        const hoursElem = document.getElementById('blockedHours');
-        const minutesElem = document.getElementById('blockedMinutes');
-        const secondsElem = document.getElementById('blockedSeconds');
-        
-        if (!daysElem) return;
-        
-        if (remaining <= 0) {
-            if (daysElem) daysElem.textContent = '00';
-            if (hoursElem) hoursElem.textContent = '00';
-            if (minutesElem) minutesElem.textContent = '00';
-            if (secondsElem) secondsElem.textContent = '00';
-            if (timerInterval) clearInterval(timerInterval);
-            // حذف البلوك من localStorage بعد انتهاء المدة
-            localStorage.removeItem('block_end_time');
-            // إعادة بناء القائمة بدون الأقسام المحظورة
-            buildMenu();
-            return;
-        }
-        
-        const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-        
-        daysElem.textContent = days.toString().padStart(2, '0');
-        hoursElem.textContent = hours.toString().padStart(2, '0');
-        minutesElem.textContent = minutes.toString().padStart(2, '0');
-        secondsElem.textContent = seconds.toString().padStart(2, '0');
-    }
-
-    function showBlockedPopup() {
-        document.getElementById('blockedPopup').classList.add('active');
-        updateBlockedTimer();
-        if (timerInterval) clearInterval(timerInterval);
-        timerInterval = setInterval(updateBlockedTimer, 1000);
-    }
-
-    function closeBlockedPopup() {
-        document.getElementById('blockedPopup').classList.remove('active');
-        if (timerInterval) clearInterval(timerInterval);
+    function closeAnnouncementPopup() {
+        document.getElementById('announcementPopup').classList.remove('active');
+        localStorage.setItem(ANNOUNCEMENT_KEY, 'true');
     }
 
     function showYearSelector() {
@@ -284,6 +281,7 @@
             hideYearSelector();
             localStorage.setItem('selectedYear', '2009');
             loadLastSavedPage();
+            showAnnouncementPopup();
         } else if (year === 2010) {
             alert("📢 منصة 2010 لا تزال قيد الإعداد والتطوير");
         }
@@ -351,37 +349,12 @@
         if (!cont) return;
         cont.innerHTML = '';
         
-        // التحقق إذا انتهت مدة البلوك
-        const blockEnd = localStorage.getItem('block_end_time');
-        let isBlocked = true;
-        if (blockEnd) {
-            const remaining = parseInt(blockEnd) - new Date().getTime();
-            if (remaining <= 0) {
-                localStorage.removeItem('block_end_time');
-                isBlocked = false;
-            }
-        } else {
-            isBlocked = false;
-        }
-        
-        // بناء القائمة الأساسية
-        let menuStructure = [
-            { title: "🏠 الرئيسية", items: [{ icon: "fas fa-home", text: "الصفحة الرئيسية", action: "home" }] }
-        ];
-        
-        // إضافة قسم جولات فقط إذا كان البلوك لا يزال فعالاً
-        if (isBlocked) {
-            menuStructure.push({
-                title: "🌐 جولات (موقوف مؤقتاً)",
-                items: [
-                    { icon: "fas fa-user-astronaut", text: "عبدالرحمن جراح", action: "blocked", isBlocked: true },
-                    { icon: "fas fa-globe", text: "عبدالرحمن معايطه", action: "blocked", isBlocked: true }
-                ]
-            });
-        }
-        
-        // باقي الأقسام
-        menuStructure.push(
+        // القائمة بدون قسم جولات
+        const menuStructure = [
+            { 
+                title: "🏠 الرئيسية", 
+                items: [{ icon: "fas fa-home", text: "الصفحة الرئيسية", action: "home" }] 
+            },
             { 
                 title: "✨ خدماتنا", 
                 items: [
@@ -398,47 +371,43 @@
             { 
                 title: "📖 الفصل الأول", 
                 items: [
-                    { icon: "fas fa-mosque", text: "الدين", action: "iframe", url: SITE_CONFIG.links.deen_f1 },
-                    { icon: "fas fa-book", text: "العربي", action: "iframe", url: SITE_CONFIG.links.arabic_f1 },
-                    { icon: "fas fa-landmark", text: "التاريخ", action: "iframe", url: SITE_CONFIG.links.history_f1 },
-                    { icon: "fas fa-language", text: "الانجليزي", action: "iframe", url: SITE_CONFIG.links.english_f1 },
+                    { icon: "fas fa-mosque", text: "الدين (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.deen_f1 },
+                    { icon: "fas fa-book", text: "العربي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.arabic_f1 },
+                    { icon: "fas fa-landmark", text: "التاريخ (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.history_f1 },
+                    { icon: "fas fa-language", text: "الانجليزي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.english_f1 },
                     { icon: "fas fa-database", text: "📚 بنوك الفصل الأول", action: "iframe", url: SITE_CONFIG.links.bank_f1 }
                 ]
             },
             { 
                 title: "📘 الفصل الثاني", 
                 items: [
-                    { icon: "fas fa-mosque", text: "الدين", action: "iframe", url: SITE_CONFIG.links.deen_f2 },
-                    { icon: "fas fa-book", text: "العربي", action: "iframe", url: SITE_CONFIG.links.arabic_f2 },
-                    { icon: "fas fa-landmark", text: "التاريخ", action: "iframe", url: SITE_CONFIG.links.history_f2 },
-                    { icon: "fas fa-language", text: "الانجليزي", action: "iframe", url: SITE_CONFIG.links.english_f2 }
+                    { icon: "fas fa-mosque", text: "الدين (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.deen_f2 },
+                    { icon: "fas fa-book", text: "العربي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.arabic_f2 },
+                    { icon: "fas fa-landmark", text: "التاريخ (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.history_f2 },
+                    { icon: "fas fa-language", text: "الانجليزي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.english_f2 }
                 ]
             },
             { 
                 title: "⚡ إضافات مفيدة", 
                 items: [
                     { icon: "fas fa-bolt", text: "تحدي السرعة الشامل", action: "iframe", url: SITE_CONFIG.links.speed_challenge },
-                    { icon: "fas fa-star", text: "⚡ تحدي السرعة اليومي", action: "iframe", url: SITE_CONFIG.links.speed_daily },
+                    { icon: "fas fa-star", text: "⚡ تحدي السرعة اليومي ⚡", action: "iframe", url: SITE_CONFIG.links.speed_daily },
                     { icon: "fas fa-hourglass-half", text: "⏱️ Timer", action: "iframe", url: SITE_CONFIG.timer },
                     { icon: "fas fa-file-alt", text: "امتحانات وزارية سابقة", action: "iframe", url: SITE_CONFIG.links.exams },
                     { icon: "fas fa-book-open", text: "كتب وزارية", action: "iframe", url: SITE_CONFIG.links.books }
                 ]
             }
-        );
+        ];
         
         menuStructure.forEach(section => {
             const secDiv = document.createElement('div'); secDiv.className = 'menu-section';
             const itemsDiv = document.createElement('div'); itemsDiv.className = 'menu-section-items';
             section.items.forEach(item => {
                 const btn = document.createElement('button'); btn.className = 'menu-btn';
-                const newBadge = item.isNew ? '<span class="new-badge">جديد</span>' : '';
-                const blockedBadge = item.isBlocked ? '<span class="blocked-badge">⛔ موقوف</span>' : '';
-                btn.innerHTML = `<i class="${item.icon}"></i><span>${item.text}${newBadge}${blockedBadge}</span>`;
+                const newBadge = item.isNew ? '<span class="new-badge" style="background:#ff4757;color:white;border-radius:20px;padding:2px 8px;margin-right:8px;font-size:0.65rem;animation:pulse 1s infinite;">جديد</span>' : '';
+                btn.innerHTML = `<i class="${item.icon}"></i><span>${item.text}${newBadge}</span>`;
                 
-                if (item.isBlocked) {
-                    btn.classList.add('disabled');
-                    btn.onclick = () => showBlockedPopup();
-                } else if (item.action === 'iframe') {
+                if (item.action === 'iframe') {
                     btn.onclick = () => loadIframe(item.url);
                 } else if (item.action === 'link') {
                     btn.onclick = () => window.open(item.url, '_blank');
@@ -471,22 +440,20 @@
     document.getElementById('duaPopup').addEventListener('click', (e) => { if (e.target === document.getElementById('duaPopup')) closeDuaPopup(); });
 
     const savedYear = localStorage.getItem('selectedYear');
-    if (savedYear === '2009') { hideYearSelector(); loadLastSavedPage(); }
-    else { showYearSelector(); }
+    if (savedYear === '2009') { 
+        hideYearSelector(); 
+        loadLastSavedPage(); 
+        showAnnouncementPopup();
+    } else { 
+        showYearSelector(); 
+    }
 
     buildMenu();
     
-    // التحقق من انتهاء البلوك كل دقيقة
-    setInterval(() => {
-        const blockEnd = localStorage.getItem('block_end_time');
-        if (blockEnd) {
-            const remaining = parseInt(blockEnd) - new Date().getTime();
-            if (remaining <= 0) {
-                localStorage.removeItem('block_end_time');
-                buildMenu();
-            }
-        }
-    }, 60000);
+    // إضافة style للـ new-badge animation
+    const style = document.createElement('style');
+    style.textContent = `@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }`;
+    document.head.appendChild(style);
 </script>
 </body>
 </html>
