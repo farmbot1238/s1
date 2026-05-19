@@ -50,6 +50,9 @@
         .sidebar-year-switch { padding: 15px 20px; margin: 10px 15px; background: linear-gradient(135deg, #f9b81b, #e5a00d); border-radius: 40px; cursor: pointer; width: calc(100% - 30px); }
         .sidebar-year-switch button { background: transparent; border: none; color: #1e3c5c; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
         
+        .new-badge { background: #ff4757; color: white; border-radius: 20px; padding: 2px 8px; margin-right: 8px; font-size: 0.65rem; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+        
         .dua-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s; }
         .dua-popup.active { opacity: 1; visibility: visible; }
         .dua-popup-content { background: linear-gradient(145deg, #1e3c5c, #0f2a3f); border-radius: 40px; padding: 30px; max-width: 450px; width: 90%; text-align: center; border: 2px solid #f9b81b; }
@@ -198,8 +201,9 @@
         </div>
         <div class="announcement-text">
             <h3><i class="fas fa-bell"></i> إشعار مهم</h3>
-            <p>🔧 تم <span class="highlight">حذف قسم "جولات"</span> بشكل مؤقت بسبب <span class="highlight">مشاكل تقنية</span>.</p>
-            <p>📌 في حال تم حل المشكلة، <span class="highlight">سيتم إرجاع الموقعين</span> إن شاء الله.</p>
+            <p>🔧 تم <span class="highlight">إيقاف موقع عبدالرحمن معايطه (جولات)</span> بشكل مؤقت بسبب <span class="highlight">مشاكل تقنية</span>.</p>
+            <p>✅ موقع <span class="highlight">عبدالرحمن جراح (OrbitX)</span> <span style="color:#4caf50;">يعمل بشكل طبيعي</span>.</p>
+            <p>📌 في حال تم حل المشكلة، <span class="highlight">سيتم إرجاع موقع عبدالرحمن معايطه</span> إن شاء الله.</p>
             <p>💬 <span class="date-highlight">سيتم إرجاع الدردشة القديمة بتاريخ <i class="fas fa-calendar-alt"></i> <strong>1 يونيو (6/1)</strong></span></p>
             <p>📢 لأي ملاحظات أو استفسارات: 
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSdVSE0hTHhrN29Ppt7kghMjpG2N9puUD1d4r-6BC4nP5I9mzw/viewform?usp=publish-editor" target="_blank" class="notes-link">
@@ -241,6 +245,7 @@
         notebookLM: "https://notebooklm.google.com/notebook/20623484-45c7-4f42-9421-655b2b3d2e0d",
         ministryExams: "https://madarik-exams-hub.lovable.app",
         charity: "https://www.youtube.com/@OSAID123-u2q/shorts",
+        orbitX: "https://abdalrahmanjarrah.github.io/OrbitX../",
         links: {
             deen_f1: "https://farmbot1238.github.io/DEEN/", arabic_f1: "https://farmbot1238.github.io/Ardic/",
             history_f1: "https://farmbot1238.github.io/MMMNII/", english_f1: "https://farmbot1238.github.io/ENG1/",
@@ -253,7 +258,7 @@
     };
 
     const EXAM_DATE = new Date(2026, 6, 23);
-    const ANNOUNCEMENT_KEY = 'announcement_seen_v4';
+    const ANNOUNCEMENT_KEY = 'announcement_seen_v5';
 
     function showAnnouncementPopup() {
         const seen = localStorage.getItem(ANNOUNCEMENT_KEY);
@@ -349,11 +354,17 @@
         if (!cont) return;
         cont.innerHTML = '';
         
-        // القائمة بدون قسم جولات
+        // القائمة مع إضافة موقع جراح فقط
         const menuStructure = [
             { 
                 title: "🏠 الرئيسية", 
                 items: [{ icon: "fas fa-home", text: "الصفحة الرئيسية", action: "home" }] 
+            },
+            { 
+                title: "🌐 جولات", 
+                items: [
+                    { icon: "fas fa-user-astronaut", text: "عبدالرحمن جراح", action: "link", url: SITE_CONFIG.orbitX, isNew: true }
+                ]
             },
             { 
                 title: "✨ خدماتنا", 
@@ -404,7 +415,7 @@
             const itemsDiv = document.createElement('div'); itemsDiv.className = 'menu-section-items';
             section.items.forEach(item => {
                 const btn = document.createElement('button'); btn.className = 'menu-btn';
-                const newBadge = item.isNew ? '<span class="new-badge" style="background:#ff4757;color:white;border-radius:20px;padding:2px 8px;margin-right:8px;font-size:0.65rem;animation:pulse 1s infinite;">جديد</span>' : '';
+                const newBadge = item.isNew ? '<span class="new-badge">جديد</span>' : '';
                 btn.innerHTML = `<i class="${item.icon}"></i><span>${item.text}${newBadge}</span>`;
                 
                 if (item.action === 'iframe') {
@@ -449,11 +460,6 @@
     }
 
     buildMenu();
-    
-    // إضافة style للـ new-badge animation
-    const style = document.createElement('style');
-    style.textContent = `@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }`;
-    document.head.appendChild(style);
 </script>
 </body>
 </html>
