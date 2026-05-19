@@ -116,6 +116,10 @@
             color: #ffa500;
             font-weight: bold;
         }
+        .announcement-text .success-highlight {
+            color: #4caf50;
+            font-weight: bold;
+        }
         .announcement-text .date-highlight {
             color: #f9b81b;
             font-weight: bold;
@@ -201,10 +205,10 @@
         </div>
         <div class="announcement-text">
             <h3><i class="fas fa-bell"></i> إشعار مهم</h3>
+            <p>✅ <span class="success-highlight">✔ تم إرجاع الدردشة الدراسية من جديد!</span> يمكنكم الآن استخدامها من قسم "خدماتنا".</p>
             <p>🔧 تم <span class="highlight">إيقاف موقع عبدالرحمن معايطه (جولات)</span> بشكل مؤقت بسبب <span class="highlight">مشاكل تقنية</span>.</p>
             <p>✅ موقع <span class="highlight">عبدالرحمن جراح (OrbitX)</span> <span style="color:#4caf50;">يعمل بشكل طبيعي</span>.</p>
             <p>📌 في حال تم حل المشكلة، <span class="highlight">سيتم إرجاع موقع عبدالرحمن معايطه</span> إن شاء الله.</p>
-            <p>💬 <span class="date-highlight">سيتم إرجاع الدردشة القديمة بتاريخ <i class="fas fa-calendar-alt"></i> <strong>1 يونيو (6/1)</strong></span></p>
             <p>📢 لأي ملاحظات أو استفسارات: 
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLSdVSE0hTHhrN29Ppt7kghMjpG2N9puUD1d4r-6BC4nP5I9mzw/viewform?usp=publish-editor" target="_blank" class="notes-link">
                     <i class="fas fa-pen-alt"></i> اضغط هنا لإرسال ملاحظاتك
@@ -238,6 +242,7 @@
         notesForm: "https://docs.google.com/forms/d/e/1FAIpQLSdVSE0hTHhrN29Ppt7kghMjpG2N9puUD1d4r-6BC4nP5I9mzw/viewform?usp=publish-editor",
         discord: "https://discord.gg/CpF8Uk8Yt",
         timer: "https://farmbot1238.github.io/timer/",
+        chat: "https://cooperate-and-conquer.lovable.app",
         achievement: "https://my-achievement-buddy.lovable.app",
         reward: "https://spiritual-boost.lovable.app",
         shareFiles: "https://unified-login-pal.lovable.app",
@@ -258,7 +263,7 @@
     };
 
     const EXAM_DATE = new Date(2026, 6, 23);
-    const ANNOUNCEMENT_KEY = 'announcement_seen_v5';
+    const ANNOUNCEMENT_KEY = 'announcement_seen_v6';
 
     function showAnnouncementPopup() {
         const seen = localStorage.getItem(ANNOUNCEMENT_KEY);
@@ -354,7 +359,7 @@
         if (!cont) return;
         cont.innerHTML = '';
         
-        // القائمة مع إضافة موقع جراح فقط
+        // القائمة مع إضافة موقع جراح والدردشة
         const menuStructure = [
             { 
                 title: "🏠 الرئيسية", 
@@ -370,7 +375,8 @@
                 title: "✨ خدماتنا", 
                 items: [
                     { icon: "fas fa-graduation-cap", text: "📚 الحس الوزاري", action: "iframe", url: SITE_CONFIG.ministryExams },
-                    { icon: "fas fa-hand-holding-heart", text: "🤲 صدقة جارية", action: "link", url: SITE_CONFIG.charity, isNew: true },
+                    { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "iframe", url: SITE_CONFIG.chat, isNew: true },
+                    { icon: "fas fa-hand-holding-heart", text: "🤲 صدقة جارية", action: "link", url: SITE_CONFIG.charity },
                     { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement },
                     { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "iframe", url: SITE_CONFIG.reward },
                     { icon: "fas fa-share-alt", text: "📂 مشاركة ملفات الدراسة", action: "iframe", url: SITE_CONFIG.shareFiles },
