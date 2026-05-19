@@ -39,6 +39,8 @@
         .menu-section-title { padding: 10px 20px; color: #f9b81b; border-right: 3px solid #f9b81b; margin: 10px 0; background: rgba(0,0,0,0.2); }
         .menu-btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 20px; background: transparent; border: none; color: white; cursor: pointer; text-align: right; }
         .menu-btn:hover { background: rgba(249,184,27,0.2); }
+        .menu-btn.disabled { opacity: 0.6; cursor: pointer; }
+        .menu-btn.disabled:hover { background: rgba(255,165,0,0.2); }
         .mobile-menu-btn { position: fixed; top: 20px; right: 20px; background: #1e3c5c; color: #f9b81b; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; z-index: 200; }
         .content-area { padding: 20px; min-height: 100vh; }
         .iframe-container { background: white; border-radius: 30px; overflow: auto; height: calc(100vh - 40px); }
@@ -51,7 +53,9 @@
         .sidebar-year-switch button { background: transparent; border: none; color: #1e3c5c; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
         
         .new-badge { background: #ff4757; color: white; border-radius: 20px; padding: 2px 8px; margin-right: 8px; font-size: 0.65rem; animation: pulse 1s infinite; }
+        .blocked-badge { background: #ffa500; color: #1e3c5c; border-radius: 20px; padding: 2px 8px; margin-right: 8px; font-size: 0.65rem; font-weight: bold; animation: blink 1s infinite; }
         @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+        @keyframes blink { 0%,100% { opacity: 1; background: #ffa500; } 50% { opacity: 0.7; background: #ff7700; } }
         
         .dua-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s; }
         .dua-popup.active { opacity: 1; visibility: visible; }
@@ -63,32 +67,46 @@
         .popup-btn-primary { background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; }
         .popup-btn-secondary { background: rgba(255,255,255,0.2); color: white; }
         
-        /* اعلان الترحيب */
-        .welcome-popup {
+        /* نافذة الإعلان المؤقت */
+        .blocked-popup {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 3000;
+            background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); z-index: 4000;
             display: flex; justify-content: center; align-items: center;
             opacity: 0; visibility: hidden; transition: all 0.4s ease;
         }
-        .welcome-popup.active { opacity: 1; visibility: visible; }
-        .welcome-popup-content {
+        .blocked-popup.active { opacity: 1; visibility: visible; }
+        .blocked-popup-content {
             background: linear-gradient(145deg, #1e3c5c, #0f2a3f);
-            border-radius: 50px; padding: 40px; max-width: 500px; width: 90%;
-            text-align: center; border: 3px solid #f9b81b;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5); animation: bounceIn 0.5s ease;
+            border-radius: 50px; padding: 40px; max-width: 480px; width: 90%;
+            text-align: center; border: 3px solid #ffa500;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5); animation: shakeIn 0.5s ease;
         }
-        @keyframes bounceIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            80% { transform: scale(1.05); }
-            100% { transform: scale(1); opacity: 1; }
+        @keyframes shakeIn {
+            0% { transform: scale(0.9) rotate(-2deg); opacity: 0; }
+            50% { transform: scale(1.02) rotate(1deg); }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
         }
-        .welcome-popup-content h2 { color: #f9b81b; font-size: 1.8rem; margin-bottom: 15px; }
-        .welcome-popup-content h2 i { margin-left: 10px; }
-        .announcement-box { background: rgba(249,184,27,0.15); border-radius: 30px; padding: 25px; margin: 20px 0; }
-        .announcement-box p { color: white; margin: 15px 0; line-height: 1.8; font-size: 1rem; }
-        .announcement-box .highlight { color: #f9b81b; font-weight: bold; }
-        .close-announcement { background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; border: none; padding: 12px 30px; border-radius: 40px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 15px; transition: all 0.3s; }
-        .close-announcement:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(249,184,27,0.4); }
+        .blocked-popup-content i { font-size: 4rem; color: #ffa500; margin-bottom: 20px; }
+        .blocked-popup-content h2 { color: #ffa500; margin-bottom: 15px; }
+        .blocked-popup-content p { color: white; margin: 15px 0; line-height: 1.8; }
+        .blocked-timer-box {
+            background: rgba(0,0,0,0.5); border-radius: 30px; padding: 20px; margin: 20px 0;
+            border: 2px solid #ffa500;
+        }
+        .blocked-timer-digits {
+            display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+        }
+        .blocked-timer-unit {
+            background: rgba(0,0,0,0.6); border-radius: 15px; padding: 12px; min-width: 80px;
+        }
+        .blocked-timer-number {
+            font-size: 2.5rem; font-weight: bold; color: #ffa500; font-family: monospace;
+        }
+        .blocked-timer-label { font-size: 0.8rem; color: rgba(255,255,255,0.7); margin-top: 5px; }
+        .blocked-close { background: linear-gradient(135deg, #ffa500, #ff8c00); color: #1e3c5c; border: none; padding: 12px 30px; border-radius: 40px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-top: 15px; transition: all 0.3s; }
+        .blocked-close:hover { transform: scale(1.05); }
+        .notes-link { display: inline-block; margin-top: 15px; color: #f9b81b; text-decoration: none; font-weight: bold; }
+        .notes-link:hover { text-decoration: underline; }
         
         .golden-logo h1 { font-size: 5rem; background: linear-gradient(135deg, #f9b81b, #ffd700, #e5a00d); -webkit-background-clip: text; background-clip: text; color: transparent; text-align: center; }
         .exam-countdown { background: linear-gradient(135deg, #1e3c5c, #0f2a3f); border-radius: 30px; padding: 25px; margin: 20px auto; max-width: 550px; text-align: center; border: 2px solid #f9b81b; }
@@ -128,17 +146,25 @@
     <div class="content-area"><div class="iframe-container" id="iframeContainer"><div class="loading"><i class="fas fa-spinner"></i> اختر أحد الأقسام</div></div></div>
 </div>
 
-<!-- اعلان الترحيب -->
-<div id="welcomePopup" class="welcome-popup">
-    <div class="welcome-popup-content">
-        <h2><i class="fas fa-gift"></i> تحديث جديد</h2>
-        <div class="announcement-box">
-            <p><i class="fas fa-rocket" style="color:#f9b81b;"></i> <span class="highlight">🎉 تم إضافة قسم جديد "🌐 جولات" 🎉</span></p>
-            <p>📌 <span class="highlight">عبدالرحمن جراح</span> - منصة OrbitX</p>
-            <p>📌 <span class="highlight">عبدالرحمن معايطه</span> - منصة jawlat (صاحب المنصة)</p>
-            <p style="margin-top:20px;"><i class="fas fa-star" style="color:#ffd700;"></i> استكشف المحتوى الجديد واستمتع بتجربة مميزة!</p>
+<!-- نافذة البلوك -->
+<div id="blockedPopup" class="blocked-popup">
+    <div class="blocked-popup-content">
+        <i class="fas fa-ban"></i>
+        <h2>⛔ الموقع غير متاح حالياً</h2>
+        <p>تم إيقاف موقعي <strong>جولات (عبدالرحمن جراح & عبدالرحمن معايطه)</strong> مؤقتاً.</p>
+        <div class="blocked-timer-box">
+            <p style="margin-bottom:15px;"><i class="fas fa-hourglass-half"></i> الموقعان سيعودان تلقائياً بعد:</p>
+            <div class="blocked-timer-digits">
+                <div class="blocked-timer-unit"><div class="blocked-timer-number" id="blockedDays">00</div><div class="blocked-timer-label">أيام</div></div>
+                <div class="blocked-timer-unit"><div class="blocked-timer-number" id="blockedHours">00</div><div class="blocked-timer-label">ساعات</div></div>
+                <div class="blocked-timer-unit"><div class="blocked-timer-number" id="blockedMinutes">00</div><div class="blocked-timer-label">دقائق</div></div>
+                <div class="blocked-timer-unit"><div class="blocked-timer-number" id="blockedSeconds">00</div><div class="blocked-timer-label">ثواني</div></div>
+            </div>
         </div>
-        <button class="close-announcement" onclick="closeWelcomePopup()"><i class="fas fa-check-circle"></i> حسناً، استعرضت التحديث</button>
+        <p><i class="fas fa-calendar-alt"></i> <strong>سيتم إرجاع الدردشة القديمة بتاريخ 1 يونيو (6/1)</strong></p>
+        <p>📢 لأي ملاحظات أو استفسارات، يرجى إرسالها عبر النموذج أدناه:</p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdVSE0hTHhrN29Ppt7kghMjpG2N9puUD1d4r-6BC4nP5I9mzw/viewform?usp=publish-editor" target="_blank" class="notes-link"><i class="fas fa-pen-alt"></i> 📝 اضغط هنا لإرسال ملاحظاتك</a>
+        <button class="blocked-close" onclick="closeBlockedPopup()"><i class="fas fa-check"></i> فهمت</button>
     </div>
 </div>
 
@@ -162,6 +188,7 @@
     const SITE_CONFIG = {
         email: "abdalrhmanmaaith1@gmail.com",
         suggestionForm: "https://docs.google.com/forms/d/e/1FAIpQLSeOP7ow84vcJ-q8tm4YlHsKMCuGdoL-E5OCJw6C66PDrbMpWw/viewform?usp=dialog",
+        notesForm: "https://docs.google.com/forms/d/e/1FAIpQLSdVSE0hTHhrN29Ppt7kghMjpG2N9puUD1d4r-6BC4nP5I9mzw/viewform?usp=publish-editor",
         discord: "https://discord.gg/CpF8Uk8Yt",
         timer: "https://farmbot1238.github.io/timer/",
         achievement: "https://my-achievement-buddy.lovable.app",
@@ -185,67 +212,61 @@
     };
 
     const EXAM_DATE = new Date(2026, 6, 23);
-    const ANNOUNCEMENT_KEY = 'announcement_seen_2009_v2';
-    const ANNOUNCEMENT_DATE_KEY = 'announcement_date';
+    
+    // مدة البلوك: يومين (48 ساعة) من الآن
+    let blockEndTime = localStorage.getItem('block_end_time');
+    if (!blockEndTime) {
+        blockEndTime = new Date().getTime() + (2 * 24 * 60 * 60 * 1000);
+        localStorage.setItem('block_end_time', blockEndTime);
+    }
+    
+    let timerInterval = null;
 
-    let MENU_STRUCTURE = [
-        { title: "🏠 الرئيسية", items: [{ icon: "fas fa-home", text: "الصفحة الرئيسية", action: "home" }] },
-        { title: "🌐 جولات", items: [
-            { icon: "fas fa-user-astronaut", text: "عبدالرحمن جراح", action: "link", url: SITE_CONFIG.orbitX, isNew: true },
-            { icon: "fas fa-globe", text: "عبدالرحمن معايطه", action: "iframe", url: SITE_CONFIG.jawlat, isNew: true }
-        ]},
-        { title: "✨ خدماتنا", items: [
-            { icon: "fas fa-graduation-cap", text: "📚 الحس الوزاري", action: "iframe", url: SITE_CONFIG.ministryExams },
-            { icon: "fas fa-hand-holding-heart", text: "🤲 صدقة جارية", action: "link", url: SITE_CONFIG.charity, isNew: true },
-            { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement },
-            { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "iframe", url: SITE_CONFIG.reward },
-            { icon: "fas fa-share-alt", text: "📂 مشاركة ملفات الدراسة", action: "iframe", url: SITE_CONFIG.shareFiles },
-            { icon: "fab fa-discord", text: "سيرفر ديسكورد", action: "link", url: SITE_CONFIG.discord },
-            { icon: "fab fa-youtube", text: "📢 تحديثات الموقع", action: "link", url: SITE_CONFIG.youtubePosts },
-            { icon: "fas fa-brain", text: "📓 NoteBookLM", action: "link", url: SITE_CONFIG.notebookLM }
-        ]},
-        { title: "📖 الفصل الأول", items: [
-            { icon: "fas fa-mosque", text: "الدين", action: "iframe", url: SITE_CONFIG.links.deen_f1 },
-            { icon: "fas fa-book", text: "العربي", action: "iframe", url: SITE_CONFIG.links.arabic_f1 },
-            { icon: "fas fa-landmark", text: "التاريخ", action: "iframe", url: SITE_CONFIG.links.history_f1 },
-            { icon: "fas fa-language", text: "الانجليزي", action: "iframe", url: SITE_CONFIG.links.english_f1 },
-            { icon: "fas fa-database", text: "📚 بنوك الفصل الأول", action: "iframe", url: SITE_CONFIG.links.bank_f1 }
-        ]},
-        { title: "📘 الفصل الثاني", items: [
-            { icon: "fas fa-mosque", text: "الدين", action: "iframe", url: SITE_CONFIG.links.deen_f2 },
-            { icon: "fas fa-book", text: "العربي", action: "iframe", url: SITE_CONFIG.links.arabic_f2 },
-            { icon: "fas fa-landmark", text: "التاريخ", action: "iframe", url: SITE_CONFIG.links.history_f2 },
-            { icon: "fas fa-language", text: "الانجليزي", action: "iframe", url: SITE_CONFIG.links.english_f2 }
-        ]},
-        { title: "⚡ إضافات مفيدة", items: [
-            { icon: "fas fa-bolt", text: "تحدي السرعة الشامل", action: "iframe", url: SITE_CONFIG.links.speed_challenge },
-            { icon: "fas fa-star", text: "⚡ تحدي السرعة اليومي", action: "iframe", url: SITE_CONFIG.links.speed_daily },
-            { icon: "fas fa-hourglass-half", text: "⏱️ Timer", action: "iframe", url: SITE_CONFIG.timer },
-            { icon: "fas fa-file-alt", text: "امتحانات وزارية سابقة", action: "iframe", url: SITE_CONFIG.links.exams },
-            { icon: "fas fa-book-open", text: "كتب وزارية", action: "iframe", url: SITE_CONFIG.links.books }
-        ]}
-    ];
-
-    function showWelcomePopupIfNeeded() {
-        const seen = localStorage.getItem(ANNOUNCEMENT_KEY);
-        const announcementDate = localStorage.getItem(ANNOUNCEMENT_DATE_KEY);
+    function updateBlockedTimer() {
         const now = new Date().getTime();
-        const threeDays = 3 * 24 * 60 * 60 * 1000;
+        const remaining = parseInt(blockEndTime) - now;
         
-        if (seen === 'true' && announcementDate && (now - parseInt(announcementDate)) < threeDays) {
+        const daysElem = document.getElementById('blockedDays');
+        const hoursElem = document.getElementById('blockedHours');
+        const minutesElem = document.getElementById('blockedMinutes');
+        const secondsElem = document.getElementById('blockedSeconds');
+        
+        if (!daysElem) return;
+        
+        if (remaining <= 0) {
+            if (daysElem) daysElem.textContent = '00';
+            if (hoursElem) hoursElem.textContent = '00';
+            if (minutesElem) minutesElem.textContent = '00';
+            if (secondsElem) secondsElem.textContent = '00';
+            if (timerInterval) clearInterval(timerInterval);
+            // حذف البلوك من localStorage بعد انتهاء المدة
+            localStorage.removeItem('block_end_time');
+            // إعادة بناء القائمة بدون الأقسام المحظورة
+            buildMenu();
             return;
         }
         
-        if (seen !== 'true' || (announcementDate && (now - parseInt(announcementDate)) >= threeDays)) {
-            document.getElementById('welcomePopup').classList.add('active');
-            document.getElementById('sidebar').classList.add('open');
-        }
+        const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+        
+        daysElem.textContent = days.toString().padStart(2, '0');
+        hoursElem.textContent = hours.toString().padStart(2, '0');
+        minutesElem.textContent = minutes.toString().padStart(2, '0');
+        secondsElem.textContent = seconds.toString().padStart(2, '0');
     }
-    
-    function closeWelcomePopup() {
-        document.getElementById('welcomePopup').classList.remove('active');
-        localStorage.setItem(ANNOUNCEMENT_KEY, 'true');
-        localStorage.setItem(ANNOUNCEMENT_DATE_KEY, new Date().getTime().toString());
+
+    function showBlockedPopup() {
+        document.getElementById('blockedPopup').classList.add('active');
+        updateBlockedTimer();
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(updateBlockedTimer, 1000);
+    }
+
+    function closeBlockedPopup() {
+        document.getElementById('blockedPopup').classList.remove('active');
+        if (timerInterval) clearInterval(timerInterval);
     }
 
     function showYearSelector() {
@@ -263,7 +284,6 @@
             hideYearSelector();
             localStorage.setItem('selectedYear', '2009');
             loadLastSavedPage();
-            showWelcomePopupIfNeeded();
         } else if (year === 2010) {
             alert("📢 منصة 2010 لا تزال قيد الإعداد والتطوير");
         }
@@ -328,23 +348,110 @@
 
     function buildMenu() {
         const cont = document.getElementById('menuContainer');
+        if (!cont) return;
         cont.innerHTML = '';
-        MENU_STRUCTURE.forEach(section => {
+        
+        // التحقق إذا انتهت مدة البلوك
+        const blockEnd = localStorage.getItem('block_end_time');
+        let isBlocked = true;
+        if (blockEnd) {
+            const remaining = parseInt(blockEnd) - new Date().getTime();
+            if (remaining <= 0) {
+                localStorage.removeItem('block_end_time');
+                isBlocked = false;
+            }
+        } else {
+            isBlocked = false;
+        }
+        
+        // بناء القائمة الأساسية
+        let menuStructure = [
+            { title: "🏠 الرئيسية", items: [{ icon: "fas fa-home", text: "الصفحة الرئيسية", action: "home" }] }
+        ];
+        
+        // إضافة قسم جولات فقط إذا كان البلوك لا يزال فعالاً
+        if (isBlocked) {
+            menuStructure.push({
+                title: "🌐 جولات (موقوف مؤقتاً)",
+                items: [
+                    { icon: "fas fa-user-astronaut", text: "عبدالرحمن جراح", action: "blocked", isBlocked: true },
+                    { icon: "fas fa-globe", text: "عبدالرحمن معايطه", action: "blocked", isBlocked: true }
+                ]
+            });
+        }
+        
+        // باقي الأقسام
+        menuStructure.push(
+            { 
+                title: "✨ خدماتنا", 
+                items: [
+                    { icon: "fas fa-graduation-cap", text: "📚 الحس الوزاري", action: "iframe", url: SITE_CONFIG.ministryExams },
+                    { icon: "fas fa-hand-holding-heart", text: "🤲 صدقة جارية", action: "link", url: SITE_CONFIG.charity, isNew: true },
+                    { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement },
+                    { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "iframe", url: SITE_CONFIG.reward },
+                    { icon: "fas fa-share-alt", text: "📂 مشاركة ملفات الدراسة", action: "iframe", url: SITE_CONFIG.shareFiles },
+                    { icon: "fab fa-discord", text: "سيرفر ديسكورد", action: "link", url: SITE_CONFIG.discord },
+                    { icon: "fab fa-youtube", text: "📢 تحديثات الموقع", action: "link", url: SITE_CONFIG.youtubePosts },
+                    { icon: "fas fa-brain", text: "📓 NoteBookLM", action: "link", url: SITE_CONFIG.notebookLM }
+                ]
+            },
+            { 
+                title: "📖 الفصل الأول", 
+                items: [
+                    { icon: "fas fa-mosque", text: "الدين", action: "iframe", url: SITE_CONFIG.links.deen_f1 },
+                    { icon: "fas fa-book", text: "العربي", action: "iframe", url: SITE_CONFIG.links.arabic_f1 },
+                    { icon: "fas fa-landmark", text: "التاريخ", action: "iframe", url: SITE_CONFIG.links.history_f1 },
+                    { icon: "fas fa-language", text: "الانجليزي", action: "iframe", url: SITE_CONFIG.links.english_f1 },
+                    { icon: "fas fa-database", text: "📚 بنوك الفصل الأول", action: "iframe", url: SITE_CONFIG.links.bank_f1 }
+                ]
+            },
+            { 
+                title: "📘 الفصل الثاني", 
+                items: [
+                    { icon: "fas fa-mosque", text: "الدين", action: "iframe", url: SITE_CONFIG.links.deen_f2 },
+                    { icon: "fas fa-book", text: "العربي", action: "iframe", url: SITE_CONFIG.links.arabic_f2 },
+                    { icon: "fas fa-landmark", text: "التاريخ", action: "iframe", url: SITE_CONFIG.links.history_f2 },
+                    { icon: "fas fa-language", text: "الانجليزي", action: "iframe", url: SITE_CONFIG.links.english_f2 }
+                ]
+            },
+            { 
+                title: "⚡ إضافات مفيدة", 
+                items: [
+                    { icon: "fas fa-bolt", text: "تحدي السرعة الشامل", action: "iframe", url: SITE_CONFIG.links.speed_challenge },
+                    { icon: "fas fa-star", text: "⚡ تحدي السرعة اليومي", action: "iframe", url: SITE_CONFIG.links.speed_daily },
+                    { icon: "fas fa-hourglass-half", text: "⏱️ Timer", action: "iframe", url: SITE_CONFIG.timer },
+                    { icon: "fas fa-file-alt", text: "امتحانات وزارية سابقة", action: "iframe", url: SITE_CONFIG.links.exams },
+                    { icon: "fas fa-book-open", text: "كتب وزارية", action: "iframe", url: SITE_CONFIG.links.books }
+                ]
+            }
+        );
+        
+        menuStructure.forEach(section => {
             const secDiv = document.createElement('div'); secDiv.className = 'menu-section';
             const itemsDiv = document.createElement('div'); itemsDiv.className = 'menu-section-items';
             section.items.forEach(item => {
                 const btn = document.createElement('button'); btn.className = 'menu-btn';
                 const newBadge = item.isNew ? '<span class="new-badge">جديد</span>' : '';
-                btn.innerHTML = `<i class="${item.icon}"></i><span>${item.text}${newBadge}</span>`;
-                if (item.action === 'iframe') btn.onclick = () => loadIframe(item.url);
-                else if (item.action === 'link') btn.onclick = () => window.open(item.url, '_blank');
-                else if (item.action === 'home') btn.onclick = () => showWelcome2009();
+                const blockedBadge = item.isBlocked ? '<span class="blocked-badge">⛔ موقوف</span>' : '';
+                btn.innerHTML = `<i class="${item.icon}"></i><span>${item.text}${newBadge}${blockedBadge}</span>`;
+                
+                if (item.isBlocked) {
+                    btn.classList.add('disabled');
+                    btn.onclick = () => showBlockedPopup();
+                } else if (item.action === 'iframe') {
+                    btn.onclick = () => loadIframe(item.url);
+                } else if (item.action === 'link') {
+                    btn.onclick = () => window.open(item.url, '_blank');
+                } else if (item.action === 'home') {
+                    btn.onclick = () => showWelcome2009();
+                }
                 itemsDiv.appendChild(btn);
             });
             secDiv.innerHTML = `<div class="menu-section-title">${section.title}</div>`;
             secDiv.appendChild(itemsDiv);
             cont.appendChild(secDiv);
         });
+        
         const emailDiv = document.createElement('div'); emailDiv.className = 'email-text';
         emailDiv.innerHTML = `<i class="fas fa-envelope"></i> ${SITE_CONFIG.email}`;
         cont.appendChild(emailDiv);
@@ -364,10 +471,22 @@
     document.getElementById('duaPopup').addEventListener('click', (e) => { if (e.target === document.getElementById('duaPopup')) closeDuaPopup(); });
 
     const savedYear = localStorage.getItem('selectedYear');
-    if (savedYear === '2009') { hideYearSelector(); loadLastSavedPage(); showWelcomePopupIfNeeded(); }
+    if (savedYear === '2009') { hideYearSelector(); loadLastSavedPage(); }
     else { showYearSelector(); }
 
     buildMenu();
+    
+    // التحقق من انتهاء البلوك كل دقيقة
+    setInterval(() => {
+        const blockEnd = localStorage.getItem('block_end_time');
+        if (blockEnd) {
+            const remaining = parseInt(blockEnd) - new Date().getTime();
+            if (remaining <= 0) {
+                localStorage.removeItem('block_end_time');
+                buildMenu();
+            }
+        }
+    }, 60000);
 </script>
 </body>
 </html>
