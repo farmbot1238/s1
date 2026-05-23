@@ -4,936 +4,488 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>مدارك جو | منصة التعليم الذكية</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="مدارك جو - منصة تعليمية ذكية للطلاب. اختبر نفسك في المواد الدراسية، تواصل مع زملائك، وطور مهاراتك مع مدارك جو.">
-    <meta name="keywords" content="مدارك, مدارك جو, تعليم, منصة تعليمية, اختبارات,  دراسة, طلاب">
-    <meta name="author" content="مدارك جو">
-    <meta name="robots" content="index, follow">
-    
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JLP93VX7X"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-1JLP93VX7X');
-    </script>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(145deg, #f0f4f8 0%, #d9e2ec 100%);
-            min-height: 100vh;
-            direction: rtl;
-            transition: all 0.3s ease;
-        }
-
-        /* شاشة اختيار السنة */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: linear-gradient(145deg, #f0f4f8 0%, #d9e2ec 100%); min-height: 100vh; direction: rtl; }
+        
         .year-selector-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(145deg, #1e3c5c, #0f2a3f);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            overflow-y: auto;
-            padding: 40px 20px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(145deg, #1e3c5c, #0f2a3f); z-index: 1000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px 20px;
         }
-
-        .screen-content {
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .logo-area h1 {
-            font-size: 3.5rem;
-            background: linear-gradient(135deg, #f9b81b, #ffd700);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 20px;
-        }
-
-        .about-text {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 30px;
-            margin: 30px 0;
-            color: white;
-            line-height: 1.8;
-        }
-
-        .about-text h2 {
-            color: #f9b81b;
-            margin-bottom: 15px;
-        }
-
-        .about-text p {
-            margin-bottom: 15px;
-            font-size: 1rem;
-        }
-
-        .years-container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .year-card {
-            width: 250px;
-            padding: 35px 20px;
-            text-align: center;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 40px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(249,184,27,0.5);
-        }
-
-        .year-card:hover {
-            transform: translateY(-5px);
-            background: rgba(249,184,27,0.2);
-            border-color: #f9b81b;
-        }
-
-        .year-card h2 {
-            font-size: 3rem;
-            color: #f9b81b;
-            margin-bottom: 10px;
-        }
-
-        .year-card p {
-            color: white;
-            font-size: 0.9rem;
-        }
-
-        .year-card.disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .year-card.disabled:hover {
-            transform: none;
-            background: rgba(255,255,255,0.1);
-        }
-
-        /* التطبيق الرئيسي */
-        .main-app {
-            display: none;
-        }
-
-        .main-app.active {
-            display: block;
-        }
-
-        /* شعار 2009 الذهبي */
-        .golden-logo {
-            text-align: center;
-            margin: 20px 0 30px;
-            position: relative;
-        }
-
-        .golden-logo h1 {
-            font-size: 5rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #f9b81b, #ffd700, #e5a00d);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 20px rgba(249,184,27,0.5);
-            animation: sparkle 1.5s ease-in-out infinite;
-            letter-spacing: 5px;
-        }
-
-        @keyframes sparkle {
-            0%, 100% { text-shadow: 0 0 5px rgba(249,184,27,0.5); opacity: 1; }
-            50% { text-shadow: 0 0 30px rgba(249,184,27,0.8), 0 0 10px #ffd700; opacity: 0.95; }
-        }
-
-        .golden-logo::before {
-            content: '⚡';
-            position: absolute;
-            top: -20px;
-            right: 20%;
-            font-size: 2rem;
-            animation: starMove 2s ease-in-out infinite;
-        }
-
-        .golden-logo::after {
-            content: '⚡';
-            position: absolute;
-            bottom: -20px;
-            left: 20%;
-            font-size: 2rem;
-            animation: starMove 2s ease-in-out infinite reverse;
-        }
-
-        @keyframes starMove {
-            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            50% { transform: translateY(-10px) rotate(20deg); opacity: 0.7; }
-        }
-
-        /* عداد الامتحان */
-        .exam-countdown {
-            background: linear-gradient(135deg, #1e3c5c, #0f2a3f);
-            border-radius: 30px;
-            padding: 25px 20px;
-            margin: 20px auto;
-            max-width: 550px;
-            text-align: center;
-            border: 2px solid #f9b81b;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        .exam-countdown h3 {
-            color: #f9b81b;
-            font-size: 1.6rem;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .exam-countdown h3 i {
-            font-size: 1.8rem;
-        }
-
-        .exam-day {
-            color: #ffd700;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            border-bottom: 1px dashed rgba(249,184,27,0.5);
-            display: inline-block;
-            padding-bottom: 8px;
-        }
-
-        .countdown-timer {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin: 15px 0;
-        }
-
-        .countdown-unit {
-            background: rgba(0,0,0,0.5);
-            border-radius: 15px;
-            padding: 12px 18px;
-            min-width: 80px;
-        }
-
-        .countdown-number {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: #f9b81b;
-            line-height: 1;
-        }
-
-        .countdown-label {
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.7);
-            margin-top: 5px;
-        }
-
-        .exam-message {
-            margin-top: 15px;
-            padding: 8px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-
-        .exam-message.warning {
-            background: rgba(255,71,87,0.2);
-            color: #ff6b81;
-        }
-
-        .exam-message.exam-day {
-            background: rgba(249,184,27,0.2);
-            color: #f9b81b;
-            font-weight: bold;
-        }
-
-        .exam-message.passed {
-            background: rgba(46,125,50,0.2);
-            color: #6bff7b;
-        }
-
-        /* القائمة الجانبية */
+        .screen-content { max-width: 800px; width: 100%; text-align: center; }
+        .logo-area h1 { font-size: 3.5rem; background: linear-gradient(135deg, #f9b81b, #ffd700); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .about-text { background: rgba(255,255,255,0.1); border-radius: 30px; padding: 30px; margin: 30px 0; color: white; }
+        .about-text h2 { color: #f9b81b; margin-bottom: 15px; }
+        .years-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .year-card { width: 250px; padding: 35px 20px; text-align: center; background: rgba(255,255,255,0.1); border-radius: 40px; cursor: pointer; transition: all 0.3s; border: 2px solid rgba(249,184,27,0.5); }
+        .year-card:hover { transform: translateY(-5px); background: rgba(249,184,27,0.2); border-color: #f9b81b; }
+        .year-card h2 { font-size: 3rem; color: #f9b81b; }
+        .year-card.disabled { opacity: 0.6; cursor: not-allowed; }
+        
+        .main-app { display: none; }
+        .main-app.active { display: block; }
+        
         .sidebar {
-            position: fixed;
-            right: -300px;
-            top: 0;
-            width: 300px;
-            height: 100vh;
+            position: fixed; right: -300px; top: 0; width: 300px; height: 100vh;
             background: linear-gradient(180deg, #1e3c5c 0%, #0f2a3f 100%);
-            color: white;
-            overflow-y: auto;
-            z-index: 100;
-            box-shadow: -5px 0 20px rgba(0,0,0,0.2);
-            transition: right 0.3s ease;
+            color: white; z-index: 100; transition: right 0.3s; overflow-y: auto;
         }
-
-        .sidebar.open {
-            right: 0;
-        }
-
-        .sidebar-header {
-            padding: 25px 20px;
-            text-align: center;
-            border-bottom: 3px solid #f9b81b;
-        }
-
-        .sidebar-header h1 {
-            font-size: 1.8rem;
-            color: #f9b81b;
-        }
-
-        .sidebar-header p {
-            font-size: 0.85rem;
-            margin-top: 8px;
-            opacity: 0.8;
-        }
-
-        .sidebar-menu {
-            padding: 15px 0 30px;
-        }
-
-        .menu-section {
-            margin-bottom: 25px;
-        }
-
-        .menu-section-title {
-            padding: 10px 20px;
-            font-size: 1rem;
-            font-weight: bold;
-            color: #f9b81b;
-            border-right: 3px solid #f9b81b;
-            margin: 10px 0 5px 0;
-            background: rgba(0,0,0,0.2);
-        }
-
-        .menu-section-items {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .menu-btn {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 100%;
-            padding: 10px 20px;
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 0.95rem;
-            text-align: right;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border-right: 3px solid transparent;
-        }
-
-        .menu-btn i {
-            width: 28px;
-            font-size: 1.1rem;
-        }
-
-        .menu-btn:hover {
-            background: rgba(249, 184, 27, 0.2);
-            border-right-color: #f9b81b;
-        }
-
-        .new-badge {
-            background: #ff4757;
-            color: white;
-            font-size: 0.65rem;
-            font-weight: bold;
-            padding: 2px 8px;
+        .sidebar.open { right: 0; }
+        .sidebar-header { padding: 25px 20px; text-align: center; border-bottom: 3px solid #f9b81b; }
+        .sidebar-header h1 { color: #f9b81b; }
+        .menu-section { margin-bottom: 25px; }
+        .menu-section-title { padding: 10px 20px; color: #f9b81b; border-right: 3px solid #f9b81b; margin: 10px 0; background: rgba(0,0,0,0.2); }
+        .menu-btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 20px; background: transparent; border: none; color: white; cursor: pointer; text-align: right; }
+        .menu-btn:hover { background: rgba(249,184,27,0.2); }
+        .mobile-menu-btn { position: fixed; top: 20px; right: 20px; background: #1e3c5c; color: #f9b81b; border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; z-index: 200; }
+        .content-area { padding: 20px; min-height: 100vh; }
+        .iframe-container { background: white; border-radius: 30px; overflow: auto; height: calc(100vh - 40px); }
+        iframe { width: 100%; height: 100%; border: none; }
+        .loading { display: flex; justify-content: center; align-items: center; height: 100%; color: #1e3c5c; }
+        .dua-suggestion-btn { padding: 12px 20px; margin: 10px 15px; background: linear-gradient(135deg, #2e7d32, #1b5e20); border-radius: 40px; cursor: pointer; width: calc(100% - 30px); }
+        .dua-suggestion-btn button { background: transparent; border: none; color: #ffd700; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
+        .email-text { padding: 10px 20px; margin: 5px 15px; background: rgba(249,184,27,0.1); border-radius: 12px; color: #f9b81b; text-align: center; }
+        .sidebar-year-switch { padding: 15px 20px; margin: 10px 15px; background: linear-gradient(135deg, #f9b81b, #e5a00d); border-radius: 40px; cursor: pointer; width: calc(100% - 30px); }
+        .sidebar-year-switch button { background: transparent; border: none; color: #1e3c5c; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
+        
+        .announcement-box {
+            background: linear-gradient(135deg, rgba(249,184,27,0.2), rgba(249,184,27,0.05));
+            border: 2px solid #f9b81b;
             border-radius: 20px;
-            margin-right: 8px;
-            display: inline-block;
-            animation: pulse 1.2s ease infinite;
+            padding: 15px;
+            margin: 0;
+            text-align: center;
+            width: 100%;
+            animation: pulse 1.5s infinite;
         }
-
+        .announcement-box i { font-size: 1.5rem; color: #f9b81b; margin-left: 10px; }
+        .announcement-box p { color: #f9b81b; font-weight: bold; font-size: 0.9rem; margin: 5px 0; }
+        .announcement-box small { color: rgba(255,255,255,0.7); font-size: 0.75rem; }
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); background: #ff4757; }
-            50% { opacity: 0.8; transform: scale(1.05); background: #ff6b81; }
+            0%,100% { border-color: #f9b81b; box-shadow: 0 0 0 0 rgba(249,184,27,0.4); }
+            50% { border-color: #ffd700; box-shadow: 0 0 15px 5px rgba(249,184,27,0.3); }
         }
-
-        .email-text {
-            padding: 10px 20px;
-            margin: 5px 15px 10px 15px;
-            background: rgba(249, 184, 27, 0.1);
-            border-radius: 12px;
-            font-size: 0.85rem;
-            color: #f9b81b;
-            text-align: center;
-            direction: ltr;
-            border: 1px dashed rgba(249, 184, 27, 0.3);
-        }
-
-        /* زر تبديل السنة داخل القائمة الجانبية */
-        .sidebar-year-switch {
-            padding: 15px 20px;
-            margin: 10px 15px;
-            background: linear-gradient(135deg, #f9b81b, #e5a00d);
-            border-radius: 40px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            width: calc(100% - 30px);
-        }
-
-        .sidebar-year-switch:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 15px rgba(249,184,27,0.4);
-        }
-
-        .sidebar-year-switch button {
-            background: transparent;
-            border: none;
-            color: #1e3c5c;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .sidebar-year-switch i {
-            font-size: 1.2rem;
-        }
-
-        .content-area {
-            margin-right: 0;
-            padding: 20px;
-            min-height: 100vh;
-        }
-
-        .mobile-menu-btn {
-            display: flex !important;
-            align-items: center;
-            justify-content: center;
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #1e3c5c;
-            color: #f9b81b;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 200;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-        }
-
-        .iframe-container {
-            background: white;
-            border-radius: 30px;
-            overflow: auto;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-            height: calc(100vh - 40px);
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            font-size: 1.2rem;
-            color: #1e3c5c;
-        }
-
-        .loading i {
-            animation: spin 1s linear infinite;
-            margin-left: 10px;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
+        
+        .dua-popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s; }
+        .dua-popup.active { opacity: 1; visibility: visible; }
+        .dua-popup-content { background: linear-gradient(145deg, #1e3c5c, #0f2a3f); border-radius: 40px; padding: 30px; max-width: 450px; width: 90%; text-align: center; border: 2px solid #f9b81b; }
+        .dua-popup-content h3 { color: #f9b81b; }
+        .dua-text { background: rgba(255,255,255,0.1); border-radius: 25px; padding: 20px; margin: 20px 0; color: white; }
+        .popup-buttons { display: flex; gap: 15px; justify-content: center; }
+        .popup-btn { padding: 12px 25px; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; }
+        .popup-btn-primary { background: linear-gradient(135deg, #f9b81b, #e5a00d); color: #1e3c5c; }
+        .popup-btn-secondary { background: rgba(255,255,255,0.2); color: white; }
+        
+        .golden-logo h1 { font-size: 5rem; background: linear-gradient(135deg, #f9b81b, #ffd700, #e5a00d); -webkit-background-clip: text; background-clip: text; color: transparent; text-align: center; }
+        .exam-countdown { background: linear-gradient(135deg, #1e3c5c, #0f2a3f); border-radius: 30px; padding: 25px; margin: 20px auto; max-width: 550px; text-align: center; border: 2px solid #f9b81b; }
+        .countdown-timer { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .countdown-unit { background: rgba(0,0,0,0.5); border-radius: 15px; padding: 12px; min-width: 80px; }
+        .countdown-number { font-size: 2.2rem; font-weight: bold; color: #f9b81b; }
+        
         .status-message {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 12px 20px;
-            border-radius: 12px;
-            text-align: center;
-            z-index: 1100;
-            display: none;
-            animation: slideUp 0.3s ease;
-            font-weight: bold;
+            position: fixed; bottom: 20px; left: 20px; right: 20px; max-width: 400px; margin: 0 auto;
+            padding: 12px 20px; border-radius: 12px; text-align: center; z-index: 1100;
+            display: none; animation: slideUp 0.3s ease; font-weight: bold;
         }
-
-        @keyframes slideUp {
-            from { transform: translateY(100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .status-message.success { background: #2e7d32; color: white; }
-        .status-message.error { background: #c62828; color: white; }
         .status-message.info { background: #f9b81b; color: #1e3c5c; }
-
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
         @media (max-width: 768px) {
-            .mobile-menu-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 1.3rem;
-                top: 15px;
-                right: 15px;
-            }
-            .golden-logo h1 {
-                font-size: 3rem;
-            }
-            .logo-area h1 {
-                font-size: 2.2rem;
-            }
-            .content-area {
-                padding: 70px 15px 15px;
-            }
-            .year-card {
-                width: 200px;
-                padding: 25px 15px;
-            }
-            .sidebar-year-switch {
-                padding: 12px 15px;
-            }
-            .countdown-unit {
-                min-width: 60px;
-                padding: 8px 12px;
-            }
-            .countdown-number {
-                font-size: 1.6rem;
-            }
-            .exam-countdown h3 {
-                font-size: 1.2rem;
-            }
-            .exam-day {
-                font-size: 1rem;
-            }
+            .mobile-menu-btn { width: 45px; height: 45px; }
+            .golden-logo h1 { font-size: 3rem; }
+            .content-area { padding: 70px 15px 15px; }
         }
     </style>
 </head>
 <body>
-    <!-- شاشة اختيار السنة -->
-    <div id="yearSelectorScreen" class="year-selector-screen">
-        <div class="screen-content">
-            <div class="logo-area">
-                <h1>📚 مدارك جو</h1>
-            </div>
-            
-            <div class="about-text">
-                <h2><i class="fas fa-info-circle"></i> نبذة عن المنصة</h2>
-                <p>مدارك جو هي منصة تعليمية ذكية تهدف إلى مساعدة الطلاب على التفوق الدراسي من خلال اختبارات تفاعلية، تحديات سرعة، ومراجعات ذكية.</p>
-                <p>📌 <strong>خدماتنا تشمل:</strong> اختبارات الفصل الأول والثاني، بنوك أسئلة، تحدي السرعة، امتحانات وزارية سابقة، كتب وزارية، دردشة دراسية، وأكثر من ذلك بكثير!</p>
-                <p>🎯 المنصة مصممة لتكون رفيقك في الرحلة التعليمية، نقدم لك تجربة تعلم ممتعة وفعالة تساعدك على تحقيق أهدافك الدراسية.</p>
-                <p>✨ <strong>اختر الإصدار الذي يناسبك:</strong></p>
-            </div>
 
-            <div class="years-container">
-                <div class="year-card" id="year2009Btn">
-                    <h2>2009</h2>
-                    <p>النسخة الكلاسيكية<br>🎓 تجربة تعليمية متكاملة</p>
-                </div>
-                <div class="year-card disabled" id="year2010Btn">
-                    <h2>2010</h2>
-                    <p>📢 قيد الإعداد والتطوير<br>🚧 سيتم الإعلان قريباً</p>
-                </div>
-            </div>
+<div id="yearSelectorScreen" class="year-selector-screen">
+    <div class="screen-content">
+        <div class="logo-area"><h1>📚 مدارك جو</h1></div>
+        <div class="about-text">
+            <h2>📌 نبذة عن المنصة</h2>
+            <p>مدارك جو منصة تعليمية ذكية للطلاب. اختبر نفسك في المواد الدراسية وطور مهاراتك.</p>
+            <p>✨ <strong>اختر الإصدار الذي يناسبك:</strong></p>
+        </div>
+        <div class="years-container">
+            <div class="year-card" id="year2009Btn"><h2>2009</h2><p>النسخة الكلاسيكية<br>🎓 تجربة تعليمية متكاملة</p></div>
+            <div class="year-card disabled" id="year2010Btn"><h2>2010</h2><p>📢 قيد الإعداد والتطوير<br>🚧 سيتم الإعلان قريباً</p></div>
         </div>
     </div>
+</div>
 
-    <!-- التطبيق الرئيسي -->
-    <div id="mainApp" class="main-app">
-        <button class="mobile-menu-btn" onclick="toggleSidebar()">
-            <i class="fas fa-bars"></i>
-        </button>
-
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h1>مدارك جو</h1>
-                <p>✨ منصة التعليم الذكية ✨</p>
-            </div>
-            <div class="sidebar-menu" id="menuContainer"></div>
-            <!-- زر تبديل السنة داخل القائمة الجانبية -->
-            <div class="sidebar-year-switch" id="sidebarYearSwitchBtn">
-                <button>
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>تبديل السنة</span>
-                </button>
-            </div>
-            <div style="padding: 15px; text-align: center; font-size: 0.7rem; opacity:0.6; border-top:1px solid #2a4a6e; margin-top: 10px;">
-                مدارك جو | منصة التعليم الذكية
-            </div>
-        </div>
-
-        <div class="content-area" id="contentArea">
-            <div class="iframe-container" id="iframeContainer">
-                <div class="loading"><i class="fas fa-spinner"></i> اختر أحد الأقسام من القائمة</div>
-            </div>
+<div id="mainApp" class="main-app">
+    <button class="mobile-menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header"><h1>مدارك جو</h1><p>✨ منصة التعليم الذكية ✨</p></div>
+        <div class="sidebar-menu" id="menuContainer"></div>
+        <div class="dua-suggestion-btn" id="duaSuggestionBtn"><button><i class="fas fa-hands-praying"></i> 🤲 دعاء للطالب أو اقتراح للموقع</button></div>
+        <div class="sidebar-year-switch" id="sidebarYearSwitchBtn"><button><i class="fas fa-calendar-alt"></i> <span>تبديل السنة</span></button></div>
+        <div style="padding: 15px; text-align: center; font-size: 0.7rem; opacity:0.6; border-top:1px solid #2a4a6e; margin-top: 10px;">
+            مدارك جو | منصة التعليم الذكية
         </div>
     </div>
+    <div class="content-area" id="contentArea">
+        <div class="iframe-container" id="iframeContainer">
+            <div class="loading"><i class="fas fa-spinner"></i> اختر أحد الأقسام من القائمة</div>
+        </div>
+    </div>
+</div>
 
-    <div id="statusMessage" class="status-message"></div>
+<div id="duaPopup" class="dua-popup">
+    <div class="dua-popup-content">
+        <h3><i class="fas fa-hands-praying"></i> دعاء للطالب</h3>
+        <div class="dua-text">
+            <p>🤲 اللهم لا سهل إلا ما جعلته سهلاً، وأنت تجعل الحزن إذا شئت سهلاً.</p>
+            <p>🤲 رب اشرح لي صدري، ويسر لي أمري، واحلل عقدة من لساني يفقهوا قولي.</p>
+            <p>🤲 اللهم إني أسألك فهم النبيين، وحفظ المرسلين.</p>
+            <p>🤲 اللهم وفقني في دراستي، وارزقني النجاح والتفوق.</p>
+        </div>
+        <div class="popup-buttons">
+            <button class="popup-btn popup-btn-primary" id="goToFormBtn">📝 إرسال اقتراح</button>
+            <button class="popup-btn popup-btn-secondary" id="closePopupBtn">✖ إغلاق</button>
+        </div>
+    </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    <script>
-        // ========== الروابط الكاملة ==========
-        const SITE_CONFIG = {
-            siteName: "مدارك جو",
-            email: "abdalrhmanmaaith1@gmail.com",
-            discord: "https://discord.gg/CpF8Uk8Yt",
-            suggestionForm: "https://docs.google.com/forms/d/e/1FAIpQLSeOP7ow84vcJ-q8tm4YlHsKMCuGdoL-E5OCJw6C66PDrbMpWw/viewform",
-            timer: "https://farmbot1238.github.io/timer/",
-            chat: "https://cooperate-and-conquer.lovable.app",
-            achievement: "https://my-achievement-buddy.lovable.app",
-            reward: "https://spiritual-boost.lovable.app",
-            shareFiles: "https://unified-login-pal.lovable.app",
-            youtubePosts: "https://www.youtube.com/@Pyabd/posts",
-            notebookLM: "https://notebooklm.google.com/notebook/20623484-45c7-4f42-9421-655b2b3d2e0d",
-            ministryExams: "https://madarik-exams-hub.lovable.app",
-            charity: "https://www.youtube.com/@OSAID123-u2q/shorts",
-            links: {
-                deen_f1: "https://farmbot1238.github.io/DEEN/",
-                arabic_f1: "https://farmbot1238.github.io/Ardic/",
-                history_f1: "https://farmbot1238.github.io/MMMNII/",
-                english_f1: "https://farmbot1238.github.io/ENG1/",
-                bank_f1: "https://farmbot1238.github.io/BNK/",
-                deen_f2: "https://farmbot1238.github.io/d1/",
-                arabic_f2: "https://farmbot1238.github.io/a1/",
-                history_f2: "https://farmbot1238.github.io/t1/",
-                english_f2: "https://farmbot1238.github.io/e1/",
-                speed_challenge: "https://farmbot1238.github.io/thd1/",
-                speed_daily: "https://farmbot1238.github.io/thd2/",
-                exams: "https://farmbot1238.github.io/w2/",
-                books: "https://farmbot1238.github.io/Book/"
-            }
-        };
+<div id="statusMessage" class="status-message"></div>
 
-        // تاريخ الامتحان الأول: 23 يوليو 2026
-        const EXAM_DATE = new Date(2026, 6, 23); // شهر 6 = يوليو (JavaScript الأشهر من 0-11)
+<script>
+    const SITE_CONFIG = {
+        email: "abdalrhmanmaaith1@gmail.com",
+        suggestionForm: "https://docs.google.com/forms/d/e/1FAIpQLSeOP7ow84vcJ-q8tm4YlHsKMCuGdoL-E5OCJw6C66PDrbMpWw/viewform?usp=dialog",
+        discord: "https://discord.gg/CpF8Uk8Yt",
+        timer: "https://farmbot1238.github.io/timer/",
+        achievement: "https://my-achievement-buddy.lovable.app",
+        reward: "https://spiritual-boost.lovable.app",
+        shareFiles: "https://unified-login-pal.lovable.app",
+        youtubePosts: "https://www.youtube.com/@Pyabd/posts",
+        notebookLM: "https://notebooklm.google.com/notebook/20623484-45c7-4f42-9421-655b2b3d2e0d",
+        ministryExams: "https://madarik-exams-hub.lovable.app",
+        charity: "https://www.youtube.com/@OSAID123-u2q/shorts",
+        links: {
+            deen_f1: "https://farmbot1238.github.io/DEEN/",
+            arabic_f1: "https://farmbot1238.github.io/Ardic/",
+            history_f1: "https://farmbot1238.github.io/MMMNII/",
+            english_f1: "https://farmbot1238.github.io/ENG1/",
+            bank_f1: "https://farmbot1238.github.io/BNK/",
+            deen_f2: "https://farmbot1238.github.io/d1/",
+            arabic_f2: "https://farmbot1238.github.io/a1/",
+            history_f2: "https://farmbot1238.github.io/t1/",
+            english_f2: "https://farmbot1238.github.io/e1/",
+            speed_challenge: "https://farmbot1238.github.io/thd1/",
+            speed_daily: "https://farmbot1238.github.io/thd2/",
+            exams: "https://farmbot1238.github.io/w2/",
+            books: "https://farmbot1238.github.io/Book/"
+        }
+    };
 
-        // هيكل القائمة (تم إزالة قسم تواصل واقتراحات بالكامل)
-        let MENU_STRUCTURE = [
-            { 
-                title: "🏠 الرئيسية", 
-                items: [{ icon: "fas fa-home", text: "الصفحة الرئيسية", action: "home", url: "welcome" }] 
-            },
-            { 
-                title: "✨ خدماتنا", 
-                items: [
-                    { icon: "fas fa-graduation-cap", text: "📚 الحس الوزاري", action: "iframe", url: SITE_CONFIG.ministryExams },
-                    { icon: "fas fa-hand-holding-heart", text: "🤲 صدقة جارية", action: "link", url: SITE_CONFIG.charity, isNew: true },
-                    { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement },
-                    { icon: "fas fa-comments", text: "💬 دردشة دراسية", action: "iframe", url: SITE_CONFIG.chat },
-                    { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "iframe", url: SITE_CONFIG.reward },
-                    { icon: "fas fa-share-alt", text: "📂 مشاركة ملفات الدراسة", action: "iframe", url: SITE_CONFIG.shareFiles },
-                    { icon: "fab fa-discord", text: "سيرفر ديسكورد", action: "link", url: SITE_CONFIG.discord },
-                    { icon: "fab fa-youtube", text: "📢 تحديثات الموقع أولاً بأول", action: "link", url: SITE_CONFIG.youtubePosts },
-                    { icon: "fas fa-brain", text: "📓 NoteBookLM", action: "link", url: SITE_CONFIG.notebookLM }
-                ]
-            },
-            { 
-                title: "📖 الفصل الأول", 
-                items: [
-                    { icon: "fas fa-mosque", text: "الدين (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.deen_f1 },
-                    { icon: "fas fa-book", text: "العربي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.arabic_f1 },
-                    { icon: "fas fa-landmark", text: "التاريخ (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.history_f1 },
-                    { icon: "fas fa-language", text: "الانجليزي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.english_f1 },
-                    { icon: "fas fa-database", text: "📚 بنوك الفصل الأول", action: "iframe", url: SITE_CONFIG.links.bank_f1 }
-                ]
-            },
-            { 
-                title: "📘 الفصل الثاني", 
-                items: [
-                    { icon: "fas fa-mosque", text: "الدين (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.deen_f2 },
-                    { icon: "fas fa-book", text: "العربي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.arabic_f2 },
-                    { icon: "fas fa-landmark", text: "التاريخ (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.history_f2 },
-                    { icon: "fas fa-language", text: "الانجليزي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.english_f2 }
-                ]
-            },
-            { 
-                title: "⚡ إضافات مفيدة", 
-                items: [
-                    { icon: "fas fa-bolt", text: "تحدي السرعة الشامل", action: "iframe", url: SITE_CONFIG.links.speed_challenge },
-                    { icon: "fas fa-star", text: "⚡ تحدي السرعة اليومي ⚡", action: "iframe", url: SITE_CONFIG.links.speed_daily },
-                    { icon: "fas fa-hourglass-half", text: "⏱️ Timer", action: "iframe", url: SITE_CONFIG.timer },
-                    { icon: "fas fa-file-alt", text: "امتحانات وزارية سابقة", action: "iframe", url: SITE_CONFIG.links.exams },
-                    { icon: "fas fa-book-open", text: "كتب وزارية", action: "iframe", url: SITE_CONFIG.links.books }
-                ]
-            }
-        ];
+    const EXAM_DATE = new Date(2026, 6, 23);
 
-        function showMessage(txt, type='info') {
-            const msg = document.getElementById('statusMessage');
+    let MENU_STRUCTURE = [
+        { 
+            title: "🏠 الرئيسية", 
+            items: [{ icon: "fas fa-home", text: "الصفحة الرئيسية", action: "home" }] 
+        },
+        { 
+            title: "✨ خدماتنا", 
+            items: [
+                { icon: "fas fa-graduation-cap", text: "📚 الحس الوزاري", action: "iframe", url: SITE_CONFIG.ministryExams },
+                { 
+                    icon: "fas fa-bell", 
+                    text: "🔔 قريباً... قسم جديد غداً!", 
+                    action: "announcement"
+                },
+                { icon: "fas fa-hand-holding-heart", text: "🤲 صدقة جارية", action: "link", url: SITE_CONFIG.charity },
+                { icon: "fas fa-trophy", text: "🏆 الإنجاز", action: "iframe", url: SITE_CONFIG.achievement },
+                { icon: "fas fa-hands-helping", text: "🌿 أجر وثواب", action: "iframe", url: SITE_CONFIG.reward },
+                { icon: "fas fa-share-alt", text: "📂 مشاركة ملفات الدراسة", action: "iframe", url: SITE_CONFIG.shareFiles },
+                { icon: "fab fa-discord", text: "سيرفر ديسكورد", action: "link", url: SITE_CONFIG.discord },
+                { icon: "fab fa-youtube", text: "📢 تحديثات الموقع أولاً بأول", action: "link", url: SITE_CONFIG.youtubePosts },
+                { icon: "fas fa-brain", text: "📓 NoteBookLM", action: "link", url: SITE_CONFIG.notebookLM }
+            ]
+        },
+        { 
+            title: "📖 الفصل الأول", 
+            items: [
+                { icon: "fas fa-mosque", text: "الدين (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.deen_f1 },
+                { icon: "fas fa-book", text: "العربي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.arabic_f1 },
+                { icon: "fas fa-landmark", text: "التاريخ (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.history_f1 },
+                { icon: "fas fa-language", text: "الانجليزي (الفصل الأول)", action: "iframe", url: SITE_CONFIG.links.english_f1 },
+                { icon: "fas fa-database", text: "📚 بنوك الفصل الأول", action: "iframe", url: SITE_CONFIG.links.bank_f1 }
+            ]
+        },
+        { 
+            title: "📘 الفصل الثاني", 
+            items: [
+                { icon: "fas fa-mosque", text: "الدين (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.deen_f2 },
+                { icon: "fas fa-book", text: "العربي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.arabic_f2 },
+                { icon: "fas fa-landmark", text: "التاريخ (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.history_f2 },
+                { icon: "fas fa-language", text: "الانجليزي (الفصل الثاني)", action: "iframe", url: SITE_CONFIG.links.english_f2 }
+            ]
+        },
+        { 
+            title: "⚡ إضافات مفيدة", 
+            items: [
+                { icon: "fas fa-bolt", text: "تحدي السرعة الشامل", action: "iframe", url: SITE_CONFIG.links.speed_challenge },
+                { icon: "fas fa-star", text: "⚡ تحدي السرعة اليومي ⚡", action: "iframe", url: SITE_CONFIG.links.speed_daily },
+                { icon: "fas fa-hourglass-half", text: "⏱️ Timer", action: "iframe", url: SITE_CONFIG.timer },
+                { icon: "fas fa-file-alt", text: "امتحانات وزارية سابقة", action: "iframe", url: SITE_CONFIG.links.exams },
+                { icon: "fas fa-book-open", text: "كتب وزارية", action: "iframe", url: SITE_CONFIG.links.books }
+            ]
+        }
+    ];
+
+    function showMessage(txt, type='info') {
+        const msg = document.getElementById('statusMessage');
+        if(msg) {
             msg.textContent = txt;
             msg.className = `status-message ${type}`;
             msg.style.display = 'block';
             setTimeout(() => msg.style.display = 'none', 3000);
         }
+    }
 
-        // شاشة اختيار السنة
-        function showYearSelector() {
-            document.getElementById('yearSelectorScreen').style.display = 'flex';
-            document.getElementById('mainApp').classList.remove('active');
-        }
+    function showYearSelector() {
+        document.getElementById('yearSelectorScreen').style.display = 'flex';
+        document.getElementById('mainApp').classList.remove('active');
+    }
 
-        function hideYearSelector() {
-            document.getElementById('yearSelectorScreen').style.display = 'none';
-            document.getElementById('mainApp').classList.add('active');
-        }
+    function hideYearSelector() {
+        document.getElementById('yearSelectorScreen').style.display = 'none';
+        document.getElementById('mainApp').classList.add('active');
+    }
 
-        function selectYear(year) {
-            if (year === 2009) {
-                hideYearSelector();
-                localStorage.setItem('selectedYear', '2009');
-                loadLastSavedPage();
-            } else if (year === 2010) {
-                showMessage("📢 منصة 2010 لا تزال قيد الإعداد والتطوير. ستكون جاهزة قريباً! 🚧", "info");
-            }
-        }
-
-        function switchYear() {
-            showYearSelector();
-        }
-
-        // حفظ آخر صفحة تم فتحها
-        function saveCurrentPage(url, isHome = false) {
-            if (isHome) {
-                localStorage.setItem('lastPageUrl_2009', 'home');
-            } else if (url) {
-                localStorage.setItem('lastPageUrl_2009', url);
-            }
-        }
-
-        // تحميل آخر صفحة محفوظة
-        function loadLastSavedPage() {
-            const lastPage = localStorage.getItem('lastPageUrl_2009');
-            if (lastPage && lastPage !== 'home') {
-                loadIframe(lastPage);
-            } else {
-                showWelcome2009();
-            }
-        }
-
-        // تحديث العداد
-        function updateCountdown() {
-            const now = new Date();
-            const diff = EXAM_DATE - now;
-            
-            const daysElem = document.getElementById('countdown-days');
-            const hoursElem = document.getElementById('countdown-hours');
-            const minutesElem = document.getElementById('countdown-minutes');
-            const secondsElem = document.getElementById('countdown-seconds');
-            const messageElem = document.getElementById('exam-message');
-            
-            if (!daysElem) return;
-            
-            if (diff <= 0) {
-                // الامتحان انتهى أو هو اليوم
-                if (now.toDateString() === EXAM_DATE.toDateString()) {
-                    daysElem.textContent = '0';
-                    hoursElem.textContent = '0';
-                    minutesElem.textContent = '0';
-                    secondsElem.textContent = '0';
-                    if (messageElem) {
-                        messageElem.innerHTML = '📖 اليوم هو يوم امتحان اللغة العربية! بالتوفيق للجميع 🤲';
-                        messageElem.className = 'exam-message exam-day';
-                    }
-                } else {
-                    if (messageElem) {
-                        messageElem.innerHTML = '✅ انتهى موعد امتحان اللغة العربية. نتمنى للجميع النجاح والتفوق 🎓';
-                        messageElem.className = 'exam-message passed';
-                    }
-                }
-                return;
-            }
-            
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            
-            daysElem.textContent = days;
-            hoursElem.textContent = hours;
-            minutesElem.textContent = minutes;
-            secondsElem.textContent = seconds;
-            
-            if (messageElem) {
-                if (days <= 7) {
-                    messageElem.innerHTML = '⚠️ تبقى أسبوع أو أقل على الامتحان! راجع دروسك جيداً ⚠️';
-                    messageElem.className = 'exam-message warning';
-                } else {
-                    messageElem.innerHTML = '📅 استعد مبكراً للامتحان، راجع الدروس وحل الامتحانات السابقة 💪';
-                    messageElem.className = 'exam-message';
-                }
-            }
-        }
-
-        // صفحة الترحيب لنسخة 2009 مع العداد
-        function showWelcome2009() {
-            const container = document.getElementById('iframeContainer');
-            container.innerHTML = `
-                <div style="background:linear-gradient(145deg,#1e3c5c,#0f2a3f);color:white;padding:40px 30px;min-height:100%;overflow-y:auto;text-align:center;">
-                    <div style="max-width:700px;margin:0 auto;">
-                        <div class="golden-logo" style="margin-bottom:20px;">
-                            <h1>2009</h1>
-                        </div>
-                        
-                        <!-- عداد الامتحان -->
-                        <div class="exam-countdown">
-                            <h3>
-                                <i class="fas fa-calendar-check"></i>
-                                أول امتحان وزاري عربي
-                                <i class="fas fa-book"></i>
-                            </h3>
-                            <div class="exam-day">
-                                <i class="fas fa-calendar-alt"></i> يوم الخميس 23 يوليو 2026
-                            </div>
-                            <div class="countdown-timer">
-                                <div class="countdown-unit">
-                                    <div class="countdown-number" id="countdown-days">0</div>
-                                    <div class="countdown-label">أيام</div>
-                                </div>
-                                <div class="countdown-unit">
-                                    <div class="countdown-number" id="countdown-hours">0</div>
-                                    <div class="countdown-label">ساعات</div>
-                                </div>
-                                <div class="countdown-unit">
-                                    <div class="countdown-number" id="countdown-minutes">0</div>
-                                    <div class="countdown-label">دقائق</div>
-                                </div>
-                                <div class="countdown-unit">
-                                    <div class="countdown-number" id="countdown-seconds">0</div>
-                                    <div class="countdown-label">ثواني</div>
-                                </div>
-                            </div>
-                            <div id="exam-message" class="exam-message"></div>
-                        </div>
-                        
-                        <i class="fas fa-graduation-cap" style="font-size:4rem;color:#f9b81b;margin:20px 0;"></i>
-                        <h2 style="margin-bottom:15px;">مرحباً بك في منصة مدارك جو</h2>
-                        <p style="margin-bottom:30px;">✨ نسخة 2009 الكلاسيكية ✨</p>
-                        <p>اختر أحد الأقسام من القائمة الجانبية لبدء التحدي والاختبارات</p>
-                    </div>
-                </div>
-            `;
-            
-            // بدء تحديث العداد
-            updateCountdown();
-            if (window.countdownInterval) clearInterval(window.countdownInterval);
-            window.countdownInterval = setInterval(updateCountdown, 1000);
-            
-            saveCurrentPage(null, true);
-        }
-
-        // بناء القائمة
-        function buildMenu() {
-            const cont = document.getElementById('menuContainer');
-            if (!cont) return;
-            cont.innerHTML = '';
-            MENU_STRUCTURE.forEach(section => {
-                const secDiv = document.createElement('div'); 
-                secDiv.className = 'menu-section';
-                const itemsDiv = document.createElement('div'); 
-                itemsDiv.className = 'menu-section-items';
-                section.items.forEach(item => {
-                    let act = '';
-                    if (item.action === 'iframe') {
-                        act = `loadIframe('${item.url}')`;
-                    } else if (item.action === 'link') {
-                        act = `window.open('${item.url}', '_blank')`;
-                    } else if (item.action === 'home') {
-                        act = `showWelcome2009()`;
-                    }
-                    const btn = document.createElement('button'); 
-                    btn.className = 'menu-btn';
-                    const newBadge = item.isNew ? '<span class="new-badge">جديد</span>' : '';
-                    btn.innerHTML = `<i class="${item.icon}"></i><span>${item.text}${newBadge}</span>`;
-                    btn.onclick = () => eval(act);
-                    itemsDiv.appendChild(btn);
-                });
-                secDiv.innerHTML = `<div class="menu-section-title">${section.title}</div>`;
-                secDiv.appendChild(itemsDiv);
-                cont.appendChild(secDiv);
-            });
-            // عرض البريد الإلكتروني فقط بدون أي زر اشتراك
-            const emailDiv = document.createElement('div'); 
-            emailDiv.className = 'email-text';
-            emailDiv.innerHTML = `<i class="fas fa-envelope"></i> ${SITE_CONFIG.email}`;
-            cont.appendChild(emailDiv);
-        }
-
-        function loadIframe(url) {
-            const cont = document.getElementById('iframeContainer');
-            cont.innerHTML = `<div class="loading" id="loadingIndicator"><i class="fas fa-spinner"></i> جاري التحميل...</div><iframe id="contentFrame" src="${url}" style="width:100%; height:100%; display:none;" onload="hideLoading()"></iframe>`;
-            saveCurrentPage(url, false);
-        }
-
-        function hideLoading() { 
-            const ld = document.getElementById('loadingIndicator'); 
-            const fr = document.getElementById('contentFrame'); 
-            if(ld && fr) { ld.style.display='none'; fr.style.display='block'; } 
-        }
-
-        function toggleSidebar() { 
-            document.getElementById('sidebar').classList.toggle('open'); 
-        }
-
-        // الأحداث
-        document.getElementById('year2009Btn').addEventListener('click', () => selectYear(2009));
-        document.getElementById('year2010Btn').addEventListener('click', () => selectYear(2010));
-        document.getElementById('sidebarYearSwitchBtn').addEventListener('click', switchYear);
-
-        // التحقق من السنة المختارة مسبقاً
-        const savedYear = localStorage.getItem('selectedYear');
-        if (savedYear === '2009') {
+    function selectYear(year) {
+        if (year === 2009) {
             hideYearSelector();
+            localStorage.setItem('selectedYear', '2009');
             loadLastSavedPage();
-        } else {
-            showYearSelector();
+        } else if (year === 2010) {
+            showMessage("📢 منصة 2010 لا تزال قيد الإعداد والتطوير. ستكون جاهزة قريباً! 🚧", "info");
         }
+    }
 
-        buildMenu();
-    </script>
+    function switchYear() {
+        showYearSelector();
+    }
+
+    function saveCurrentPage(url, isHome) {
+        if (isHome) {
+            localStorage.setItem('lastPageUrl_2009', 'home');
+        } else if (url) {
+            localStorage.setItem('lastPageUrl_2009', url);
+        }
+    }
+
+    function loadLastSavedPage() {
+        const lastPage = localStorage.getItem('lastPageUrl_2009');
+        if (lastPage && lastPage !== 'home') {
+            loadIframe(lastPage);
+        } else {
+            showWelcome2009();
+        }
+    }
+
+    function updateCountdown() {
+        const now = new Date();
+        const diff = EXAM_DATE - now;
+        
+        const daysElem = document.getElementById('countdown-days');
+        const hoursElem = document.getElementById('countdown-hours');
+        const minutesElem = document.getElementById('countdown-minutes');
+        const secondsElem = document.getElementById('countdown-seconds');
+        const messageElem = document.getElementById('exam-message');
+        
+        if (!daysElem) return;
+        
+        if (diff <= 0) {
+            if (now.toDateString() === EXAM_DATE.toDateString()) {
+                daysElem.textContent = '0';
+                hoursElem.textContent = '0';
+                minutesElem.textContent = '0';
+                secondsElem.textContent = '0';
+                if (messageElem) {
+                    messageElem.innerHTML = '📖 اليوم هو يوم امتحان اللغة العربية! بالتوفيق للجميع 🤲';
+                    messageElem.className = 'exam-message exam-day';
+                }
+            } else {
+                if (messageElem) {
+                    messageElem.innerHTML = '✅ انتهى موعد امتحان اللغة العربية. نتمنى للجميع النجاح والتفوق 🎓';
+                    messageElem.className = 'exam-message passed';
+                }
+            }
+            return;
+        }
+        
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        daysElem.textContent = days;
+        hoursElem.textContent = hours;
+        minutesElem.textContent = minutes;
+        secondsElem.textContent = seconds;
+        
+        if (messageElem) {
+            if (days <= 7) {
+                messageElem.innerHTML = '⚠️ تبقى أسبوع أو أقل على الامتحان! راجع دروسك جيداً ⚠️';
+                messageElem.className = 'exam-message warning';
+            } else {
+                messageElem.innerHTML = '📅 استعد مبكراً للامتحان، راجع الدروس وحل الامتحانات السابقة 💪';
+                messageElem.className = 'exam-message';
+            }
+        }
+    }
+
+    function showWelcome2009() {
+        const container = document.getElementById('iframeContainer');
+        container.innerHTML = `
+            <div style="background:linear-gradient(145deg,#1e3c5c,#0f2a3f);color:white;padding:40px 30px;min-height:100%;overflow-y:auto;text-align:center;">
+                <div style="max-width:700px;margin:0 auto;">
+                    <div class="golden-logo" style="margin-bottom:20px;">
+                        <h1>2009</h1>
+                    </div>
+                    <div class="exam-countdown">
+                        <h3>
+                            <i class="fas fa-calendar-check"></i>
+                            أول امتحان وزاري عربي
+                            <i class="fas fa-book"></i>
+                        </h3>
+                        <div class="exam-day">
+                            <i class="fas fa-calendar-alt"></i> يوم الخميس 23 يوليو 2026
+                        </div>
+                        <div class="countdown-timer">
+                            <div class="countdown-unit">
+                                <div class="countdown-number" id="countdown-days">0</div>
+                                <div class="countdown-label">أيام</div>
+                            </div>
+                            <div class="countdown-unit">
+                                <div class="countdown-number" id="countdown-hours">0</div>
+                                <div class="countdown-label">ساعات</div>
+                            </div>
+                            <div class="countdown-unit">
+                                <div class="countdown-number" id="countdown-minutes">0</div>
+                                <div class="countdown-label">دقائق</div>
+                            </div>
+                            <div class="countdown-unit">
+                                <div class="countdown-number" id="countdown-seconds">0</div>
+                                <div class="countdown-label">ثواني</div>
+                            </div>
+                        </div>
+                        <div id="exam-message" class="exam-message"></div>
+                    </div>
+                    <i class="fas fa-graduation-cap" style="font-size:4rem;color:#f9b81b;margin:20px 0;"></i>
+                    <h2 style="margin-bottom:15px;">مرحباً بك في منصة مدارك جو</h2>
+                    <p style="margin-bottom:30px;">✨ نسخة 2009 الكلاسيكية ✨</p>
+                    <p>اختر أحد الأقسام من القائمة الجانبية لبدء التحدي والاختبارات</p>
+                </div>
+            </div>
+        `;
+        
+        updateCountdown();
+        if (window.countdownInterval) clearInterval(window.countdownInterval);
+        window.countdownInterval = setInterval(updateCountdown, 1000);
+        
+        saveCurrentPage(null, true);
+    }
+
+    function buildMenu() {
+        const cont = document.getElementById('menuContainer');
+        if (!cont) return;
+        cont.innerHTML = '';
+        MENU_STRUCTURE.forEach(section => {
+            const secDiv = document.createElement('div'); 
+            secDiv.className = 'menu-section';
+            const itemsDiv = document.createElement('div'); 
+            itemsDiv.className = 'menu-section-items';
+            section.items.forEach(item => {
+                const btn = document.createElement('button'); 
+                btn.className = 'menu-btn';
+                
+                if (item.action === 'announcement') {
+                    btn.innerHTML = `
+                        <div class="announcement-box">
+                            <i class="fas fa-bell"></i>
+                            <p>📢 قريباً! غداً سيتم إضافة قسم جديد ومميز</p>
+                            <small>ترقبوا التحديثات...</small>
+                        </div>
+                    `;
+                    btn.style.cursor = 'default';
+                    btn.onclick = () => showMessage('🔔 القسم الجديد سيتم إضافته غداً إن شاء الله! ترقبوا التحديثات', 'info');
+                } else if (item.action === 'iframe') {
+                    btn.innerHTML = `<i class="${item.icon}"></i><span>${item.text}</span>`;
+                    btn.onclick = () => loadIframe(item.url);
+                } else if (item.action === 'link') {
+                    btn.innerHTML = `<i class="${item.icon}"></i><span>${item.text}</span>`;
+                    btn.onclick = () => window.open(item.url, '_blank');
+                } else if (item.action === 'home') {
+                    btn.innerHTML = `<i class="${item.icon}"></i><span>${item.text}</span>`;
+                    btn.onclick = () => showWelcome2009();
+                }
+                itemsDiv.appendChild(btn);
+            });
+            secDiv.innerHTML = `<div class="menu-section-title">${section.title}</div>`;
+            secDiv.appendChild(itemsDiv);
+            cont.appendChild(secDiv);
+        });
+        const emailDiv = document.createElement('div'); 
+        emailDiv.className = 'email-text';
+        emailDiv.innerHTML = `<i class="fas fa-envelope"></i> ${SITE_CONFIG.email}`;
+        cont.appendChild(emailDiv);
+    }
+
+    function loadIframe(url) {
+        const cont = document.getElementById('iframeContainer');
+        cont.innerHTML = `<div class="loading" id="loadingIndicator"><i class="fas fa-spinner"></i> جاري التحميل...</div><iframe id="contentFrame" src="${url}" style="width:100%; height:100%; display:none;" onload="hideLoading()"></iframe>`;
+        saveCurrentPage(url, false);
+    }
+
+    function hideLoading() { 
+        const ld = document.getElementById('loadingIndicator'); 
+        const fr = document.getElementById('contentFrame'); 
+        if(ld && fr) { ld.style.display='none'; fr.style.display='block'; } 
+    }
+
+    function toggleSidebar() { 
+        document.getElementById('sidebar').classList.toggle('open'); 
+    }
+
+    function openDuaPopup() { 
+        document.getElementById('duaPopup').classList.add('active'); 
+    }
+
+    function closeDuaPopup() { 
+        document.getElementById('duaPopup').classList.remove('active'); 
+    }
+
+    function openSuggestionForm() { 
+        window.open(SITE_CONFIG.suggestionForm, '_blank'); 
+        closeDuaPopup(); 
+    }
+
+    document.getElementById('year2009Btn').addEventListener('click', () => selectYear(2009));
+    document.getElementById('year2010Btn').addEventListener('click', () => selectYear(2010));
+    document.getElementById('sidebarYearSwitchBtn').addEventListener('click', switchYear);
+    document.getElementById('duaSuggestionBtn').addEventListener('click', openDuaPopup);
+    document.getElementById('goToFormBtn').addEventListener('click', openSuggestionForm);
+    document.getElementById('closePopupBtn').addEventListener('click', closeDuaPopup);
+    document.getElementById('duaPopup').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('duaPopup')) closeDuaPopup();
+    });
+
+    const savedYear = localStorage.getItem('selectedYear');
+    if (savedYear === '2009') {
+        hideYearSelector();
+        loadLastSavedPage();
+    } else {
+        showYearSelector();
+    }
+
+    buildMenu();
+</script>
 </body>
 </html>
