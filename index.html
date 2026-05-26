@@ -47,6 +47,11 @@
             color: #f9b81b;
         }
 
+        .sidebar-header p {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
         .menu-section {
             margin-bottom: 25px;
         }
@@ -70,6 +75,7 @@
             color: white;
             cursor: pointer;
             text-align: right;
+            transition: all 0.2s;
         }
 
         .menu-btn:hover {
@@ -218,6 +224,7 @@
             width: 100%;
             height: 100%;
             border: none;
+            border-radius: 30px;
         }
 
         .loading {
@@ -227,6 +234,8 @@
             height: 100%;
             font-size: 1.2rem;
             color: #1e3c5c;
+            background: white;
+            border-radius: 30px;
         }
 
         .loading i {
@@ -255,6 +264,9 @@
             .reward-card h2 {
                 font-size: 1.5rem;
             }
+            .iframe-container {
+                height: calc(100vh - 85px);
+            }
         }
     </style>
 </head>
@@ -269,11 +281,11 @@
         <h1>مدارك جو</h1>
         <p>✨ يوم عرفة - أجتهد في الطاعة ✨</p>
     </div>
-    <div class="sidebar-menu" id="menuContainer">
+    <div class="sidebar-menu">
         <div class="menu-section">
             <div class="menu-section-title">🌿 صدقة جارية - يوم عرفة</div>
             <div class="menu-section-items">
-                <button class="menu-btn" onclick="loadRewardPage()">
+                <button class="menu-btn" id="rewardBtn">
                     <i class="fas fa-hands-praying"></i>
                     <span>🤲 أجر وثواب - اكتب دعائك</span>
                 </button>
@@ -286,7 +298,8 @@
 </div>
 
 <div class="content-area" id="contentArea">
-    <div id="homeContainer" style="display: block;">
+    <!-- الصفحة الرئيسية -->
+    <div id="homeContainer">
         <div class="home-container">
             <div class="reward-card">
                 <i class="fas fa-hands-praying"></i>
@@ -325,38 +338,51 @@
             </div>
         </div>
     </div>
-    <div id="iframeContainer" style="display: none;"></div>
+
+    <!-- حاوية iframe (مخفية في البداية) -->
+    <div id="iframeContainer" class="iframe-container" style="display: none;"></div>
 </div>
 
 <script>
     const REWARD_URL = "https://spiritual-boost.lovable.app";
 
-    function showHome() {
-        document.getElementById('homeContainer').style.display = 'block';
-        document.getElementById('iframeContainer').style.display = 'none';
-        document.getElementById('iframeContainer').innerHTML = '';
-    }
+    const homeContainer = document.getElementById('homeContainer');
+    const iframeContainer = document.getElementById('iframeContainer');
+    const rewardBtn = document.getElementById('rewardBtn');
 
-    function showIframe() {
-        document.getElementById('homeContainer').style.display = 'none';
-        document.getElementById('iframeContainer').style.display = 'block';
+    function showHome() {
+        homeContainer.style.display = 'block';
+        iframeContainer.style.display = 'none';
+        iframeContainer.innerHTML = '';
     }
 
     function loadRewardPage() {
-        const container = document.getElementById('iframeContainer');
-        container.innerHTML = `<div class="loading" id="loadingIndicator"><i class="fas fa-spinner"></i> جاري التحميل...</div><iframe id="contentFrame" src="${REWARD_URL}" style="width:100%; height:100%; display:none;" onload="hideLoadingAndShow()"></iframe>`;
-        showIframe();
+        // إخفاء الصفحة الرئيسية
+        homeContainer.style.display = 'none';
+        
+        // إظهار حاوية iframe
+        iframeContainer.style.display = 'block';
+        
+        // تحميل iframe
+        iframeContainer.innerHTML = `
+            <div class="loading" id="loadingIndicator">
+                <i class="fas fa-spinner"></i> جاري تحميل قسم أجر وثواب...
+            </div>
+            <iframe id="contentFrame" src="${REWARD_URL}" style="width:100%; height:100%; display:none;" onload="hideLoading()"></iframe>
+        `;
+        
+        // إغلاق القائمة الجانبية على الموبايل
         if (window.innerWidth <= 768) {
             toggleSidebar();
         }
     }
 
-    function hideLoadingAndShow() { 
+    function hideLoading() { 
         const ld = document.getElementById('loadingIndicator'); 
         const fr = document.getElementById('contentFrame'); 
         if(ld && fr) { 
-            ld.style.display='none'; 
-            fr.style.display='block'; 
+            ld.style.display = 'none'; 
+            fr.style.display = 'block'; 
         }
     }
 
@@ -364,7 +390,10 @@
         document.getElementById('sidebar').classList.toggle('open'); 
     }
 
-    // أول ما يدخل، يظهر الصفحة الرئيسية (الدعاء والرسالة)
+    // عند الضغط على زر أجر وثواب
+    rewardBtn.addEventListener('click', loadRewardPage);
+
+    // عند فتح الصفحة: عرض الصفحة الرئيسية (الدعاء والرسالة)
     showHome();
 </script>
 </body>
