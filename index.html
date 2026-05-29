@@ -628,7 +628,7 @@
     gap: 10px;
   }
 
-  .back-btn {
+  .back-btn, .reset-year-btn {
     background: rgba(255,255,255,0.05);
     border: 1px solid var(--border);
     color: var(--muted);
@@ -642,8 +642,9 @@
     align-items: center;
     gap: 6px;
   }
-
-  .back-btn:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+  .back-btn:hover, .reset-year-btn:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+  .reset-year-btn { background: rgba(255,215,0,0.1); border-color: rgba(255,215,0,0.3); color: var(--gold); }
+  .reset-year-btn:hover { background: rgba(255,215,0,0.2); }
 
   /* 2009 hero */
   .hero-2009 {
@@ -858,12 +859,12 @@
   <div class="year-section">
     <p class="year-label">اختر جيلك للدخول إلى منصتك</p>
     <div class="year-cards">
-      <div class="year-card y2009" onclick="go2009()">
+      <div class="year-card y2009" onclick="selectYear('2009')">
         <div class="year-crown">👑</div>
         <div class="year-num">2009</div>
         <div class="year-sub">ادخل الآن ←</div>
       </div>
-      <div class="year-card y2010" onclick="show2010Modal()">
+      <div class="year-card y2010" onclick="selectYear('2010')">
         <div class="year-crown">⏳</div>
         <div class="year-num">2010</div>
         <div class="year-sub">قريباً...</div>
@@ -895,7 +896,10 @@
       </button>
       <div class="topbar-title">👑 مدارك جو — 2009</div>
     </div>
-    <button class="back-btn" onclick="goBack()">← العودة</button>
+    <div style="display: flex; gap: 8px;">
+      <button class="reset-year-btn" onclick="resetYearAndGoBack()">🔄 تغيير الجيل</button>
+      <button class="back-btn" onclick="goBackToLanding()">← العودة</button>
+    </div>
   </div>
 
   <!-- Sidebar overlay -->
@@ -1029,9 +1033,60 @@
 </div>
 
 <script>
-  // ================== SPEED OPTIMIZATION ==================
-  // Preconnect already added in head. Additionally: prefetch first link after DOM ready
-  // Generate stars
+  // ================== STORAGE & AUTO REDIRECT ==================
+  const STORAGE_KEY = 'madarik_selected_year';
+  const CHAT_RULES_KEY = 'madarik_chat_rules_accepted';
+
+  function selectYear(year) {
+    if (year === '2009') {
+      localStorage.setItem(STORAGE_KEY, '2009');
+      go2009();
+    } else if (year === '2010') {
+      // For 2010, just show modal, don't store yet until it's ready
+      show2010Modal();
+    }
+  }
+
+  function go2009() {
+    document.getElementById('landing').style.display = 'none';
+    document.getElementById('page2009').classList.add('active');
+    window.scrollTo(0, 0);
+    // prefetch first link
+    setTimeout(() => {
+      const firstLink = document.querySelector('#sidebar .sidebar-link[data-url]');
+      if (firstLink && firstLink.getAttribute('data-url')) {
+        prefetchIframe(firstLink.getAttribute('data-url'));
+      }
+    }, 500);
+  }
+
+  function goBackToLanding() {
+    // Just hide 2009 page and show landing without clearing storage
+    document.getElementById('page2009').classList.remove('active');
+    document.getElementById('landing').style.display = 'flex';
+    closeSidebar();
+    closeViewer();
+    window.scrollTo(0, 0);
+  }
+
+  function resetYearAndGoBack() {
+    localStorage.removeItem(STORAGE_KEY);
+    goBackToLanding();
+  }
+
+  // Auto-redirect on page load if a year is stored
+  function checkStoredYearAndRedirect() {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored === '2009') {
+      // Already on landing, redirect to 2009
+      go2009();
+    } else if (stored === '2010') {
+      // 2010 not ready, just show modal but stay on landing
+      show2010Modal();
+    }
+  }
+
+  // Stars generation
   const container = document.getElementById('starsContainer');
   for (let i = 0; i < 80; i++) {
     const s = document.createElement('div');
@@ -1042,28 +1097,6 @@
   }
 
   function toggleFaq(el) { el.classList.toggle('open'); }
-
-  function go2009() {
-    document.getElementById('landing').style.display = 'none';
-    document.getElementById('page2009').classList.add('active');
-    window.scrollTo(0, 0);
-    // optional prefetch first sidebar link after page load
-    setTimeout(() => {
-      const firstLink = document.querySelector('#sidebar .sidebar-link[data-url]');
-      if (firstLink && firstLink.getAttribute('data-url')) {
-        prefetchIframe(firstLink.getAttribute('data-url'));
-      }
-    }, 500);
-  }
-
-  function goBack() {
-    document.getElementById('page2009').classList.remove('active');
-    document.getElementById('landing').style.display = 'flex';
-    closeSidebar();
-    closeViewer();
-    window.scrollTo(0, 0);
-  }
-
   function show2010Modal() { document.getElementById('constructionModal').classList.add('show'); }
   function closeModal(e) { if (e.target.id === 'constructionModal') document.getElementById('constructionModal').classList.remove('show'); }
 
@@ -1076,7 +1109,7 @@
     document.getElementById('sidebarOverlay').classList.remove('show');
   }
 
-  // Preload iframe in background for faster subsequent loads
+  // Preload iframe in background
   let preloadIframeInstance = null;
   function initPreloadIframe() {
     if (preloadIframeInstance) return;
@@ -1117,14 +1150,9 @@
     errorBox.style.display = 'none';
     if (currentTimeout) clearTimeout(currentTimeout);
 
-    // Cancel ongoing load and reset
     iframe.onload = null;
     iframe.src = 'about:blank';
-    
-    // Set new src immediately for fast loading
-    setTimeout(() => {
-      iframe.src = url;
-    }, 10); // minimal delay to reset properly
+    setTimeout(() => { iframe.src = url; }, 10);
 
     viewer.style.display = 'flex';
     document.body.style.overflow = 'hidden';
@@ -1138,15 +1166,13 @@
         if (currentTimeout) clearTimeout(currentTimeout);
         currentTimeout = null;
       }
-    }, 5000); // reduced timeout to 5 seconds
+    }, 5000);
 
     iframe.onload = function() {
       if (currentTimeout) clearTimeout(currentTimeout);
       currentTimeout = null;
       spinner.style.display = 'none';
       iframe.style.opacity = '1';
-      iframe.style.transition = 'opacity 0.2s';
-      // If error box visible, hide it
       errorBox.style.display = 'none';
     };
   }
@@ -1182,18 +1208,20 @@
     closeSidebar();
   }
 
-  // Chat rules handling
-  let chatRulesAccepted = false;
-  let pendingChatLink = null;
+  // ================== CHAT RULES ONCE ==================
   function openChatWithRules(linkEl) {
     closeSidebar();
-    if (chatRulesAccepted) {
+    const accepted = localStorage.getItem(CHAT_RULES_KEY);
+    if (accepted === 'true') {
+      // already accepted, open directly
       loadFrameFromUrlAndTitle('https://cooperate-and-conquer.lovable.app', 'دردشة دراسية', linkEl);
       return;
     }
+    // show modal
     pendingChatLink = linkEl;
     document.getElementById('chatRulesModal').style.display = 'flex';
   }
+
   function loadFrameFromUrlAndTitle(url, title, linkEl) {
     if (!linkEl) return;
     if (currentLink) currentLink.classList.remove('active');
@@ -1232,8 +1260,10 @@
       errorBox.style.display = 'none';
     };
   }
+
+  let pendingChatLink = null;
   function acceptChat() {
-    chatRulesAccepted = true;
+    localStorage.setItem(CHAT_RULES_KEY, 'true');
     document.getElementById('chatRulesModal').style.display = 'none';
     if (pendingChatLink) {
       loadFrameFromUrlAndTitle('https://cooperate-and-conquer.lovable.app', 'دردشة دراسية', pendingChatLink);
@@ -1245,10 +1275,10 @@
     pendingChatLink = null;
   }
 
-  // Initialize preload iframe on page load for faster subsequent loads
+  // Initialize
   window.addEventListener('DOMContentLoaded', () => {
     initPreloadIframe();
-    // optionally prefetch main page
+    checkStoredYearAndRedirect();
     const firstPrefetch = document.querySelector('#sidebar .sidebar-link[data-url]');
     if (firstPrefetch && firstPrefetch.getAttribute('data-url')) {
       prefetchIframe(firstPrefetch.getAttribute('data-url'));
