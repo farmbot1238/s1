@@ -1007,7 +1007,16 @@
     <div id="viewerTitle" style="font-size:0.9rem;font-weight:600;color:#f0f0f5;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
     <div id="viewerSpinner" style="width:20px;height:20px;border:2px solid rgba(255,215,0,0.15);border-top-color:#FFD700;border-radius:50%;animation:spin 0.8s linear infinite;flex-shrink:0;display:none;"></div>
   </div>
-  <iframe id="mainIframe" sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation" allow="fullscreen" style="flex:1;width:100%;border:none;"></iframe>
+  <!-- Error fallback -->
+  <div id="iframeError" style="display:none;flex:1;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:32px;text-align:center;">
+    <div style="font-size:3.5rem;">🔒</div>
+    <div style="font-size:1.1rem;font-weight:700;color:#f0f0f5;">هذا الموقع لا يسمح بالعرض المدمج</div>
+    <div style="font-size:0.88rem;color:#888899;max-width:380px;line-height:1.7;">
+      بعض المواقع تمنع عرضها داخل صفحات أخرى لأسباب أمنية.<br>يمكنك فتحه في تبويب جديد بدلاً من ذلك.
+    </div>
+    <button onclick="openInNewTabFromError()" style="background:linear-gradient(135deg,rgba(255,215,0,0.2),rgba(255,215,0,0.1));border:1px solid rgba(255,215,0,0.4);color:#FFD700;padding:12px 28px;border-radius:12px;font-family:'Cairo',sans-serif;font-size:0.95rem;font-weight:700;cursor:pointer;">↗ فتح في تبويب جديد</button>
+  </div>
+  <iframe id="mainIframe" sandbox="allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation" allow="fullscreen" style="flex:1;width:100%;border:none;opacity:0;"></iframe>
 </div>
 
 <script>
@@ -1071,28 +1080,66 @@
     const iframe = document.getElementById('mainIframe');
     const titleEl = document.getElementById('viewerTitle');
     const spinner = document.getElementById('viewerSpinner');
+    const errorBox = document.getElementById('iframeError');
 
     titleEl.textContent = title;
     spinner.style.display = 'block';
     iframe.style.opacity = '0';
-    iframe.src = url;
+    errorBox.style.display = 'none';
+    iframe.src = 'about:blank';
+
+    // Short delay then set real src
+    setTimeout(() => { iframe.src = url; }, 50);
+
     viewer.style.display = 'flex';
     document.body.style.overflow = 'hidden';
+
+    // Timeout — if iframe doesn't load in 7s, show error
+    if (window._iframeTimeout) clearTimeout(window._iframeTimeout);
+    window._iframeTimeout = setTimeout(() => {
+      if (iframe.style.opacity !== '1') {
+        spinner.style.display = 'none';
+        errorBox.style.display = 'flex';
+        errorBox.dataset.url = url;
+        errorBox.dataset.title = title;
+      }
+    }, 7000);
   }
 
   document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('mainIframe').addEventListener('load', function() {
+      if (window._iframeTimeout) clearTimeout(window._iframeTimeout);
+      // Try to detect blocked iframe (blank page)
+      try {
+        const doc = this.contentDocument;
+        if (doc && (doc.body === null || doc.body.innerHTML.trim() === '')) {
+          document.getElementById('viewerSpinner').style.display = 'none';
+          const err = document.getElementById('iframeError');
+          err.style.display = 'flex';
+          return;
+        }
+      } catch(e) {
+        // Cross-origin — assume it loaded fine
+      }
       document.getElementById('viewerSpinner').style.display = 'none';
       this.style.opacity = '1';
       this.style.transition = 'opacity 0.3s';
     });
   });
 
+  function openInNewTabFromError() {
+    const err = document.getElementById('iframeError');
+    window.open(err.dataset.url, '_blank', 'noopener,noreferrer');
+  }
+
   function closeViewer() {
+    if (window._iframeTimeout) clearTimeout(window._iframeTimeout);
     const viewer = document.getElementById('fullViewer');
     const iframe = document.getElementById('mainIframe');
     viewer.style.display = 'none';
     iframe.src = 'about:blank';
+    iframe.style.opacity = '0';
+    document.getElementById('iframeError').style.display = 'none';
     document.body.style.overflow = '';
     if (currentLink) { currentLink.classList.remove('active'); currentLink = null; }
   }
@@ -1102,9 +1149,7 @@
     window.open(url, '_blank', 'noopener,noreferrer');
   }
 
-  function resetIframe() {
-    closeViewer();
-  }
+  function resetIframe() { closeViewer(); }
 
   function copyEmail() {
     navigator.clipboard.writeText('abdalrhmanmaaith1@gmail.com').then(() => {
