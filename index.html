@@ -3,11 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="google-adsense-account" content="ca-pub-3351421535309022">
-  <meta name="google-site-verification" content="NT0SMG2FY2Shk66u_xwqFMBBrWqExgPw9BoD6BYgB4E" />
+<meta name="google-adsense-account" content="ca-pub-3351421535309022">
+<meta name="google-site-verification" content="NT0SMG2FY2Shk66u_xwqFMBBrWqExgPw9BoD6BYgB4E" />
 <title>مدارك جو | صنع طالب 2009</title>
+
+<!-- Google Analytics (gtag) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1JLP93VX7X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1JLP93VX7X');
+</script>
+
+<!-- Fonts & Preconnect -->
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-<!-- preconnect for faster external resources -->
 <link rel="preconnect" href="https://farmbot1238.github.io">
 <link rel="preconnect" href="https://madarik-exams-hub.lovable.app">
 <link rel="preconnect" href="https://my-achievement-buddy.lovable.app">
@@ -16,6 +26,7 @@
 <link rel="preconnect" href="https://cooperate-and-conquer.lovable.app">
 <link rel="preconnect" href="https://notebooklm.google.com">
 <link rel="preconnect" href="https://docs.google.com">
+
 <style>
   :root {
     --gold: #FFD700;
@@ -32,13 +43,6 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1JLP93VX7X"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-1JLP93VX7X');
-    </script>
 
   body {
     font-family: 'Cairo', sans-serif;
@@ -1051,7 +1055,6 @@
       localStorage.setItem(STORAGE_KEY, '2009');
       go2009();
     } else if (year === '2010') {
-      // For 2010, just show modal, don't store yet until it's ready
       show2010Modal();
     }
   }
@@ -1060,7 +1063,6 @@
     document.getElementById('landing').style.display = 'none';
     document.getElementById('page2009').classList.add('active');
     window.scrollTo(0, 0);
-    // prefetch first link
     setTimeout(() => {
       const firstLink = document.querySelector('#sidebar .sidebar-link[data-url]');
       if (firstLink && firstLink.getAttribute('data-url')) {
@@ -1070,7 +1072,6 @@
   }
 
   function goBackToLanding() {
-    // Just hide 2009 page and show landing without clearing storage
     document.getElementById('page2009').classList.remove('active');
     document.getElementById('landing').style.display = 'flex';
     closeSidebar();
@@ -1083,14 +1084,11 @@
     goBackToLanding();
   }
 
-  // Auto-redirect on page load if a year is stored
   function checkStoredYearAndRedirect() {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored === '2009') {
-      // Already on landing, redirect to 2009
       go2009();
     } else if (stored === '2010') {
-      // 2010 not ready, just show modal but stay on landing
       show2010Modal();
     }
   }
@@ -1118,7 +1116,6 @@
     document.getElementById('sidebarOverlay').classList.remove('show');
   }
 
-  // Preload iframe in background
   let preloadIframeInstance = null;
   function initPreloadIframe() {
     if (preloadIframeInstance) return;
@@ -1222,11 +1219,9 @@
     closeSidebar();
     const accepted = localStorage.getItem(CHAT_RULES_KEY);
     if (accepted === 'true') {
-      // already accepted, open directly
       loadFrameFromUrlAndTitle('https://cooperate-and-conquer.lovable.app', 'دردشة دراسية', linkEl);
       return;
     }
-    // show modal
     pendingChatLink = linkEl;
     document.getElementById('chatRulesModal').style.display = 'flex';
   }
@@ -1294,6 +1289,7 @@
     }
   });
 </script>
+
 <!-- =================== CHAT RULES MODAL =================== -->
 <div id="chatRulesModal" style="display:none;position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px);align-items:center;justify-content:center;padding:16px;">
   <div style="background:var(--surface);border:1px solid rgba(255,215,0,0.25);border-radius:24px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;position:relative;animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;">
