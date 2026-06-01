@@ -16,6 +16,9 @@
   gtag('config', 'G-1JLP93VX7X');
 </script>
 
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3351421535309022" crossorigin="anonymous"></script>
+
 <!-- Fonts & Preconnect -->
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://farmbot1238.github.io">
@@ -26,6 +29,7 @@
 <link rel="preconnect" href="https://cooperate-and-conquer.lovable.app">
 <link rel="preconnect" href="https://notebooklm.google.com">
 <link rel="preconnect" href="https://docs.google.com">
+<link rel="preconnect" href="https://anonymous-confessions-space.lovable.app">
 
 <style>
   :root {
@@ -552,6 +556,7 @@
     cursor: pointer;
     transition: background 0.15s, color 0.15s;
     border-right: 3px solid transparent;
+    position: relative;
   }
 
   .sidebar-link:hover {
@@ -567,6 +572,53 @@
   }
 
   .sidebar-link-icon { font-size: 1.1rem; flex-shrink: 0; }
+  
+  /* Temporary note style for the new link */
+  .temp-note {
+    font-size: 0.65rem;
+    color: #f59e0b;
+    background: rgba(245,158,11,0.15);
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-right: 8px;
+    white-space: nowrap;
+    display: inline-block;
+  }
+  [data-tooltip] {
+    position: relative;
+    cursor: help;
+  }
+  [data-tooltip]:before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a24;
+    color: #FFD700;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    border: 1px solid rgba(255,215,0,0.3);
+    margin-bottom: 8px;
+  }
+  [data-tooltip]:hover:before {
+    opacity: 1;
+  }
+  @media (max-width: 600px) {
+    [data-tooltip]:before {
+      display: none;
+    }
+    .temp-note {
+      font-size: 0.55rem;
+      white-space: normal;
+    }
+  }
 
   /* Overlay */
   .sidebar-overlay {
@@ -938,6 +990,11 @@
       </div>
       <div class="sidebar-link" data-chat="true" onclick="openChatWithRules(this)">
         <span class="sidebar-link-icon">💬</span> دردشة دراسية
+      </div>
+      <!-- NEW SECTION: أنا مجهول -->
+      <div class="sidebar-link" data-url="https://anonymous-confessions-space.lovable.app" data-title="أنا مجهول" onclick="loadFrame(this)" data-tooltip="عوضناكم في هذا مؤقتاً لحين إصلاح مشكلة الشات غداً">
+        <span class="sidebar-link-icon">🕵️</span> أنا مجهول
+        <span class="temp-note">⏳ مؤقت</span>
       </div>
       <div class="sidebar-link" data-url="https://spiritual-boost.lovable.app" data-title="أجر وثواب" onclick="loadFrame(this)">
         <span class="sidebar-link-icon">🌙</span> أجر وثواب
